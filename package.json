@@ -17,7 +17,7 @@
     "lint:staged": "lint-staged",
     "lint:all": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
     "format:all": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,md,mdx}'",
-    "check:all": "yarn lint:all && yarn format:all",
+    "check:all": "pnpm lint:all && pnpm format:all",
     "generate-publications": "node scripts/bibtex-to-md.js",
     "update-publications": "node scripts/bibtex-to-md.js --force"
   },
@@ -42,6 +42,7 @@
     "@docusaurus/types": "3.10.2",
     "@orcid/bibtex-parse-js": "^0.0.25",
     "@types/eslint-plugin-jsx-a11y": "^6",
+    "@types/react": "^19.3.0",
     "@typescript-eslint/eslint-plugin": "^8.70.1",
     "@typescript-eslint/parser": "^8.70.1",
     "eslint": "^9.39.5",
@@ -70,5 +71,12 @@
   "engines": {
     "node": ">=18.0"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "pnpm@12.6.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^12.6.0",
+      "onFail": "download"
+    }
+  }
 }
