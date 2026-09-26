@@ -11,14 +11,15 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 - [ ] Add content to each of the pages
   - [x] Config Home page
   - [x] Add Our Mission page
-  - [ ] Add People page
+  - [x] Add People page
   - [x] Add Research Projects page (with subpages)
     - [x] Add subpage for project 1
     - [x] Add subpage for project 2
     - [x] Add subpage for project 3
     - [x] Add subpage for project 4
-  - [ ] Add Publications page
-  - [ ] Add XAMI-Tube page
+  - [x] Add Publications page (BibTeX-driven via bibliodocus)
+    - [ ] Populate `static/bibtex/publications.bib` (currently 3 entries)
+  - [x] Add XAMI-Tube page
 
 ## Getting Started
 
