@@ -17,9 +17,9 @@ const VideoContributors: React.FC<VideoContributorsProps> = ({
   contributors,
 }) => {
   // Filter authors to only those in the contributors list
-  const videoContributors = Object.entries(authors)
-    .filter(([key, _]) => contributors.includes(key))
-    .map(([_, author]) => author);
+  const videoContributors = Object.entries(authors).filter(([key, _]) =>
+    contributors.includes(key),
+  );
 
   if (videoContributors.length === 0) {
     return null;
@@ -33,9 +33,9 @@ const VideoContributors: React.FC<VideoContributorsProps> = ({
 
       {/* Contributors Grid */}
       <div className={clsx(styles.teamGrid, styles.contributorsGrid)}>
-        {videoContributors.map((author) => (
+        {videoContributors.map(([id, author]) => (
           <TeamProfileCard
-            key={author.url}
+            key={id}
             name={author.name}
             as="h3"
             title={author.title}

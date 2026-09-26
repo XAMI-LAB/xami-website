@@ -145,21 +145,21 @@ const TeamPage: React.FC = () => {
     title: string,
     occupationSection: OccupationSection,
   ) => {
-    const authorsInSection = Object.values(authors)
+    const authorsInSection = Object.entries(authors)
       .filter(
-        (author) =>
+        ([, author]) =>
           author.occupation === occupationSection && author.selected === true,
       )
-      .sort((a, b) => a.idx - b.idx);
+      .sort(([, a], [, b]) => a.idx - b.idx);
 
     if (authorsInSection.length > 0) {
       return (
         <section key={title}>
           <h1>{title}</h1>
           <div className={styles.teamGrid}>
-            {authorsInSection.map((author) => (
+            {authorsInSection.map(([id, author]) => (
               <TeamProfileCard
-                key={author.url}
+                key={id}
                 name={author.name}
                 as="h2"
                 title={author.title}
