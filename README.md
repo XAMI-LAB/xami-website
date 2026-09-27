@@ -47,19 +47,15 @@ This command generates static content into the `build` directory and can be serv
 
 ### Deployment
 
-Using SSH:
+The site is hosted on Cloudflare Workers (static assets, configured in `wrangler.jsonc`). Cloudflare Workers Builds deploys automatically on push, with `PNPM_VERSION=12.6.0` set in the build environment.
+
+To deploy manually from your machine:
 
 ```
-$ USE_SSH=true pnpm run deploy
+$ pnpm run deploy
 ```
 
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> pnpm run deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This builds the site and uploads `build/` with `wrangler deploy` (run `pnpm wrangler login` first).
 
 ### File Structure
 

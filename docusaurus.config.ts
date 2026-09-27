@@ -18,6 +18,7 @@ const config: Config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: baseUrl,
+  trailingSlash: false,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -164,9 +165,6 @@ const config: Config = {
             {
               html: `
             <div style="display: flex; align-items: center;">
-              <a href="https://vercel.com/" target="_blank" rel="noreferrer noopener" aria-label="Powered by Vercel" style="width: 30%; margin-right: 5%; color: var(--ifm-footer-link-color); white-space: nowrap;">
-                &#9650; Powered by Vercel
-              </a>
               <a href="https://docusaurus.io/" target="_blank" rel="noreferrer noopener" aria-label="Built with Docusaurus" style="">
                 <img src="https://docusaurus.io/img/docusaurus_keytar.svg" alt="Built with Docusaurus" style="width: 20%; height: auto;"/>
               </a>

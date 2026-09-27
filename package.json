@@ -7,7 +7,7 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
+    "deploy": "pnpm build && wrangler deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
@@ -50,7 +50,8 @@
     "lint-staged": "^17.5.1",
     "prettier": "^3.9.9",
     "typescript": "~6.0.3",
-    "webpack-license-plugin": "^4.5.1"
+    "webpack-license-plugin": "^4.5.1",
+    "wrangler": "^4.141.0"
   },
   "browserslist": {
     "production": [
