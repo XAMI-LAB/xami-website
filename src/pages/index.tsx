@@ -34,12 +34,8 @@ function HomepageHeader() {
 }
 
 export default function Home(): ReactNode {
-  const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
-    >
+    <Layout description="The Explainable Analytics for Machine Intelligence (XAMI) Lab develops methods to make machine intelligence explainable, transparent, fair and understandable to human decision-makers.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

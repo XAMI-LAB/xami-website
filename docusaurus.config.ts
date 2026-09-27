@@ -18,6 +18,7 @@ const config: Config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: baseUrl,
+  trailingSlash: false,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -25,7 +26,11 @@ const config: Config = {
   projectName: "xami-website", // Usually your repo name.
 
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: "warn",
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -47,30 +52,7 @@ const config: Config = {
           // editUrl:
           //   'https://github.com/ZhipengHe/xami-website/tree/master/',
         },
-        blog: {
-          path: "publications",
-          routeBasePath: "publications",
-          blogTitle: "Publications",
-          blogSidebarTitle: "All Publications",
-          blogSidebarCount: "ALL",
-          postsPerPage: "ALL",
-          blogDescription: "Research publications from XAMI Lab",
-          showReadingTime: false,
-          remarkPlugins: [],
-          rehypePlugins: [],
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
+        blog: false,
         pages: {
           remarkPlugins: [],
           rehypePlugins: [],
@@ -183,9 +165,6 @@ const config: Config = {
             {
               html: `
             <div style="display: flex; align-items: center;">
-              <a href="https://vercel.com/" target="_blank" rel="noreferrer noopener" aria-label="Powered by Vercel" style="width: 30%; margin-right: 5%;">
-                <img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" alt="Powered by Vercel" style="width: 100%; height: auto;"/>
-              </a>
               <a href="https://docusaurus.io/" target="_blank" rel="noreferrer noopener" aria-label="Built with Docusaurus" style="">
                 <img src="https://docusaurus.io/img/docusaurus_keytar.svg" alt="Built with Docusaurus" style="width: 20%; height: auto;"/>
               </a>

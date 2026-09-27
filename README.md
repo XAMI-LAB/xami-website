@@ -11,27 +11,28 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 - [ ] Add content to each of the pages
   - [x] Config Home page
   - [x] Add Our Mission page
-  - [ ] Add People page
+  - [x] Add People page
   - [x] Add Research Projects page (with subpages)
     - [x] Add subpage for project 1
     - [x] Add subpage for project 2
     - [x] Add subpage for project 3
     - [x] Add subpage for project 4
-  - [ ] Add Publications page
-  - [ ] Add XAMI-Tube page
+  - [x] Add Publications page (BibTeX-driven via bibliodocus)
+    - [ ] Populate `static/bibtex/publications.bib` (currently 3 entries)
+  - [x] Add XAMI-Tube page
 
 ## Getting Started
 
 ### Installation
 
 ```
-$ yarn
+$ pnpm install
 ```
 
 ### Local Development
 
 ```
-$ yarn start
+$ pnpm start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -39,26 +40,22 @@ This command starts a local development server and opens up a browser window. Mo
 ### Build
 
 ```
-$ yarn build
+$ pnpm build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
 ### Deployment
 
-Using SSH:
+The site is hosted on Cloudflare Workers (static assets, configured in `wrangler.jsonc`). Cloudflare Workers Builds deploys automatically on push, with `PNPM_VERSION=12.6.0` set in the build environment.
+
+To deploy manually from your machine:
 
 ```
-$ USE_SSH=true yarn deploy
+$ pnpm run deploy
 ```
 
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This builds the site and uploads `build/` with `wrangler deploy` (run `pnpm wrangler login` first).
 
 ### File Structure
 
@@ -86,7 +83,8 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 ├── static
 │   └── img
 ├── tsconfig.json
-└── yarn.lock
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
 
 12 directories, 12 files
 ```
