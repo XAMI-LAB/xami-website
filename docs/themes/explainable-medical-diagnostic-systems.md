@@ -25,4 +25,4 @@ This research theme aims to build a novel framework consisting of algorithms, mo
 
 ## Publications
 
-TODO: Add publications here
+See the lab's full [publication list](/bibliography).

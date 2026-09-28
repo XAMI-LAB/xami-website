@@ -23,4 +23,4 @@ This research proposes a novel approach to endow machine intelligence with capab
 
 ## Publications
 
-TODO: Add publications here
+See the lab's full [publication list](/bibliography).

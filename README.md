@@ -1,6 +1,6 @@
 # XAMI Lab Website
 
-Website of the XAMI Lab (Explainable Analytics for Machine Intelligence) at QUT, live at [preview.xami-lab.org](https://preview.xami-lab.org).
+Website of the XAMI Lab (Explainable Analytics for Machine Intelligence) at QUT, live at [www.xami-lab.org](https://www.xami-lab.org).
 
 Built with [Docusaurus](https://docusaurus.io/) 3 (React, TypeScript), managed with pnpm, and hosted on Cloudflare Workers.
 
@@ -96,7 +96,7 @@ Open a new terminal and run the three commands from step 1 again. You should see
 ## Quick Start
 
 ```bash
-git clone git@github.com:ZhipengHe/xami-website.git
+git clone git@github.com:XAMI-LAB/xami-website.git
 cd xami-website
 pnpm install
 pnpm start
@@ -245,19 +245,32 @@ A pre-commit hook (husky + lint-staged) runs ESLint and Prettier on the files yo
 ## Git Workflow
 
 - `master` is production: every push to it deploys the live site.
+- `preview` deploys to preview.xami-lab.org for review before merging into `master`.
 - Work on a branch and open a pull request into `master`.
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), for example `feat: add news page` or `fix(people): correct photo link`.
 
 ## Deployment
 
-Cloudflare Workers Builds deploys automatically when `master` changes. The Worker serves the static `build/` folder as configured in `wrangler.jsonc`. Build settings in the Cloudflare dashboard:
+Cloudflare Workers Builds deploys one Worker, `xami-website`, from this repository. It serves the static `build/` folder as configured in `wrangler.jsonc`.
 
-| Setting               | Value                   |
-| --------------------- | ----------------------- |
-| Build command         | `pnpm build`            |
-| Deploy command        | `pnpm wrangler deploy`  |
-| Non-production deploy | `pnpm wrangler preview` |
-| Build variable        | `PNPM_VERSION=12.6.0`   |
+| Branch    | Deployed as                                 | Address                                              |
+| --------- | ------------------------------------------- | ---------------------------------------------------- |
+| `master`  | Production                                  | [www.xami-lab.org](https://www.xami-lab.org)         |
+| `preview` | A Cloudflare Preview named after the branch | [preview.xami-lab.org](https://preview.xami-lab.org) |
+
+Build settings in the Cloudflare dashboard:
+
+| Setting                              | Value                       |
+| ------------------------------------ | --------------------------- |
+| Production branch                    | `master`                    |
+| Build command                        | `pnpm build`                |
+| Deploy command                       | `pnpm dlx wrangler deploy`  |
+| Non-production branch deploy command | `pnpm dlx wrangler preview` |
+| Build variable                       | `PNPM_VERSION=12.6.0`       |
+
+`wrangler preview` requires the `previews` block in `wrangler.jsonc` (it can stay empty).
+
+Old-site URLs (for example `/members`) redirect to current pages through `static/_redirects`.
 
 To deploy by hand, run `pnpm wrangler login` once, then `pnpm run deploy`.
 

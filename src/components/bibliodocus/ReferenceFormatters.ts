@@ -231,7 +231,7 @@ export const formatDOI = (doi: string | undefined): string => {
 export const formatURL = (url: string | undefined): string => {
   if (!url) return "";
 
-  return `<a href="${url}" target="_blank" rel="noopener noreferrer">$[url]</a>`;
+  return `<a href="${url}" target="_blank" rel="noopener noreferrer">[url]</a>`;
 };
 
 /**

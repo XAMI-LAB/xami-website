@@ -25,3 +25,5 @@ This research theme aims to make machine learning models understandable to human
 - Develop standardized evaluation protocols for counterfactuals in XAI
 
 ## Publications
+
+See the lab's full [publication list](/bibliography).

@@ -5,5 +5,7 @@
   "assets": {
     "directory": "./build",
     "not_found_handling": "404-page"
-  }
+  },
+  // Branch Previews (built by "wrangler preview" on non-production branches)
+  "previews": {}
 }
