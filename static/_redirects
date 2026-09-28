@@ -1,0 +1,10 @@
+# Old site (www.xami-lab.org before 2026) URLs -> current pages
+/members /people 301
+/our-mission /mission 301
+/research-projects /research 301
+/videos /xami-tube 301
+/publications /bibliography 301
+/Explainable-Predictive-Process-Analytics /research/themes/explainable-predictive-process-analytics 301
+/Causal-Models /research/themes/probabilistic-causal-models-for-responsible-ai 301
+/Persuasive-Models /research/themes/persuasive-models-for-explainable-ai 301
+/Explainable-Medical /research/themes/explainable-medical-diagnostic-systems 301
