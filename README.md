@@ -251,22 +251,24 @@ A pre-commit hook (husky + lint-staged) runs ESLint and Prettier on the files yo
 
 ## Deployment
 
-Cloudflare Workers Builds builds and deploys two Workers from this repository. Each serves the static `build/` folder as configured in `wrangler.jsonc`.
+Cloudflare Workers Builds deploys one Worker, `xami-website`, from this repository. It serves the static `build/` folder as configured in `wrangler.jsonc`.
 
-| Branch    | Worker                 | Address                                                                          |
-| --------- | ---------------------- | -------------------------------------------------------------------------------- |
-| `master`  | `xami-website`         | [www.xami-lab.org](https://www.xami-lab.org)                                     |
-| `preview` | `xami-website-preview` | [preview.xami-lab.org](https://preview.xami-lab.org), hidden from search engines |
+| Branch    | Deployed as                                 | Address                                              |
+| --------- | ------------------------------------------- | ---------------------------------------------------- |
+| `master`  | Production                                  | [www.xami-lab.org](https://www.xami-lab.org)         |
+| `preview` | A Cloudflare Preview named after the branch | [preview.xami-lab.org](https://preview.xami-lab.org) |
 
 Build settings in the Cloudflare dashboard:
 
-| Setting         | `xami-website`             | `xami-website-preview`                    |
-| --------------- | -------------------------- | ----------------------------------------- |
-| Build command   | `pnpm build`               | `pnpm build`                              |
-| Deploy command  | `pnpm dlx wrangler deploy` | `pnpm dlx wrangler deploy --env preview`  |
-| Build variables | `PNPM_VERSION=12.6.0`      | `PNPM_VERSION=12.6.0`, `SITE_ENV=preview` |
+| Setting                              | Value                       |
+| ------------------------------------ | --------------------------- |
+| Production branch                    | `master`                    |
+| Build command                        | `pnpm build`                |
+| Deploy command                       | `pnpm dlx wrangler deploy`  |
+| Non-production branch deploy command | `pnpm dlx wrangler preview` |
+| Build variable                       | `PNPM_VERSION=12.6.0`       |
 
-`SITE_ENV=preview` makes the build use the preview address and mark every page `noindex` (see `docusaurus.config.ts`).
+`wrangler preview` requires the `previews` block in `wrangler.jsonc` (it can stay empty).
 
 Old-site URLs (for example `/members`) redirect to current pages through `static/_redirects`.
 

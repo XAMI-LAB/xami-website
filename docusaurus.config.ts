@@ -8,22 +8,17 @@ import WebpackLicensePlugin from "webpack-license-plugin";
 
 const baseUrl = "/";
 
-// Builds of the preview branch set SITE_ENV=preview: they get their own URL and
-// are hidden from search engines.
-const isPreview = process.env.SITE_ENV === "preview";
-
 const config: Config = {
   title: "XAMI Lab @QUT",
   tagline: `Supporting Human-Machine Collaboration and Co-evolution by Explainable Analytics for Machine Intelligence`,
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: isPreview ? "https://preview.xami-lab.org" : "https://www.xami-lab.org",
+  url: "https://www.xami-lab.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: baseUrl,
   trailingSlash: false,
-  noIndex: isPreview,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
