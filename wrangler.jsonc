@@ -5,5 +5,9 @@
   "assets": {
     "directory": "./build",
     "not_found_handling": "404-page"
+  },
+  "env": {
+    // Deploys as the "xami-website-preview" Worker, built from the preview branch
+    "preview": {}
   }
 }
