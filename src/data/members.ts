@@ -196,13 +196,13 @@ const authors: Authors = {
 
   bemaliwickramanayake: {
     name: "Dr. Bemali Wickramanayake",
-    title: "PhD Graduate",
+    title: "PhD Graduate, 2025",
     occupation: OccupationSection.Alumni,
     selected: true,
     url: "",
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Bemali.png",
-    idx: 3,
+    idx: 2,
     email: "bemali.wickramanayake@hdr.qut.edu.au",
     school: "School of Information Systems",
     university: "Queensland University of Technology",
@@ -226,13 +226,13 @@ const authors: Authors = {
 
   chihchenghsieh: {
     name: "Dr. Chihcheng Hsieh (Richard)",
-    title: "PhD Graduate",
+    title: "PhD Graduate, 2026",
     occupation: OccupationSection.Alumni,
     selected: true,
     url: "",
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Richard.jpg",
-    idx: 5,
+    idx: 1,
     email: "c21.hsieh@qut.edu.au",
     school: "School of Information Systems",
     university: "Queensland University of Technology",
@@ -376,7 +376,7 @@ const authors: Authors = {
     url: "",
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Leon.jpg",
-    idx: 1,
+    idx: 3,
     email: "",
     school: "",
     university: "",
