@@ -241,7 +241,7 @@ const authors: Authors = {
   zhipenghe: {
     name: "Dr. Zhipeng He (Zippo)",
     title:
-      "Post-doc Research Fellow, School of Mechanical, Medical and Process Engineering @QUT",
+      "Post-doc Research Fellow, School of Mech., Medical & Process Engineering @QUT",
     occupation: OccupationSection.Researchers,
     selected: true,
     url: "https://zhipenghe.me",
