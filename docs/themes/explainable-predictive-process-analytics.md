@@ -35,4 +35,4 @@ The research theme is applied to a wide range of domains, including but not limi
 
 ## Publications
 
-TODO: Add publications here
+See the lab's full [publication list](/bibliography).
