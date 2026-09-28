@@ -203,7 +203,6 @@ const authors: Authors = {
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Bemali.png",
     idx: 2,
-    email: "bemali.wickramanayake@hdr.qut.edu.au",
     school: "School of Information Systems",
     university: "Queensland University of Technology",
     linkedin: "https://www.linkedin.com/in/bemali-wickramanayake-b2627261",
@@ -218,7 +217,7 @@ const authors: Authors = {
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Jenny.jpg",
     idx: 4,
-    email: "jia.wei@hdr.qut.edu.au",
+    email: "j26.wei@qut.edu.au",
     school: "School of Information Systems",
     university: "Queensland University of Technology",
     linkedin: "https://www.linkedin.com/in/jia-jenny-wei-203795132/",
@@ -233,7 +232,6 @@ const authors: Authors = {
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Richard.jpg",
     idx: 1,
-    email: "c21.hsieh@qut.edu.au",
     school: "School of Information Systems",
     university: "Queensland University of Technology",
     linkedin: "https://www.linkedin.com/in/chihcheng-hsieh-04623989",
@@ -250,7 +248,7 @@ const authors: Authors = {
     image_url:
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Zippo.jpg",
     idx: 6,
-    email: "zhipeng.he@hdr.qut.edu.au",
+    email: "zippo.he@qut.edu.au",
     school: "School of Mechanical, Medical and Process Engineering",
     university: "Queensland University of Technology",
     linkedin: "https://www.linkedin.com/in/zhipenghe",
