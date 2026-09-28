@@ -195,9 +195,9 @@ const authors: Authors = {
   },
 
   bemaliwickramanayake: {
-    name: "Bemali Wickramanayake",
-    title: "PhD Student, School of Information Systems @QUT",
-    occupation: OccupationSection.Researchers,
+    name: "Dr. Bemali Wickramanayake",
+    title: "PhD Graduate",
+    occupation: OccupationSection.Alumni,
     selected: true,
     url: "",
     image_url:
@@ -210,8 +210,8 @@ const authors: Authors = {
   },
 
   jiawei: {
-    name: "Jia Wei (Jenny)",
-    title: "PhD Student, School of Information Systems @QUT",
+    name: "Dr. Jia Wei (Jenny)",
+    title: "Lecturer, School of Information Systems @QUT",
     occupation: OccupationSection.Researchers,
     selected: true,
     url: "",
@@ -225,9 +225,9 @@ const authors: Authors = {
   },
 
   chihchenghsieh: {
-    name: "Chihcheng Hsieh (Richard)",
-    title: "PhD Student, School of Information Systems @QUT",
-    occupation: OccupationSection.Researchers,
+    name: "Dr. Chihcheng Hsieh (Richard)",
+    title: "PhD Graduate",
+    occupation: OccupationSection.Alumni,
     selected: true,
     url: "",
     image_url:
@@ -241,8 +241,9 @@ const authors: Authors = {
   },
 
   zhipenghe: {
-    name: "Zhipeng He (Zippo)",
-    title: "PhD Student, School of Information Systems @QUT",
+    name: "Dr. Zhipeng He (Zippo)",
+    title:
+      "Post-doc Research Fellow, School of Mechanical, Medical and Process Engineering @QUT",
     occupation: OccupationSection.Researchers,
     selected: true,
     url: "https://zhipenghe.me",
@@ -250,7 +251,7 @@ const authors: Authors = {
       "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Zippo.jpg",
     idx: 6,
     email: "zhipeng.he@hdr.qut.edu.au",
-    school: "School of Information Systems",
+    school: "School of Mechanical, Medical and Process Engineering",
     university: "Queensland University of Technology",
     linkedin: "https://www.linkedin.com/in/zhipenghe",
     github: "https://github.com/ZhipengHe",
