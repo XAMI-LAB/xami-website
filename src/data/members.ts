@@ -293,7 +293,8 @@ const authors: Authors = {
     occupation: OccupationSection.Researchers,
     selected: true,
     url: "",
-    image_url: "/img/members/adalie-hoang.jpg",
+    image_url:
+      "https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Adalie.jpg",
     idx: 8,
     school: "School of Information Systems",
     university: "Queensland University of Technology",
