@@ -289,6 +289,19 @@ const authors: Authors = {
     linkedin: "https://www.linkedin.com/in/zeping-wang/",
   },
 
+  adaliehoang: {
+    name: "Cao Tram Anh (Adalie) Hoang",
+    title: "Master Student, School of Information Systems @QUT",
+    occupation: OccupationSection.Researchers,
+    selected: true,
+    url: "",
+    image_url: "/img/members/adalie-hoang.jpg",
+    idx: 8,
+    school: "School of Information Systems",
+    university: "Queensland University of Technology",
+    linkedin: "https://www.linkedin.com/in/cao-tram-anh-hoang/",
+  },
+
   mohammedosmangani: {
     name: "Mohammed Osman Gani",
     title: "PhD Student, School of Information Systems @QUT",
@@ -370,7 +383,7 @@ const authors: Authors = {
 
   yuliangchou: {
     name: "Yu-Liang Chou (Leon)",
-    title: "MPhil Graduate",
+    title: "MPhil Graduate, 2024",
     occupation: OccupationSection.Alumni,
     selected: true,
     url: "",
