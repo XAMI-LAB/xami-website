@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>XAMI Lab: research map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+  Design plan
+  Palette: deep water #0B3C49, tide #14586A, mist #F2F7F7, ink #102A33,
+           theme lines: sky #5BBEF5, teal #35D6A8, amber #F5C451, coral #F58A8F
+  Type:    Sora for headings and map labels, Public Sans for reading text
+  Layout:  left aligned. The map fills the first screen with a reading panel beside it.
+           Below, one thin line runs down the left edge and each section hangs from a node on it.
+*/
+:root {
+  --water: #0b3c49;
+  --water-deep: #082f3a;
+  --tide: #14586a;
+  --tide-soft: #2b7486;
+  --mist: #f2f7f7;
+  --paper: #ffffff;
+  --ink: #102a33;
+  --ink-soft: #476069;
+  --rule: #d3e0e2;
+  --foam: #e6f3f4;
+  --foam-soft: #a9c8cd;
+  --process: #5bbef5;
+  --causal: #35d6a8;
+  --persuasive: #f5c451;
+  --medical: #f58a8f;
+  --display: "Sora", "Avenir Next", "Segoe UI", sans-serif;
+  --text: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--mist);
+  color: var(--ink);
+  font: 400 17px/1.6 var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+:focus-visible { outline: 3px solid var(--persuasive); outline-offset: 3px; border-radius: 4px; }
+.wrap { width: min(1320px, 100% - 48px); margin-inline: auto; }
+
+/* ---------- top: header and map ---------- */
+.top { background: var(--water); color: var(--foam); padding-bottom: 56px; }
+.site-header { display: flex; align-items: center; gap: 32px; padding-block: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 600 19px/1 var(--display); }
+.brand img { width: 38px; height: auto; border-radius: 8px; }
+.site-nav { margin-left: auto; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 4px 6px; justify-content: flex-end; }
+.site-nav a { display: block; padding: 8px 12px; border-radius: 999px; text-decoration: none; font-size: 15px; color: var(--foam); }
+.site-nav a:hover { background: var(--tide); }
+
+.lead { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px 64px; align-items: end; padding-block: 40px 28px; }
+.lead h1 { font-size: clamp(2.1rem, 4.4vw, 3.6rem); font-weight: 400; max-width: 15ch; }
+.lead p { color: var(--foam-soft); max-width: 58ch; }
+
+.atlas { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 0; border: 1px solid var(--tide); border-radius: 18px; overflow: hidden; background: var(--water-deep); }
+.map-area { position: relative; min-width: 0; }
+.map-area svg { display: block; width: 100%; height: auto; }
+.theme-keys { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 20px; }
+.theme-key {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 14px/1 var(--text); color: var(--foam);
+  background: transparent; border: 1px solid var(--tide); border-radius: 999px;
+  padding: 9px 14px 9px 10px; cursor: pointer;
+}
+.theme-key i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
+.theme-key:hover { border-color: var(--c); }
+.theme-key[aria-pressed="true"] { background: var(--c); border-color: var(--c); color: var(--water-deep); }
+.theme-key[aria-pressed="true"] i { background: var(--water-deep); }
+
+.tip {
+  position: absolute; z-index: 3; pointer-events: none;
+  max-width: 260px; padding: 9px 12px; border-radius: 8px;
+  background: var(--paper); color: var(--ink);
+  font-size: 13.5px; line-height: 1.35;
+}
+.tip strong { display: block; font-weight: 600; }
+.tip span { color: var(--ink-soft); }
+
+/* map drawing */
+.edge { stroke: var(--tide-soft); stroke-width: 1; opacity: 0.55; transition: opacity 0.2s, stroke 0.2s; }
+.edge.spine { stroke-width: 5; stroke: var(--tide); opacity: 1; stroke-linecap: round; }
+.edge.leaving { stroke-dasharray: 3 6; stroke: var(--foam-soft); opacity: 0.7; }
+.edge.is-on { stroke: var(--c); opacity: 0.95; stroke-width: 1.6; }
+.edge.is-dim { opacity: 0.08; }
+.edge.spine.is-dim { opacity: 0.4; }
+.node { cursor: pointer; transition: opacity 0.2s; }
+.node.is-dim { opacity: 0.16; }
+.node:focus { outline: none; }
+.node:focus-visible .halo { stroke: var(--persuasive); stroke-width: 3; opacity: 1; }
+.halo { fill: none; stroke: transparent; }
+.theme-node .disc { fill: var(--water-deep); stroke: var(--c); stroke-width: 5; transition: fill 0.2s; }
+.theme-node .core { fill: var(--c); }
+.theme-node.is-on .disc { fill: var(--c); }
+.theme-node.is-on .core { fill: var(--water-deep); }
+.theme-node text { font: 500 15px var(--display); fill: var(--foam); paint-order: stroke; stroke: var(--water-deep); stroke-width: 5px; stroke-linejoin: round; }
+.lab-node circle:not(.halo) { fill: var(--foam); }
+.lab-node text { font: 600 12px var(--display); fill: var(--foam); text-anchor: middle; }
+.person-node .ring { fill: var(--tide); stroke: var(--foam); stroke-width: 1.5; }
+.person-node .frame { fill: none; stroke: var(--foam); stroke-width: 1.5; }
+.person-node.is-on .frame { stroke: var(--c); stroke-width: 2.5; }
+.paper-node rect { fill: var(--c); stroke: var(--water-deep); stroke-width: 1.5; }
+.project-node circle:not(.halo) { fill: var(--water-deep); stroke: var(--foam); stroke-width: 2; }
+.project-node text { font: 500 12.5px var(--text); fill: var(--foam); text-anchor: end; }
+.small-label { font: 500 11.5px var(--text); fill: var(--foam); paint-order: stroke; stroke: var(--water-deep); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+
+/* reading panel beside the map */
+.panel { background: var(--tide); padding: 30px 28px 28px; border-left: 1px solid var(--tide-soft); display: flex; flex-direction: column; gap: 18px; }
+.panel h2 { font-size: 1.45rem; display: flex; gap: 12px; align-items: flex-start; }
+.panel h2 i { flex: none; width: 16px; height: 16px; margin-top: 7px; border-radius: 50%; background: var(--c, var(--foam)); }
+.panel p { color: var(--foam); font-size: 16px; }
+.panel h3 { font: 600 14px/1.2 var(--text); color: var(--foam-soft); letter-spacing: 0; margin-bottom: 8px; }
+.panel li { font-size: 15px; line-height: 1.4; }
+.panel .people-list { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.panel .people-list li { display: flex; align-items: center; gap: 8px; }
+.panel .people-list img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; background: var(--tide-soft); }
+.panel .paper-list li { padding-block: 9px; border-top: 1px solid var(--tide-soft); }
+.panel .paper-list span { display: block; color: var(--foam-soft); font-size: 13.5px; }
+.panel .legend li { display: flex; align-items: center; gap: 12px; padding-block: 6px; }
+.panel .legend svg { flex: none; }
+.panel .more { margin-top: auto; font-weight: 500; color: var(--foam); text-underline-offset: 4px; }
+
+/* ---------- reading part: one line, a node per section ---------- */
+.trail { position: relative; padding-block: 72px 40px; }
+.trail::before { content: ""; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: var(--rule); }
+.stop { position: relative; padding-left: 64px; padding-bottom: 80px; }
+.stop > h2 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); margin-bottom: 8px; }
+.stop > h2::before {
+  content: ""; position: absolute; left: 0; top: 6px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--mist); border: 4px solid var(--tide);
+}
+.stop > .intro { color: var(--ink-soft); max-width: 62ch; margin-bottom: 32px; }
+.text-link { font-weight: 600; color: var(--tide); text-underline-offset: 4px; }
+.text-link:hover { color: var(--water); }
+
+.about { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px 64px; }
+.about blockquote { margin: 0; font: 400 clamp(1.25rem, 2vw, 1.6rem)/1.4 var(--display); color: var(--water); }
+.about h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+.about li { padding-block: 8px; border-top: 1px solid var(--rule); }
+
+.theme-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) minmax(0, 340px); gap: 8px 24px; padding-block: 28px; border-top: 1px solid var(--rule); align-items: start; }
+.theme-row .dot { width: 20px; height: 20px; margin-top: 5px; border-radius: 50%; background: var(--c); }
+.theme-row h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.theme-row p { max-width: 60ch; }
+.theme-row .topics { color: var(--ink-soft); font-size: 15.5px; margin-top: 10px; }
+.theme-row .count { margin-top: 12px; font-size: 15.5px; }
+.theme-row figure { margin: 0; background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 12px; }
+.theme-row figure img { width: 100%; height: 150px; object-fit: contain; }
+
+.news-list li { display: grid; grid-template-columns: 150px 110px minmax(0, 1fr); gap: 4px 24px; padding-block: 18px; border-top: 1px solid var(--rule); }
+.news-list time { font: 500 15px var(--display); color: var(--tide); }
+.news-list .kind { color: var(--ink-soft); font-size: 15px; }
+.news-list h3 { font: 600 17px/1.35 var(--text); letter-spacing: 0; }
+.news-list p { color: var(--ink-soft); font-size: 15.5px; max-width: 64ch; }
+
+.pub-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr) 70px; gap: 4px 24px; padding-block: 18px; border-top: 1px solid var(--rule); }
+.pub-list .dot { width: 14px; height: 14px; margin-top: 7px; border-radius: 3px; background: var(--c); }
+.pub-list h3 { font: 600 17px/1.35 var(--text); letter-spacing: 0; max-width: 70ch; }
+.pub-list h3 a { text-decoration: none; }
+.pub-list h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.pub-list p { color: var(--ink-soft); font-size: 15.5px; }
+.pub-list .year { font: 500 15px var(--display); color: var(--tide); text-align: right; }
+.after-list { margin-top: 24px; }
+
+.leaders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-bottom: 44px; }
+.leader { display: flex; gap: 22px; align-items: center; }
+.leader img { flex: none; width: 128px; height: 128px; border-radius: 50%; object-fit: cover; background: var(--rule); border: 4px solid var(--paper); outline: 2px solid var(--tide); }
+.leader h3 { font-size: 1.25rem; margin-bottom: 4px; }
+.leader p { color: var(--ink-soft); font-size: 15.5px; }
+.crew { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px 28px; }
+.crew li { display: flex; gap: 14px; align-items: center; }
+.crew img { flex: none; width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: var(--rule); }
+.crew strong { display: block; font-weight: 600; line-height: 1.3; }
+.crew span { display: block; color: var(--ink-soft); font-size: 14.5px; line-height: 1.35; }
+
+.exits { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding-top: 34px; }
+.exits::before { content: ""; position: absolute; left: 0; right: -24px; top: 11px; border-top: 2px dashed var(--foam-soft); }
+.exit { position: relative; }
+.exit::before { content: ""; position: absolute; left: 0; top: -34px; width: 24px; height: 24px; border-radius: 50%; background: var(--mist); border: 3px solid var(--ink); }
+.exit a { text-decoration: none; display: block; }
+.exit h3 { font-size: 1.15rem; margin-bottom: 2px; }
+.exit .address { color: var(--tide); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.exit p { color: var(--ink-soft); font-size: 15.5px; }
+.exit .leaves { display: inline-block; margin-top: 8px; font-size: 13.5px; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 10px; background: var(--paper); }
+
+.stop.last { padding-bottom: 24px; }
+.join { background: var(--water); color: var(--foam); border-radius: 18px; padding: 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 32px 56px; }
+.join > p { font: 400 1.3rem/1.45 var(--display); }
+.join li { padding-block: 14px; border-top: 1px solid var(--tide-soft); }
+.join li:first-child { border-top: 0; padding-top: 0; }
+.join strong { display: block; font-weight: 600; }
+.join span { color: var(--foam-soft); font-size: 15.5px; }
+.button { display: inline-block; margin-top: 20px; padding: 13px 22px; border-radius: 999px; background: var(--causal); color: var(--water-deep); font-weight: 600; text-decoration: none; }
+.button:hover { background: var(--foam); }
+
+/* ---------- footer ---------- */
+.site-footer { background: var(--water-deep); color: var(--foam-soft); padding-block: 48px 40px; font-size: 15.5px; }
+.footer-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr) minmax(0, 0.8fr); gap: 40px; align-items: start; }
+.footer-grid h2 { font: 600 14px/1.2 var(--text); letter-spacing: 0; color: var(--foam); margin-bottom: 14px; }
+.wordmark { width: 250px; margin-bottom: 14px; }
+.partners { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; }
+.partners img { height: 46px; width: auto; max-width: 150px; object-fit: contain; }
+.footer-links li { padding-block: 4px; }
+.footer-links a { color: var(--foam); text-underline-offset: 4px; }
+
+/* ---------- narrow screens ---------- */
+@media (max-width: 1080px) {
+  .atlas { grid-template-columns: minmax(0, 1fr); }
+  .panel { border-left: 0; border-top: 1px solid var(--tide-soft); }
+  .lead { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .wrap { width: min(1320px, 100% - 32px); }
+  .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .site-nav { margin-left: -10px; }
+  .site-nav ul { justify-content: flex-start; gap: 0; }
+  .site-nav a { padding: 7px 10px; }
+  .lead { padding-block: 20px 24px; }
+  .panel { padding: 24px 20px; }
+  .theme-keys { padding: 0 14px 16px; }
+  .stop { padding-left: 40px; padding-bottom: 60px; }
+  .about, .leaders, .join, .exits { grid-template-columns: minmax(0, 1fr); }
+  .theme-row { grid-template-columns: 28px minmax(0, 1fr); }
+  .theme-row figure { grid-column: 2; }
+  .news-list li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .pub-list li { grid-template-columns: 22px minmax(0, 1fr); gap: 2px 12px; }
+  .pub-list .year { grid-column: 2; text-align: left; }
+  .leader img { width: 96px; height: 96px; }
+  .exits { gap: 56px; padding-top: 0; padding-left: 40px; }
+  .exits::before { left: 11px; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px dashed var(--foam-soft); }
+  .exit::before { left: -40px; top: 2px; }
+  .join { padding: 28px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .edge, .node, .theme-node .disc { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <header class="site-header">
+      <a class="brand" href="#"><img src="assets/xami-mark.png" alt="">XAMI Lab</a>
+      <nav class="site-nav" aria-label="Main"><ul id="nav"></ul></nav>
+    </header>
+
+    <div class="lead">
+      <h1>Machine intelligence that people can understand</h1>
+      <p id="intro"></p>
+    </div>
+
+    <section class="atlas" aria-label="Map of the lab">
+      <div class="map-area">
+        <div id="map"></div>
+        <div class="tip" id="tip" hidden></div>
+        <div class="theme-keys" id="keys" role="group" aria-label="Choose a research theme"></div>
+      </div>
+      <aside class="panel" id="panel" aria-live="polite"></aside>
+    </section>
+  </div>
+</div>
+
+<main class="wrap trail">
+  <section class="stop" id="mission">
+    <h2>What the lab is for</h2>
+    <p class="intro">Our work is supported by QUT, partner universities and research scholarships.</p>
+    <div class="about">
+      <blockquote id="vision"></blockquote>
+      <div>
+        <h3>What we value</h3>
+        <ul id="values"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="stop" id="research">
+    <h2>Four research themes</h2>
+    <p class="intro">Each theme looks at a different part of the same question: how can a person see why a machine made its decision?</p>
+    <div id="themes"></div>
+  </section>
+
+  <section class="stop" id="news">
+    <h2>News</h2>
+    <p class="intro">New people, graduations and papers.</p>
+    <ul class="news-list" id="news-list"></ul>
+    <p class="after-list"><a class="text-link" href="#">See all news</a></p>
+  </section>
+
+  <section class="stop" id="publications">
+    <h2>Recent publications</h2>
+    <p class="intro">The coloured mark shows which theme a paper belongs to.</p>
+    <ul class="pub-list" id="pub-list"></ul>
+    <p class="after-list"><a class="text-link" href="#" id="all-pubs"></a></p>
+  </section>
+
+  <section class="stop" id="people">
+    <h2>People</h2>
+    <p class="intro">The lab is led from QUT in Brisbane and UTS in Sydney, with researchers and students across three countries.</p>
+    <div class="leaders" id="leaders"></div>
+    <ul class="crew" id="crew"></ul>
+    <p class="after-list"><a class="text-link" href="#" id="all-people"></a></p>
+  </section>
+
+  <section class="stop" id="projects">
+    <h2>Project sites</h2>
+    <p class="intro">Some projects have a website of their own, with their own look. These links leave the lab site.</p>
+    <div class="exits" id="exits"></div>
+  </section>
+
+  <section class="stop last" id="join">
+    <h2>Join us</h2>
+    <p class="intro">Ways to work with the lab.</p>
+    <div class="join">
+      <p id="join-lead"></p>
+      <div>
+        <ul id="join-options"></ul>
+        <a class="button" href="#" id="join-contact"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <img class="wordmark" src="assets/xami-long-white.png" alt="XAMI Lab">
+      <p>Explainable Analytics for Machine Intelligence</p>
+    </div>
+    <div>
+      <h2>Research affiliations</h2>
+      <div class="partners" id="partners"></div>
+    </div>
+    <div>
+      <h2>About</h2>
+      <ul class="footer-links">
+        <li><a href="#">Contact the lab</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/mock-bar.js"></script>
+<script>
+(function () {
+  var X = window.XAMI;
+  var SVG = "http://www.w3.org/2000/svg";
+  var COLOR = { process: "#5bbef5", causal: "#35d6a8", persuasive: "#f5c451", medical: "#f58a8f" };
+  var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, text) {
+    var node = document.createElement(tag);
+    for (var key in attrs || {}) node.setAttribute(key, attrs[key]);
+    if (text != null) node.textContent = text;
+    return node;
+  }
+  function svg(tag, attrs, text) {
+    var node = document.createElementNS(SVG, tag);
+    for (var key in attrs || {}) node.setAttribute(key, attrs[key]);
+    if (text != null) node.textContent = text;
+    return node;
+  }
+  function photo(person, size) {
+    var img = el("img", { src: person.photo, alt: "", loading: "lazy", width: size, height: size });
+    img.addEventListener("error", function () { img.removeAttribute("src"); });
+    return img;
+  }
+  function plain(text) {
+    return text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  }
+  function nameParts(person) {
+    var words = person.name.replace(/\(.*?\)/g, " ").trim().split(/\s+/).filter(function (w) { return !/\.$/.test(w); });
+    return { first: plain(words[0]), last: plain(words[words.length - 1]), display: words.join(" ") };
+  }
+  function wrote(person, paper) {
+    var me = nameParts(person);
+    return paper.authors.some(function (author) {
+      var words = plain(author).split(/\s+/);
+      return words[words.length - 1] === me.last && words[0].charAt(0) === me.first.charAt(0);
+    });
+  }
+  function showDate(value) {
+    var parts = value.split("-");
+    return parts[1] ? MONTHS[+parts[1] - 1] + " " + parts[0] : parts[0];
+  }
+  function authorLine(paper) {
+    var names = paper.authors;
+    if (names.length <= 3) return names.join(", ");
+    return names.slice(0, 3).join(", ") + " and " + (names.length - 3) + " others";
+  }
+  function themeById(id) { return X.themes.filter(function (t) { return t.id === id; })[0]; }
+
+  /* ---- who and what belongs to each theme ---- */
+  var papersOf = {}, peopleOf = {}, themesOfPerson = {};
+  X.themes.forEach(function (theme) {
+    papersOf[theme.id] = X.pubs.filter(function (p) { return p.theme === theme.id; });
+    peopleOf[theme.id] = [];
+  });
+  X.people.forEach(function (person) {
+    themesOfPerson[person.id] = {};
+    X.themes.forEach(function (theme) {
+      var count = papersOf[theme.id].filter(function (p) { return wrote(person, p); }).length;
+      if (count) {
+        themesOfPerson[person.id][theme.id] = count;
+        peopleOf[theme.id].push({ person: person, count: count });
+      }
+    });
+  });
+  X.themes.forEach(function (theme) {
+    peopleOf[theme.id].sort(function (a, b) { return b.count - a.count; });
+  });
+
+  /* ---- the map ---- */
+  var active = null, pinned = null, narrowMap = null;
+
+  function buildMap() {
+    var narrow = window.innerWidth < 760;
+    if (narrow === narrowMap) return;
+    narrowMap = narrow;
+
+    var W = narrow ? 400 : 920, H = narrow ? 600 : 690;
+    var centre = { x: W / 2 - (narrow ? 0 : 20), y: H / 2 };
+    var spread = narrow ? { x: 104, y: 178 } : { x: 250, y: 170 };
+    var themeR = narrow ? 24 : 34;
+    var personR = narrow ? 11 : 14;
+    var papersPerTheme = narrow ? 3 : 5;
+    var fanR = narrow ? 70 : 108;
+    var corners = { process: [-1, -1], causal: [1, -1], persuasive: [-1, 1], medical: [1, 1] };
+
+    var nodes = [], edges = [];
+    var themeNode = {};
+    X.themes.forEach(function (theme) {
+      var c = corners[theme.id];
+      var node = { kind: "theme", id: theme.id, theme: theme, x: centre.x + c[0] * spread.x, y: centre.y + c[1] * spread.y, r: themeR, fixed: true, themes: [theme.id] };
+      themeNode[theme.id] = node;
+      nodes.push(node);
+      // keeps small nodes off the theme name
+      if (narrow) nodes.push({ kind: "blank", x: node.x, y: node.y - c[1] * (themeR + 22), r: 30, fixed: true });
+      else nodes.push({ kind: "blank", x: node.x + c[0] * (themeR + 56), y: node.y, r: 44, fixed: true });
+    });
+    var lab = { kind: "lab", x: centre.x, y: centre.y, r: 12, fixed: true, themes: [] };
+    nodes.push(lab);
+    nodes.push({ kind: "blank", x: centre.x, y: centre.y + 26, r: 22, fixed: true });
+
+    X.themes.forEach(function (theme) {
+      var home = themeNode[theme.id];
+      var out = home.y < centre.y ? -Math.PI / 2 : Math.PI / 2;
+      var list = papersOf[theme.id].slice(0, papersPerTheme);
+      list.forEach(function (paper, i) {
+        var angle = out + (i - (list.length - 1) / 2) * (narrow ? 0.6 : 0.36);
+        var node = { kind: "paper", paper: paper, r: 8, themes: [theme.id], tx: home.x + Math.cos(angle) * fanR, ty: home.y + Math.sin(angle) * fanR };
+        nodes.push(node);
+        edges.push({ from: node, to: home, theme: theme.id });
+      });
+    });
+
+    var shown = X.people.filter(function (p) { return !narrow || p.group === "Leader" || p.group === "Researchers"; });
+    shown.forEach(function (person, i) {
+      var mine = themesOfPerson[person.id], ids = Object.keys(mine);
+      var r = person.group === "Leader" ? personR + 5 : personR;
+      var node = { kind: "person", person: person, r: r, themes: ids };
+      if (ids.length) {
+        var total = 0, x = 0, y = 0;
+        ids.forEach(function (id) { total += mine[id]; x += themeNode[id].x * mine[id]; y += themeNode[id].y * mine[id]; });
+        x /= total; y /= total;
+        node.tx = x + (centre.x - x) * 0.4;
+        node.ty = y + (centre.y - y) * 0.4;
+        ids.forEach(function (id) { edges.push({ from: node, to: themeNode[id], theme: id }); });
+      } else {
+        var turn = i * 2.1;
+        node.tx = centre.x + Math.cos(turn) * (narrow ? 40 : 64);
+        node.ty = centre.y + Math.sin(turn) * (narrow ? 60 : 64);
+        edges.push({ from: node, to: lab, theme: null });
+      }
+      nodes.push(node);
+    });
+
+    var gap = narrow ? 46 : 64;
+    X.projects.forEach(function (project, i) {
+      var node = { kind: "project", project: project, r: 9, fixed: true, themes: [], x: W - (narrow ? 22 : 46), y: centre.y + (i - 1) * gap };
+      nodes.push(node);
+      if (!narrow) nodes.push({ kind: "blank", x: node.x - 70, y: node.y, r: 28, fixed: true });
+      edges.push({ from: node, to: lab, theme: null, leaving: true });
+    });
+
+    // settle: every node drifts to its place and pushes its neighbours away
+    var moving = nodes.filter(function (n) { return !n.fixed; });
+    moving.forEach(function (n, i) { n.x = n.tx + Math.cos(i * 2.4) * 18; n.y = n.ty + Math.sin(i * 2.4) * 18; });
+    var pad = narrow ? 9 : 22;
+    for (var step = 0; step < 400; step++) {
+      moving.forEach(function (n) { n.x += (n.tx - n.x) * 0.04; n.y += (n.ty - n.y) * 0.04; });
+      for (var a = 0; a < nodes.length; a++) {
+        for (var b = a + 1; b < nodes.length; b++) {
+          var p = nodes[a], q = nodes[b];
+          if (p.fixed && q.fixed) continue;
+          var dx = q.x - p.x, dy = q.y - p.y, d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+          var need = p.r + q.r + pad;
+          if (d >= need) continue;
+          var push = (need - d) / d;
+          var share = p.fixed || q.fixed ? 1 : 0.5;
+          if (!p.fixed) { p.x -= dx * push * share; p.y -= dy * push * share; }
+          if (!q.fixed) { q.x += dx * push * share; q.y += dy * push * share; }
+        }
+      }
+      moving.forEach(function (n) {
+        n.x = Math.max(n.r + 10, Math.min(W - n.r - 10, n.x));
+        n.y = Math.max(n.r + 10, Math.min(H - n.r - 10, n.y));
+      });
+    }
+
+    /* draw */
+    var root = svg("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "The lab drawn as a network: four research themes joined to the people and papers that belong to them" });
+    var defs = svg("defs");
+    root.appendChild(defs);
+    var lineLayer = svg("g"), nodeLayer = svg("g"), labelLayer = svg("g");
+    root.appendChild(lineLayer); root.appendChild(nodeLayer); root.appendChild(labelLayer);
+
+    X.themes.forEach(function (theme) {
+      var t = themeNode[theme.id];
+      var line = svg("line", { x1: t.x, y1: t.y, x2: lab.x, y2: lab.y, class: "edge spine" });
+      line.themeId = theme.id; line.spine = true;
+      lineLayer.appendChild(line);
+    });
+    edges.forEach(function (edge) {
+      var line = svg("line", { x1: edge.from.x, y1: edge.from.y, x2: edge.to.x, y2: edge.to.y, class: "edge" + (edge.leaving ? " leaving" : "") });
+      line.themeId = edge.theme;
+      if (edge.theme) line.style.setProperty("--c", COLOR[edge.theme]);
+      lineLayer.appendChild(line);
+      if (edge.leaving) {
+        lineLayer.appendChild(svg("line", { x1: edge.from.x, y1: edge.from.y, x2: W, y2: edge.from.y, class: "edge leaving" }));
+      }
+    });
+
+    nodes.forEach(function (n, i) {
+      if (n.kind === "blank") return;
+      var g = svg("g", { class: "node " + n.kind + "-node", transform: "translate(" + n.x.toFixed(1) + " " + n.y.toFixed(1) + ")" });
+      g.themes = n.themes;
+      if (n.themes.length === 1) g.style.setProperty("--c", COLOR[n.themes[0]]);
+      g.appendChild(svg("circle", { class: "halo", r: n.r + 6 }));
+
+      if (n.kind === "theme") {
+        g.setAttribute("tabindex", "0");
+        g.setAttribute("role", "button");
+        g.setAttribute("aria-label", n.theme.title);
+        g.appendChild(svg("circle", { class: "disc", r: n.r }));
+        g.appendChild(svg("circle", { class: "core", r: n.r * 0.32 }));
+        var side = n.x < centre.x ? -1 : 1, above = n.y < centre.y;
+        var words = n.theme.short.split(" ");
+        var label = narrow
+          ? svg("text", { y: above ? n.r + 22 : -n.r - 12, "text-anchor": "middle" }, n.theme.short)
+          : svg("text", { "text-anchor": side < 0 ? "end" : "start" });
+        if (narrow) label.style.fontSize = "13px";
+        else [words[0], words.slice(1).join(" ")].forEach(function (line, row) {
+          label.appendChild(svg("tspan", { x: side * (n.r + 14), y: row * 20 - 4 }, line));
+        });
+        g.appendChild(label);
+        g.themeId = n.theme.id;
+        g.addEventListener("mouseenter", function () { show(n.theme.id); });
+        g.addEventListener("mouseleave", function () { show(pinned); });
+        g.addEventListener("focus", function () { show(n.theme.id); });
+        g.addEventListener("click", function () { pin(n.theme.id); });
+        g.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") { event.preventDefault(); pin(n.theme.id); }
+        });
+      }
+      if (n.kind === "lab") {
+        g.appendChild(svg("circle", { r: n.r }));
+        g.appendChild(svg("text", { y: n.r + 18 }, "XAMI Lab"));
+        g.style.cursor = "default";
+      }
+      if (n.kind === "paper") {
+        g.appendChild(svg("rect", { x: -6, y: -7.5, width: 12, height: 15, rx: 2 }));
+        hint(g, n, n.paper.title, (n.paper.venue ? n.paper.venue + ", " : "") + n.paper.year);
+      }
+      if (n.kind === "person") {
+        var clip = svg("clipPath", { id: "face-" + i });
+        clip.appendChild(svg("circle", { r: n.r }));
+        defs.appendChild(clip);
+        g.appendChild(svg("circle", { class: "ring", r: n.r }));
+        var face = svg("image", { href: n.person.photo, x: -n.r, y: -n.r, width: n.r * 2, height: n.r * 2, preserveAspectRatio: "xMidYMid slice", "clip-path": "url(#face-" + i + ")" });
+        g.appendChild(face);
+        g.appendChild(svg("circle", { class: "frame", r: n.r }));
+        hint(g, n, n.person.name, n.person.role);
+        var name = svg("text", { class: "small-label", x: n.x, y: n.y + n.r + 13, "text-anchor": "middle" }, nameParts(n.person).display.split(" ")[0]);
+        name.themes = n.themes;
+        name.setAttribute("visibility", "hidden");
+        labelLayer.appendChild(name);
+      }
+      if (n.kind === "project") {
+        g.appendChild(svg("circle", { r: n.r }));
+        if (!narrow) g.appendChild(svg("text", { x: -n.r - 8, y: 4 }, n.project.name));
+        hint(g, n, n.project.name, n.project.address + ". A separate website.");
+        g.addEventListener("click", function () { location.hash = "projects"; });
+      }
+      nodeLayer.appendChild(g);
+    });
+
+    var holder = $("map");
+    holder.textContent = "";
+    holder.appendChild(root);
+    show(pinned);
+  }
+
+  function hint(g, n, title, detail) {
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("aria-label", title + ". " + detail);
+    function open() {
+      var tip = $("tip"), area = $("map").getBoundingClientRect();
+      var box = g.getBoundingClientRect();
+      tip.textContent = "";
+      tip.appendChild(el("strong", {}, title));
+      tip.appendChild(el("span", {}, detail));
+      tip.hidden = false;
+      var left = box.left - area.left + box.width / 2 - tip.offsetWidth / 2;
+      left = Math.max(8, Math.min(area.width - tip.offsetWidth - 8, left));
+      var top = box.top - area.top - tip.offsetHeight - 10;
+      if (top < 4) top = box.bottom - area.top + 10;
+      tip.style.left = left + "px";
+      tip.style.top = top + "px";
+    }
+    function close() { $("tip").hidden = true; }
+    g.addEventListener("mouseenter", open);
+    g.addEventListener("mouseleave", close);
+    g.addEventListener("focus", open);
+    g.addEventListener("blur", close);
+  }
+
+  function pin(id) {
+    pinned = pinned === id ? null : id;
+    show(pinned);
+  }
+
+  function show(id) {
+    active = id;
+    var map = $("map");
+    Array.prototype.forEach.call(map.querySelectorAll(".node"), function (g) {
+      var mine = id && g.themes.indexOf(id) > -1;
+      g.classList.toggle("is-on", !!mine);
+      g.classList.toggle("is-dim", !!id && !mine);
+      if (mine) g.style.setProperty("--c", COLOR[id]);
+      else if (g.themes.length === 1) g.style.setProperty("--c", COLOR[g.themes[0]]);
+    });
+    Array.prototype.forEach.call(map.querySelectorAll(".edge"), function (line) {
+      var mine = id && line.themeId === id;
+      line.classList.toggle("is-on", !!mine && !line.spine);
+      line.classList.toggle("is-dim", !!id && !mine);
+      if (mine) line.style.setProperty("--c", COLOR[id]);
+    });
+    Array.prototype.forEach.call(map.querySelectorAll(".small-label"), function (text) {
+      text.setAttribute("visibility", !narrowMap && id && text.themes.indexOf(id) > -1 ? "visible" : "hidden");
+    });
+    Array.prototype.forEach.call($("keys").children, function (button) {
+      button.setAttribute("aria-pressed", String(button.value === pinned));
+    });
+    fillPanel(id);
+  }
+
+  function fillPanel(id) {
+    var panel = $("panel");
+    panel.textContent = "";
+    if (!id) {
+      var title = el("h2");
+      title.appendChild(el("i"));
+      title.appendChild(document.createTextNode("How to read this map"));
+      panel.appendChild(title);
+      panel.appendChild(el("p", {}, "The lab works on four research themes. Lines join each theme to the people who publish in it and to its latest papers. Choose a theme to see who and what belongs to it."));
+      var legend = el("ul", { class: "legend" });
+      [
+        ['<circle cx="14" cy="14" r="10" fill="none" stroke="#5bbef5" stroke-width="4"/><circle cx="14" cy="14" r="3.5" fill="#5bbef5"/>', "A research theme"],
+        ['<circle cx="14" cy="14" r="9" fill="#2b7486" stroke="#e6f3f4" stroke-width="1.5"/>', "A person in the lab"],
+        ['<rect x="8" y="6.5" width="12" height="15" rx="2" fill="#35d6a8"/>', "A recent paper"],
+        ['<circle cx="12" cy="14" r="7" fill="none" stroke="#e6f3f4" stroke-width="2"/><line x1="19" y1="14" x2="28" y2="14" stroke="#a9c8cd" stroke-dasharray="2 4"/>', "A project with its own website"]
+      ].forEach(function (row) {
+        var item = el("li");
+        var icon = svg("svg", { width: 28, height: 28, viewBox: "0 0 28 28", "aria-hidden": "true" });
+        icon.innerHTML = row[0];
+        item.appendChild(icon);
+        item.appendChild(document.createTextNode(row[1]));
+        legend.appendChild(item);
+      });
+      panel.appendChild(legend);
+      panel.appendChild(el("a", { class: "more", href: "#research" }, "Read about all four themes"));
+      return;
+    }
+
+    var theme = themeById(id);
+    panel.style.setProperty("--c", COLOR[id]);
+    var heading = el("h2");
+    var mark = el("i");
+    mark.style.background = COLOR[id];
+    heading.appendChild(mark);
+    heading.appendChild(document.createTextNode(theme.title));
+    panel.appendChild(heading);
+    panel.appendChild(el("p", {}, theme.summary));
+
+    var people = peopleOf[id];
+    if (people.length) {
+      var who = el("div");
+      who.appendChild(el("h3", {}, "People"));
+      var list = el("ul", { class: "people-list" });
+      people.slice(0, 8).forEach(function (entry) {
+        var item = el("li");
+        item.appendChild(photo(entry.person, 28));
+        item.appendChild(document.createTextNode(nameParts(entry.person).display));
+        list.appendChild(item);
+      });
+      if (people.length > 8) list.appendChild(el("li", {}, "and " + (people.length - 8) + " more"));
+      who.appendChild(list);
+      panel.appendChild(who);
+    }
+
+    var what = el("div");
+    var papers = papersOf[id];
+    if (papers.length) {
+      what.appendChild(el("h3", {}, "Latest papers"));
+      var paperList = el("ul", { class: "paper-list" });
+      papers.slice(0, 3).forEach(function (paper) {
+        var item = el("li", {}, paper.title);
+        item.appendChild(el("span", {}, (paper.venue ? paper.venue + ", " : "") + paper.year));
+        paperList.appendChild(item);
+      });
+      what.appendChild(paperList);
+    } else {
+      what.appendChild(el("h3", {}, "What we study"));
+      var topics = el("ul", { class: "paper-list" });
+      theme.topics.forEach(function (topic) { topics.appendChild(el("li", {}, topic)); });
+      what.appendChild(topics);
+    }
+    panel.appendChild(what);
+    panel.appendChild(el("a", { class: "more", href: "#research" },
+      papers.length ? "See all " + papers.length + " papers in this theme" : "Read about this theme"));
+  }
+
+  /* ---- page content ---- */
+  X.nav.concat([{ label: "Projects", href: "#projects" }]).forEach(function (entry) {
+    var anchors = { Mission: "#mission", People: "#people", Research: "#research", Publications: "#publications", News: "#news", "Join us": "#join", Projects: "#projects" };
+    var item = el("li");
+    item.appendChild(el("a", { href: anchors[entry.label] || "#" }, entry.label));
+    $("nav").appendChild(item);
+  });
+  $("intro").textContent = X.intro;
+  $("vision").textContent = X.vision;
+  X.values.forEach(function (value) { $("values").appendChild(el("li", {}, value)); });
+
+  X.themes.forEach(function (theme) {
+    var button = el("button", { type: "button", class: "theme-key", value: theme.id, "aria-pressed": "false" });
+    button.style.setProperty("--c", COLOR[theme.id]);
+    button.appendChild(el("i"));
+    button.appendChild(document.createTextNode(theme.short));
+    button.addEventListener("click", function () { pin(theme.id); });
+    $("keys").appendChild(button);
+
+    var row = el("article", { class: "theme-row" });
+    row.style.setProperty("--c", COLOR[theme.id]);
+    row.appendChild(el("span", { class: "dot" }));
+    var body = el("div");
+    body.appendChild(el("h3", {}, theme.title));
+    body.appendChild(el("p", {}, theme.summary));
+    body.appendChild(el("p", { class: "topics" }, "We study: " + theme.topics.join(", ").toLowerCase() + "."));
+    var count = el("p", { class: "count" });
+    var total = papersOf[theme.id].length;
+    count.appendChild(el("a", { class: "text-link", href: "#" }, total ? "Read more and see " + total + " papers" : "Read more about this theme"));
+    body.appendChild(count);
+    row.appendChild(body);
+    var figure = el("figure");
+    figure.appendChild(el("img", { src: theme.image, alt: "Diagram for " + theme.title, loading: "lazy" }));
+    row.appendChild(figure);
+    $("themes").appendChild(row);
+  });
+
+  X.news.forEach(function (story) {
+    var item = el("li");
+    item.appendChild(el("time", {}, showDate(story.date)));
+    item.appendChild(el("span", { class: "kind" }, story.kind));
+    var body = el("div");
+    body.appendChild(el("h3", {}, story.title));
+    body.appendChild(el("p", {}, story.text));
+    item.appendChild(body);
+    $("news-list").appendChild(item);
+  });
+
+  X.pubs.slice(0, 6).forEach(function (paper) {
+    var item = el("li");
+    var dot = el("span", { class: "dot", title: themeById(paper.theme).short });
+    dot.style.setProperty("--c", COLOR[paper.theme]);
+    item.appendChild(dot);
+    var body = el("div");
+    var title = el("h3");
+    title.appendChild(el("a", { href: "#" }, paper.title));
+    body.appendChild(title);
+    body.appendChild(el("p", {}, authorLine(paper) + (paper.venue ? ". " + paper.venue : "")));
+    item.appendChild(body);
+    item.appendChild(el("span", { class: "year" }, String(paper.year)));
+    $("pub-list").appendChild(item);
+  });
+  $("all-pubs").textContent = "All " + X.pubs.length + " publications";
+
+  X.people.filter(function (p) { return p.group === "Leader"; }).forEach(function (person) {
+    var card = el("div", { class: "leader" });
+    card.appendChild(photo(person, 128));
+    var body = el("div");
+    body.appendChild(el("h3", {}, person.name));
+    body.appendChild(el("p", {}, person.role));
+    card.appendChild(body);
+    $("leaders").appendChild(card);
+  });
+  X.people.filter(function (p) { return p.group === "Researchers"; }).forEach(function (person) {
+    var item = el("li");
+    item.appendChild(photo(person, 60));
+    var body = el("div");
+    body.appendChild(el("strong", {}, person.name));
+    body.appendChild(el("span", {}, person.role));
+    item.appendChild(body);
+    $("crew").appendChild(item);
+  });
+  $("all-people").textContent = "Meet all " + X.people.length + " people, including collaborators and alumni";
+
+  X.projects.forEach(function (project) {
+    var exit = el("div", { class: "exit" });
+    var link = el("a", { href: "#", rel: "external" });
+    link.appendChild(el("h3", {}, project.name));
+    link.appendChild(el("span", { class: "address" }, project.address));
+    exit.appendChild(link);
+    exit.appendChild(el("p", {}, project.text));
+    exit.appendChild(el("span", { class: "leaves" }, "Opens a separate website"));
+    $("exits").appendChild(exit);
+  });
+
+  $("join-lead").textContent = X.join.lead;
+  X.join.options.forEach(function (option) {
+    var item = el("li");
+    item.appendChild(el("strong", {}, option.title));
+    item.appendChild(el("span", {}, option.text));
+    $("join-options").appendChild(item);
+  });
+  $("join-contact").textContent = X.join.contact;
+
+  X.partners.forEach(function (partner) {
+    $("partners").appendChild(el("img", { src: partner.logo, alt: partner.name, loading: "lazy" }));
+  });
+
+  var preset = (location.hash.match(/^#theme-(\w+)$/) || [])[1];
+  if (preset && COLOR[preset]) pinned = preset;
+  buildMap();
+  var waiting;
+  window.addEventListener("resize", function () {
+    clearTimeout(waiting);
+    waiting = setTimeout(buildMap, 150);
+  });
+})();
+</script>
+</body>
+</html>

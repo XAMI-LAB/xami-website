@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>XAMI Lab: try an explanation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /*
+        Design plan
+        Palette: paper #F6F9FB, plate #FFFFFF, ink #12283A, rule #C5D2DC,
+                 approve (logo teal) #0E9F8A, reject (plum) #A8325E, link blue #1668B5
+        Type:    Newsreader for headings and reading text, IBM Plex Sans for figure labels and controls
+        Layout:  left aligned, 12 columns, the hero figure is the only bold element
+      */
+      :root {
+        --paper: #f6f9fb;
+        --plate: #ffffff;
+        --ink: #12283a;
+        --ink-soft: #4a6072;
+        --rule: #c5d2dc;
+        --rule-soft: #e1e8ee;
+        --approve: #0e9f8a;
+        --reject: #a8325e;
+        --link: #1668b5;
+        --deep: #0f2f4a;
+        --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+        --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: 19px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        color: var(--link);
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+      }
+      a:hover {
+        text-decoration-thickness: 2px;
+      }
+      :focus-visible {
+        outline: 3px solid var(--link);
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding-inline: clamp(18px, 4vw, 48px);
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 500;
+        line-height: 1.12;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      h2 {
+        font-size: clamp(30px, 3.4vw, 42px);
+      }
+      h3 {
+        font-size: 23px;
+        line-height: 1.22;
+      }
+      p {
+        margin: 0;
+      }
+      .sans {
+        font-family: var(--sans);
+      }
+
+      /* Header */
+      .top {
+        border-bottom: 1px solid var(--rule);
+        background: var(--paper);
+      }
+      .top .wrap {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding-block: 14px;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        text-decoration: none;
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 17px;
+      }
+      .brand img {
+        width: 34px;
+        height: auto;
+      }
+      .top nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 22px;
+        font-family: var(--sans);
+        font-size: 15px;
+        margin-left: auto;
+      }
+      .top nav a {
+        color: var(--ink);
+        text-decoration: none;
+        padding: 4px 0;
+        border-bottom: 2px solid transparent;
+      }
+      .top nav a:hover {
+        border-bottom-color: var(--approve);
+      }
+
+      /* Hero */
+      .hero {
+        padding-block: clamp(36px, 5vw, 68px) clamp(40px, 5vw, 72px);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+        gap: clamp(28px, 4vw, 64px);
+        align-items: start;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 4.6vw, 60px);
+      }
+      .hero .lede {
+        margin-top: 22px;
+        font-size: 20px;
+        color: var(--ink-soft);
+        max-width: 34ch;
+      }
+      .hero .how {
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 1px solid var(--rule);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.5;
+        color: var(--ink-soft);
+        max-width: 38ch;
+      }
+      .hero .how strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* The interactive figure */
+      .figure {
+        background: var(--plate);
+        border: 1px solid var(--rule);
+        font-family: var(--sans);
+      }
+      .fig-head {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 24px;
+        padding: 24px 28px 22px;
+        border-bottom: 1px solid var(--rule);
+        align-items: end;
+      }
+      .fig-head .who {
+        font-size: 14px;
+        color: var(--ink-soft);
+        line-height: 1.45;
+      }
+      .verdict {
+        font-family: var(--serif);
+        font-size: clamp(30px, 3.2vw, 40px);
+        font-weight: 500;
+        line-height: 1;
+        margin-top: 8px;
+        color: var(--reject);
+      }
+      .figure.is-approved .verdict {
+        color: var(--approve);
+      }
+      .scale {
+        position: relative;
+        height: 62px;
+      }
+      .scale .line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 34px;
+        height: 6px;
+        background: linear-gradient(
+          to right,
+          #ecd3dc 0,
+          #ecd3dc 50%,
+          #cdebe5 50%,
+          #cdebe5 100%
+        );
+      }
+      .scale .threshold {
+        position: absolute;
+        left: 50%;
+        top: 22px;
+        height: 30px;
+        width: 0;
+        border-left: 1.5px dashed var(--ink);
+      }
+      .scale .threshold span {
+        position: absolute;
+        top: -22px;
+        left: 0;
+        transform: translateX(-50%);
+        font-size: 12.5px;
+        white-space: nowrap;
+        color: var(--ink-soft);
+      }
+      .scale .dot {
+        position: absolute;
+        top: 27px;
+        width: 20px;
+        height: 20px;
+        margin-left: -10px;
+        border-radius: 50%;
+        background: var(--reject);
+        border: 3px solid var(--plate);
+        box-shadow: 0 0 0 1.5px var(--reject);
+        transition: left 0.25s ease;
+      }
+      .figure.is-approved .scale .dot {
+        background: var(--approve);
+        box-shadow: 0 0 0 1.5px var(--approve);
+      }
+      .scale .ends {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 46px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        color: var(--ink-soft);
+      }
+      .score-note {
+        font-size: 14px;
+        color: var(--ink-soft);
+        margin-top: 2px;
+      }
+      .score-note b {
+        color: var(--ink);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .fig-cols,
+      .row {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 24px;
+        padding-inline: 28px;
+      }
+      .fig-cols {
+        padding-top: 16px;
+        padding-bottom: 8px;
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
+      .fig-cols .axis {
+        display: flex;
+        justify-content: space-between;
+      }
+      .row {
+        padding-block: 13px;
+        border-top: 1px solid var(--rule-soft);
+        align-items: center;
+      }
+      .row label {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .row output {
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .row input[type="range"] {
+        width: 100%;
+        margin: 8px 0 0;
+        accent-color: var(--ink);
+        height: 22px;
+      }
+      .track {
+        position: relative;
+        height: 30px;
+      }
+      .track::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -13px;
+        bottom: -13px;
+        border-left: 1px solid var(--ink);
+      }
+      .bar {
+        position: absolute;
+        top: 4px;
+        height: 22px;
+        background: var(--reject);
+        transition:
+          width 0.25s ease,
+          left 0.25s ease,
+          right 0.25s ease;
+      }
+      .bar.pos {
+        left: 50%;
+        background: var(--approve);
+      }
+      .bar.neg {
+        right: 50%;
+      }
+      .bar-val {
+        position: absolute;
+        top: 4px;
+        line-height: 22px;
+        font-size: 13.5px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        transition:
+          left 0.25s ease,
+          right 0.25s ease;
+      }
+      .bar-val.pos {
+        color: #0a7464;
+      }
+      .bar-val.neg {
+        color: var(--reject);
+      }
+      .answer {
+        margin-top: 4px;
+        padding: 20px 28px 22px;
+        border-top: 1px solid var(--rule);
+        background: #f1f6f9;
+      }
+      .answer .q {
+        font-size: 14px;
+        color: var(--ink-soft);
+      }
+      .answer p.a {
+        font-family: var(--serif);
+        font-size: 21px;
+        line-height: 1.4;
+        margin-top: 6px;
+        max-width: 62ch;
+      }
+      .answer ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+        font-family: var(--serif);
+        font-size: 19px;
+        line-height: 1.45;
+      }
+      .answer button {
+        margin-top: 14px;
+        font: 500 14px var(--sans);
+        color: var(--ink);
+        background: var(--plate);
+        border: 1px solid var(--ink);
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+      .answer button:hover {
+        background: var(--ink);
+        color: #fff;
+      }
+      figcaption,
+      .caption {
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink-soft);
+        margin-top: 12px;
+      }
+      figcaption b,
+      .caption b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      figure {
+        margin: 0;
+      }
+
+      /* Sections */
+      section {
+        padding-block: clamp(44px, 6vw, 84px);
+        border-top: 1px solid var(--rule);
+      }
+      .split {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+        gap: clamp(24px, 4vw, 64px);
+      }
+      .split > header p {
+        margin-top: 14px;
+        color: var(--ink-soft);
+        font-size: 18px;
+        max-width: 32ch;
+      }
+      .more {
+        display: inline-block;
+        margin-top: 18px;
+        font-family: var(--sans);
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      /* About */
+      .about-body p {
+        max-width: 64ch;
+      }
+      .about-body p + p {
+        margin-top: 16px;
+      }
+      .vision {
+        font-size: clamp(23px, 2.3vw, 29px);
+        line-height: 1.32;
+        max-width: 30em;
+      }
+      .values {
+        list-style: none;
+        margin: 28px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border-top: 1px solid var(--ink);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.35;
+      }
+      .values li {
+        padding: 12px 16px 0 0;
+      }
+
+      /* Themes as figures */
+      .themes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 56px);
+        margin-top: 40px;
+      }
+      .theme .plate {
+        background: var(--plate);
+        border: 1px solid var(--rule);
+        aspect-ratio: 16 / 9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+      .theme .plate img {
+        max-height: 100%;
+        width: auto;
+        object-fit: contain;
+      }
+      .theme h3 {
+        margin-top: 8px;
+      }
+      .theme h3 a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .theme h3 a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+      .theme .sum {
+        margin-top: 8px;
+        font-size: 18px;
+        color: var(--ink-soft);
+      }
+      .notes {
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+        font-family: var(--sans);
+        font-size: 14.5px;
+        line-height: 1.4;
+        columns: 2;
+        column-gap: 24px;
+      }
+      .notes li {
+        break-inside: avoid;
+        padding: 5px 0 5px 14px;
+        border-left: 2px solid var(--approve);
+        margin-bottom: 6px;
+      }
+
+      /* News and publications */
+      .list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid var(--ink);
+      }
+      .list li {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 20px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--rule);
+      }
+      .list .when {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        color: var(--ink-soft);
+        padding-top: 4px;
+        line-height: 1.4;
+      }
+      .list .when b {
+        display: block;
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .list h3 {
+        font-size: 21px;
+      }
+      .list h3 a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .list h3 a:hover {
+        color: var(--link);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+      .list .sub {
+        font-size: 17px;
+        color: var(--ink-soft);
+        margin-top: 4px;
+        max-width: 68ch;
+      }
+      .list .venue {
+        font-style: italic;
+      }
+
+      /* People */
+      .leaders {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px;
+        border-top: 1px solid var(--ink);
+        padding-top: 22px;
+      }
+      .leader {
+        display: grid;
+        grid-template-columns: 124px minmax(0, 1fr);
+        gap: 18px;
+        align-items: center;
+      }
+      .photo {
+        background: #dfe8ee;
+        object-fit: cover;
+        width: 100%;
+        aspect-ratio: 1;
+      }
+      .leader .role,
+      .member .role {
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.4;
+        color: var(--ink-soft);
+        margin-top: 4px;
+      }
+      .members {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 26px 22px;
+        margin-top: 36px;
+      }
+      .member .name {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.3;
+        margin-top: 10px;
+      }
+      .group-label {
+        font-family: var(--sans);
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 40px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .group-label + .members {
+        margin-top: 20px;
+      }
+
+      /* Projects */
+      .projects {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid var(--ink);
+      }
+      .projects a {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px 20px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--rule);
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .projects a:hover .pname {
+        color: var(--link);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+      .projects .pname {
+        font-size: 21px;
+        font-weight: 500;
+      }
+      .projects .ptext {
+        font-size: 17px;
+        color: var(--ink-soft);
+        grid-column: 1;
+      }
+      .projects .addr {
+        font-family: var(--sans);
+        font-size: 14.5px;
+        color: var(--link);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        grid-row: 1 / span 2;
+        grid-column: 2;
+        align-self: center;
+      }
+      .projects svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
+      }
+
+      /* Join */
+      .join-lead {
+        font-size: clamp(22px, 2.2vw, 27px);
+        line-height: 1.35;
+        max-width: 30em;
+      }
+      .options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px;
+        margin-top: 30px;
+        border-top: 1px solid var(--ink);
+      }
+      .options div {
+        padding-top: 14px;
+      }
+      .options h3 {
+        font-size: 21px;
+      }
+      .options p {
+        font-size: 17px;
+        color: var(--ink-soft);
+        margin-top: 6px;
+      }
+      .button {
+        display: inline-block;
+        margin-top: 30px;
+        font: 500 16px var(--sans);
+        background: var(--ink);
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 20px;
+      }
+      .button:hover {
+        background: var(--link);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--deep);
+        color: #d8e4ee;
+        font-family: var(--sans);
+        font-size: 15px;
+        padding-block: 48px 40px;
+      }
+      footer .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+        gap: 36px;
+      }
+      footer .word {
+        width: 250px;
+      }
+      footer h2 {
+        font: 600 14px var(--sans);
+        color: #fff;
+        letter-spacing: 0;
+        margin-bottom: 14px;
+      }
+      footer a {
+        color: #fff;
+      }
+      footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        line-height: 1.9;
+      }
+      .partners {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 26px;
+        align-items: center;
+      }
+      .partners img {
+        height: 46px;
+        width: auto;
+        max-width: 130px;
+        object-fit: contain;
+      }
+      footer .fine {
+        margin-top: 36px;
+        padding-top: 18px;
+        border-top: 1px solid #2f4d67;
+        font-size: 13.5px;
+        color: #a9bccb;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .split {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .hero .lede,
+        .hero .how,
+        .split > header p {
+          max-width: 60ch;
+        }
+        .members {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        footer .cols {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      @media (max-width: 700px) {
+        body {
+          font-size: 18px;
+        }
+        .top nav {
+          margin-left: 0;
+          gap: 2px 18px;
+        }
+        .fig-head,
+        .row {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 12px;
+        }
+        .fig-head,
+        .fig-cols,
+        .row,
+        .answer {
+          padding-inline: 16px;
+        }
+        .fig-cols {
+          display: block;
+        }
+        .fig-cols > span:first-child {
+          display: none;
+        }
+        .track::before {
+          top: -4px;
+          bottom: -4px;
+        }
+        .themes,
+        .leaders,
+        .options,
+        .values {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .values li {
+          padding: 10px 0;
+          border-bottom: 1px solid var(--rule);
+        }
+        .values {
+          border-top: 1px solid var(--ink);
+        }
+        .members {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .list li {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 4px;
+        }
+        .list .when b {
+          display: inline;
+          margin-right: 8px;
+        }
+        .projects a {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .projects .addr {
+          grid-row: auto;
+          grid-column: 1;
+          margin-top: 4px;
+        }
+        .notes {
+          columns: 1;
+        }
+        .leader {
+          grid-template-columns: 92px minmax(0, 1fr);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .bar,
+        .bar-val,
+        .scale .dot {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap">
+        <a class="brand" href="#">
+          <img src="assets/xami-mark.png" alt="" />
+          XAMI Lab
+        </a>
+        <nav aria-label="Main" id="nav"></nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <h1>An AI said no. We make it say why.</h1>
+            <p class="lede" id="intro"></p>
+            <p class="how">
+              <strong>Try it.</strong> This loan application was rejected. Move
+              any slider to change the application and watch the decision, the
+              reasons and the answer update.
+            </p>
+          </div>
+
+          <figure>
+            <div class="figure" id="figure">
+              <div class="fig-head">
+                <div>
+                  <div class="who">The model's decision</div>
+                  <div class="verdict" id="verdict" aria-live="polite">
+                    Rejected
+                  </div>
+                  <div class="score-note">
+                    Score <b id="score">0</b> out of 100. Approval needs 50.
+                  </div>
+                </div>
+                <div class="scale" aria-hidden="true">
+                  <div class="line"></div>
+                  <div class="threshold"><span>Approved from 50</span></div>
+                  <div class="dot" id="dot"></div>
+                  <div class="ends"><span>0</span><span>100</span></div>
+                </div>
+              </div>
+              <div class="fig-cols">
+                <span>The application</span>
+                <span class="axis">
+                  <span>Pushes towards reject</span>
+                  <span>Pushes towards approve</span>
+                </span>
+              </div>
+              <div id="rows"></div>
+              <div class="answer">
+                <div class="q" id="question">
+                  What would have to change for this loan to be approved?
+                </div>
+                <div id="answer" aria-live="polite"></div>
+                <button type="button" id="reset">
+                  Reset to the original application
+                </button>
+              </div>
+            </div>
+            <figcaption>
+              <b>Figure 1.</b> How each detail of the application moved the
+              decision, compared with a typical applicant. This is a small
+              example model made for this page, not a real lending system.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <section id="about">
+        <div class="wrap split">
+          <header>
+            <h2>What the lab does</h2>
+          </header>
+          <div class="about-body">
+            <p class="vision" id="vision"></p>
+            <p style="margin-top: 20px; color: var(--ink-soft)">
+              The figure above is the idea in miniature. Our research builds
+              the methods behind explanations like it, for models far larger
+              than this one, in hospitals, businesses and government.
+            </p>
+            <ul class="values" id="values"></ul>
+            <a class="more" href="#">Read our mission</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="research">
+        <div class="wrap">
+          <h2>Four research themes</h2>
+          <div class="themes" id="themes"></div>
+        </div>
+      </section>
+
+      <section id="news">
+        <div class="wrap split">
+          <header>
+            <h2>News</h2>
+            <p>People, papers and milestones from the lab.</p>
+            <a class="more" href="#">All news</a>
+          </header>
+          <ul class="list" id="newslist"></ul>
+        </div>
+      </section>
+
+      <section id="publications">
+        <div class="wrap split">
+          <header>
+            <h2>Recent publications</h2>
+            <p>The six most recent papers from the lab.</p>
+            <a class="more" href="#" id="allpubs">All publications</a>
+          </header>
+          <ul class="list" id="publist"></ul>
+        </div>
+      </section>
+
+      <section id="people">
+        <div class="wrap split">
+          <header>
+            <h2>People</h2>
+            <p>
+              Researchers at QUT and UTS, with partners in Lisbon, Leuven and
+              Bangalore.
+            </p>
+            <a class="more" href="#"
+              >Everyone in the lab, with collaborators and alumni</a
+            >
+          </header>
+          <div>
+            <div class="leaders" id="leaders"></div>
+            <div class="group-label">Researchers and students</div>
+            <div class="members" id="members"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="wrap split">
+          <header>
+            <h2>Project sites</h2>
+            <p>
+              Some projects have their own website. These links leave this
+              site and open the project's own pages.
+            </p>
+          </header>
+          <ul class="projects" id="projectlist"></ul>
+        </div>
+      </section>
+
+      <section id="join">
+        <div class="wrap split">
+          <header>
+            <h2>Join us</h2>
+          </header>
+          <div>
+            <p class="join-lead" id="joinlead"></p>
+            <div class="options" id="options"></div>
+            <a class="button" href="#" id="contact"></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div class="cols">
+          <div>
+            <img
+              class="word"
+              src="assets/xami-long-white.png"
+              alt="XAMI Lab, supporting human-machine collaboration and co-evolution"
+            />
+          </div>
+          <div>
+            <h2>Research affiliations</h2>
+            <div class="partners" id="partners"></div>
+          </div>
+          <div>
+            <h2>About</h2>
+            <ul>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="fine">
+          Explainable Analytics for Machine Intelligence (XAMI) Lab, Brisbane,
+          Australia.
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/data.js"></script>
+    <script src="assets/mock-bar.js"></script>
+    <script>
+      (function () {
+        var X = window.XAMI;
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var esc = function (s) {
+          return String(s).replace(/[&<>"]/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+          });
+        };
+
+        /* ---------- The example model ----------
+           score = 62 (a typical applicant) + the sum of
+           weight x (value - typical value) for every detail.
+           A score of 50 or more is approved. */
+        var BASE = 62;
+        var THRESHOLD = 50;
+        var money = function (v) {
+          return "$" + (v * 1000).toLocaleString("en-AU");
+        };
+        var features = [
+          {
+            id: "income", label: "Annual income", min: 30, max: 200, step: 1,
+            start: 58, typical: 75, weight: 0.35, show: money,
+            say: function (to, from) {
+              return "annual income were " + money(to) + " instead of " + money(from);
+            },
+          },
+          {
+            id: "debt", label: "Existing debt", min: 0, max: 80, step: 1,
+            start: 32, typical: 20, weight: -0.5, show: money,
+            say: function (to, from) {
+              return "existing debt were " + (to === 0 ? "cleared" : money(to)) + " instead of " + money(from);
+            },
+          },
+          {
+            id: "loan", label: "Loan requested", min: 5, max: 100, step: 1,
+            start: 45, typical: 30, weight: -0.3, show: money,
+            say: function (to, from) {
+              return "the loan requested were " + money(to) + " instead of " + money(from);
+            },
+          },
+          {
+            id: "missed", label: "Missed payments, last 2 years", min: 0, max: 6, step: 1,
+            start: 2, typical: 0, weight: -6,
+            show: function (v) { return String(v); },
+            say: function (to, from) {
+              return "there were " + (to === 0 ? "no" : to) + " missed payment" + (to === 1 ? "" : "s") + " instead of " + from;
+            },
+          },
+          {
+            id: "history", label: "Credit history", min: 0, max: 25, step: 1,
+            start: 3, typical: 8, weight: 1.5,
+            show: function (v) { return v + (v === 1 ? " year" : " years"); },
+            say: function (to, from) {
+              return "credit history were " + to + " years instead of " + from;
+            },
+          },
+        ];
+        var values = {};
+        var contribution = function (f, v) {
+          return f.weight * (v - f.typical);
+        };
+        var scoreOf = function (vals) {
+          var s = BASE;
+          features.forEach(function (f) {
+            s += contribution(f, vals[f.id]);
+          });
+          return s;
+        };
+        var approved = function (s) {
+          return s >= THRESHOLD;
+        };
+
+        // Smallest change to one detail that flips the decision, or null.
+        function flipOne(f, vals) {
+          var now = approved(scoreOf(vals));
+          var helps = (f.weight > 0) === !now ? 1 : -1;
+          var trial = Object.assign({}, vals);
+          for (var v = vals[f.id] + helps * f.step; v >= f.min && v <= f.max; v += helps * f.step) {
+            trial[f.id] = v;
+            if (approved(scoreOf(trial)) !== now) return v;
+          }
+          return null;
+        }
+        // When no single change is enough, combine the strongest changes.
+        function flipSeveral(vals) {
+          var now = approved(scoreOf(vals));
+          var trial = Object.assign({}, vals);
+          var ranked = features
+            .filter(function (f) { return f.id !== "history"; })
+            .map(function (f) {
+              var best = (f.weight > 0) === !now ? f.max : f.min;
+              return { f: f, best: best, gain: Math.abs(f.weight * (best - vals[f.id])) };
+            })
+            .sort(function (a, b) { return b.gain - a.gain; });
+          var changes = [];
+          for (var i = 0; i < ranked.length; i++) {
+            var r = ranked[i];
+            if (r.gain === 0) continue;
+            var enough = flipOne(r.f, trial);
+            if (enough !== null) {
+              changes.push({ f: r.f, to: enough });
+              return changes;
+            }
+            trial[r.f.id] = r.best;
+            changes.push({ f: r.f, to: r.best });
+          }
+          return null;
+        }
+
+        var rows = $("rows");
+        features.forEach(function (f) {
+          values[f.id] = f.start;
+          var row = document.createElement("div");
+          row.className = "row";
+          row.innerHTML =
+            "<div>" +
+            '<label for="in-' + f.id + '"><span>' + esc(f.label) + "</span>" +
+            '<output id="out-' + f.id + '"></output></label>' +
+            '<input type="range" id="in-' + f.id + '" min="' + f.min + '" max="' + f.max +
+            '" step="' + f.step + '" value="' + f.start + '" />' +
+            "</div>" +
+            '<div class="track"><div class="bar" id="bar-' + f.id + '"></div>' +
+            '<div class="bar-val" id="val-' + f.id + '"></div></div>';
+          rows.appendChild(row);
+          row.querySelector("input").addEventListener("input", function (e) {
+            values[f.id] = Number(e.target.value);
+            draw();
+          });
+        });
+
+        var SPAN = 32; // points shown on each side of the centre line
+        function draw() {
+          var score = scoreOf(values);
+          var shown = Math.max(0, Math.min(100, Math.round(score)));
+          var ok = approved(score);
+          $("figure").classList.toggle("is-approved", ok);
+          $("verdict").textContent = ok ? "Approved" : "Rejected";
+          $("score").textContent = shown;
+          $("dot").style.left = Math.max(0, Math.min(100, score)) + "%";
+
+          features.forEach(function (f) {
+            var v = values[f.id];
+            var c = contribution(f, v);
+            var width = Math.min(50, (Math.abs(c) / SPAN) * 50);
+            var bar = $("bar-" + f.id);
+            var val = $("val-" + f.id);
+            var side = c >= 0 ? "pos" : "neg";
+            bar.className = "bar " + side;
+            bar.style.width = width + "%";
+            val.className = "bar-val " + side;
+            val.textContent = (c > 0 ? "+" : c < 0 ? "−" : "") + Math.abs(c).toFixed(1);
+            val.style.left = val.style.right = "";
+            if (c >= 0) val.style.left = "calc(" + (50 + width) + "% + 7px)";
+            else val.style.right = "calc(" + (50 + width) + "% + 7px)";
+            $("out-" + f.id).textContent = f.show(v);
+            $("in-" + f.id).setAttribute("aria-valuetext", f.show(v));
+          });
+
+          $("question").textContent = ok
+            ? "What would make the model reject this loan?"
+            : "What would have to change for this loan to be approved?";
+          var outcome = ok ? "rejected" : "approved";
+          var singles = [];
+          features.forEach(function (f) {
+            var to = flipOne(f, values);
+            if (to !== null)
+              singles.push({
+                f: f, to: to,
+                size: Math.abs(to - values[f.id]) / (f.max - f.min),
+                slow: f.id === "history",
+              });
+          });
+          singles.sort(function (a, b) {
+            return a.slow - b.slow || a.size - b.size;
+          });
+          var html;
+          if (singles.length === 1) {
+            html = '<p class="a">It would be ' + outcome + " if " +
+              esc(singles[0].f.say(singles[0].to, values[singles[0].f.id])) + ".</p>";
+          } else if (singles.length > 1) {
+            html = '<p class="a">Any one of these changes would be enough. It would be ' +
+              outcome + " if:</p><ul>" +
+              singles.slice(0, 3).map(function (s) {
+                return "<li>" + esc(s.f.say(s.to, values[s.f.id])) +
+                  (s.slow && !ok ? ", which only time can change" : "") + "</li>";
+              }).join("") + "</ul>";
+          } else {
+            var combo = flipSeveral(values);
+            html = combo
+              ? '<p class="a">No single change is enough. It would be ' + outcome +
+                " if " + combo.map(function (c) {
+                  return esc(c.f.say(c.to, values[c.f.id]));
+                }).join(", and ") + ".</p>"
+              : '<p class="a">Within the limits of this example, no change to the application would alter the decision.</p>';
+          }
+          $("answer").innerHTML = html;
+        }
+        $("reset").addEventListener("click", function () {
+          features.forEach(function (f) {
+            values[f.id] = f.start;
+            $("in-" + f.id).value = f.start;
+          });
+          draw();
+        });
+        draw();
+
+        /* ---------- Page content ---------- */
+        var anchors = {
+          Mission: "#about", People: "#people", Research: "#research",
+          Publications: "#publications", News: "#news", "Join us": "#join",
+        };
+        var nav = X.nav.slice();
+        nav.splice(nav.length - 1, 0, { label: "Projects", href: "#projects" });
+        $("nav").innerHTML = nav.map(function (n) {
+          return '<a href="' + (n.label === "Projects" ? "#projects" : anchors[n.label] || "#") +
+            '">' + esc(n.label) + "</a>";
+        }).join("");
+
+        $("intro").textContent = X.intro;
+        $("vision").textContent = X.vision;
+        $("values").innerHTML = X.values.map(function (v) {
+          return "<li>" + esc(v) + "</li>";
+        }).join("");
+
+        var letters = ["a", "b", "c", "d"];
+        $("themes").innerHTML = X.themes.map(function (t, i) {
+          return '<figure class="theme">' +
+            '<div class="plate"><img src="' + t.image + '" alt="Diagram for ' + esc(t.title) + '" loading="lazy" /></div>' +
+            '<figcaption><b>Figure 2' + letters[i] + ".</b></figcaption>" +
+            '<h3><a href="#">' + esc(t.title) + "</a></h3>" +
+            '<p class="sum">' + esc(t.summary) + "</p>" +
+            '<ul class="notes">' + t.topics.map(function (k) {
+              return "<li>" + esc(k) + "</li>";
+            }).join("") + "</ul></figure>";
+        }).join("");
+
+        var months = ["January", "February", "March", "April", "May", "June", "July",
+          "August", "September", "October", "November", "December"];
+        var when = function (d) {
+          var p = String(d).split("-");
+          return p[1] ? months[Number(p[1]) - 1] + " " + p[0] : p[0];
+        };
+        $("newslist").innerHTML = X.news.map(function (n) {
+          return '<li><div class="when"><b>' + esc(when(n.date)) + "</b>" + esc(n.kind) +
+            '</div><div><h3><a href="#">' + esc(n.title) + '</a></h3><p class="sub">' +
+            esc(n.text) + "</p></div></li>";
+        }).join("");
+
+        $("allpubs").textContent = "All " + X.pubs.length + " publications";
+        $("publist").innerHTML = X.pubs.slice(0, 6).map(function (p) {
+          var link = p.doi ? "https://doi.org/" + p.doi : p.url || "#";
+          var names = p.authors.length > 5
+            ? p.authors.slice(0, 5).join(", ") + " and " + (p.authors.length - 5) + " more"
+            : p.authors.join(", ");
+          return '<li><div class="when"><b>' + esc(when(p.date ? p.date.slice(0, 7) : p.year)) +
+            "</b></div><div><h3><a href=\"" + esc(link) + '">' + esc(p.title) +
+            '</a></h3><p class="sub">' + esc(names) +
+            (p.venue ? '. <span class="venue">' + esc(p.venue) + "</span>" : "") +
+            "</p></div></li>";
+        }).join("");
+
+        var photo = function (p) {
+          return '<img class="photo" src="' + esc(p.photo) + '" alt="Portrait of ' +
+            esc(p.name) + '" loading="lazy" />';
+        };
+        $("leaders").innerHTML = X.people
+          .filter(function (p) { return p.group === "Leader"; })
+          .map(function (p) {
+            return '<div class="leader">' + photo(p) + "<div><h3>" + esc(p.name) +
+              '</h3><p class="role">' + esc(p.role.replace(/ @/g, ", ")) + "</p></div></div>";
+          }).join("");
+        $("members").innerHTML = X.people
+          .filter(function (p) { return p.group === "Researchers"; })
+          .map(function (p) {
+            return '<div class="member">' + photo(p) + '<div class="name">' + esc(p.name) +
+              '</div><p class="role">' + esc(p.role.split(",")[0]) + "</p></div>";
+          }).join("");
+
+        var out =
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6.5 3H3v10h10V9.5M9 3h4v4M13 3 7.5 8.5"/></svg>';
+        $("projectlist").innerHTML = X.projects.map(function (p) {
+          return '<li><a href="#" rel="external"><span class="pname">' + esc(p.name) +
+            '</span><span class="addr">' + esc(p.address) + out +
+            '</span><span class="ptext">' + esc(p.text) +
+            " Opens a separate website.</span></a></li>";
+        }).join("");
+
+        $("joinlead").textContent = X.join.lead;
+        $("options").innerHTML = X.join.options.map(function (o) {
+          return "<div><h3>" + esc(o.title) + "</h3><p>" + esc(o.text) + "</p></div>";
+        }).join("");
+        $("contact").textContent = X.join.contact;
+
+        $("partners").innerHTML = X.partners.map(function (p) {
+          return '<img src="' + p.logo + '" alt="' + esc(p.name) + '" />';
+        }).join("");
+      })();
+    </script>
+  </body>
+</html>

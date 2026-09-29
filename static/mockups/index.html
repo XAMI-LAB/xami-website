@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>XAMI Lab website: homepage designs</title>
+    <style>
+      :root {
+        --ink: #14212b;
+        --soft: #51626f;
+        --line: #d5dde3;
+        --ground: #f3f6f8;
+        --paper: #ffffff;
+        --link: #0b6f8f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--ink);
+        font:
+          17px/1.55 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      header {
+        padding: 56px 0 28px;
+      }
+      header img {
+        width: 52px;
+        height: auto;
+        display: block;
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-size: clamp(30px, 4.4vw, 46px);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 0 0 16px;
+        max-width: 20ch;
+      }
+      header p {
+        max-width: 66ch;
+        margin: 0 0 10px;
+        color: var(--soft);
+      }
+      header p strong {
+        color: var(--ink);
+      }
+      h2 {
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        margin: 0 0 18px;
+      }
+      .designs {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 28px 24px;
+      }
+      .designs a {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+      }
+      .designs img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        object-position: top;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+      }
+      .designs a:hover img,
+      .designs a:focus-visible img {
+        border-color: var(--link);
+        outline: 3px solid color-mix(in srgb, var(--link) 35%, transparent);
+      }
+      .designs a:focus-visible {
+        outline: none;
+      }
+      .designs h3 {
+        font-size: 19px;
+        margin: 14px 0 4px;
+      }
+      .designs h3 span {
+        color: var(--soft);
+        font-weight: 400;
+      }
+      .designs p {
+        margin: 0 0 6px;
+        color: var(--soft);
+        font-size: 15.5px;
+      }
+      .designs p.fit {
+        color: var(--ink);
+      }
+      section {
+        padding: 28px 0 40px;
+      }
+      .ask {
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        padding: 44px 0 96px;
+      }
+      .ask ol {
+        margin: 0;
+        padding-left: 22px;
+        max-width: 70ch;
+      }
+      .ask li {
+        margin-bottom: 10px;
+      }
+      .ask .notes {
+        margin-top: 28px;
+        color: var(--soft);
+        font-size: 15.5px;
+        max-width: 70ch;
+      }
+      .ask .notes li {
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <img src="assets/xami-mark.png" alt="XAMI Lab" />
+        <h1>Seven ideas for the new XAMI Lab homepage</h1>
+        <p>
+          Each design is a different idea of what the lab's website could be,
+          not the same page in different colours. All of them use the lab's
+          real people, papers and research themes.
+        </p>
+        <p>
+          <strong>Open each one and use it as a visitor would.</strong> Only
+          the homepage exists at this stage, so links to other pages do not go
+          anywhere yet. The bar at the bottom of each design moves to the next
+          one.
+        </p>
+      </header>
+
+      <section aria-labelledby="designs-title">
+        <h2 id="designs-title">The designs</h2>
+        <ul class="designs">
+          <li>
+            <a href="explain.html">
+              <img src="assets/thumb-explain.jpg" alt="" />
+              <h3><span>1</span> Try an explanation</h3>
+              <p>
+                The page opens with a working example: an AI rejects a loan,
+                and the visitor sees why and what would change the result.
+              </p>
+              <p class="fit">
+                Fits if the lab wants visitors to understand its research in
+                the first ten seconds.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="map.html">
+              <img src="assets/thumb-map.jpg" alt="" />
+              <h3><span>2</span> Research map</h3>
+              <p>
+                A map of the lab drawn like its logo: themes, people and papers
+                as connected points that light up when chosen.
+              </p>
+              <p class="fit">
+                Fits if the lab wants to show how its people and topics
+                connect.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="paper.html">
+              <img src="assets/thumb-paper.jpg" alt="" />
+              <h3><span>3</span> Working paper</h3>
+              <p>
+                The homepage reads like a well typeset research paper about the
+                lab, with an abstract, figures, side notes and references.
+              </p>
+              <p class="fit">
+                Fits if the main visitors are other researchers and the lab
+                prefers a calm, scholarly feel.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="timeline.html">
+              <img src="assets/thumb-timeline.jpg" alt="" />
+              <h3><span>4</span> Lab timeline</h3>
+              <p>
+                News, papers, graduations and talks on one line through time,
+                newest first, with filters.
+              </p>
+              <p class="fit">
+                Fits if the lab will post news regularly and wants to look
+                active.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="people.html">
+              <img src="assets/thumb-people.jpg" alt="" />
+              <h3><span>5</span> People first</h3>
+              <p>
+                The team's faces lead the page, and every theme, paper and news
+                item shows who is behind it.
+              </p>
+              <p class="fit">
+                Fits if the lab wants to attract students and partners, and to
+                feel approachable.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="poster.html">
+              <img src="assets/thumb-poster.jpg" alt="" />
+              <h3><span>6</span> Four themes</h3>
+              <p>
+                Four bold colour panels, one per research theme. Each colour
+                then marks the papers and people of that theme.
+              </p>
+              <p class="fit">
+                Fits if the four themes are the lab's identity and should be
+                remembered.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="finder.html">
+              <img src="assets/thumb-finder.jpg" alt="" />
+              <h3><span>7</span> Search first</h3>
+              <p>
+                The page is a tool: one search field that finds any paper,
+                person or topic, above a compact index of the whole lab.
+              </p>
+              <p class="fit">
+                Fits if visitors mostly come to find a specific paper or
+                person.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ask">
+      <div class="wrap">
+        <h2>What we would like to hear from you</h2>
+        <ol>
+          <li>
+            Which one or two designs feel most like the lab? Which one
+            definitely does not?
+          </li>
+          <li>
+            Who is the most important visitor: other researchers, future
+            students, industry and clinical partners, or the public?
+          </li>
+          <li>
+            What should a visitor see first: what the lab studies, who is in
+            it, its latest papers, or its latest news?
+          </li>
+          <li>
+            Is there a part of one design you would like to see inside
+            another? For example the search from design 7 inside design 5.
+          </li>
+        </ol>
+        <ul class="notes">
+          <li>
+            News and Join us are new sections. The wording is a sample based on
+            real lab events, to show how the sections would look.
+          </li>
+          <li>
+            Project sites are separate websites with their own look. The three
+            shown are placeholders for where the links would go.
+          </li>
+          <li>
+            Papers are sorted into themes automatically by title for these
+            mockups, so some may be under the wrong theme.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
