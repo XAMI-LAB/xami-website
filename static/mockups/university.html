@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>XAMI Lab | Explainable Analytics for Machine Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#061B3F; --blue:#0A2F6B; --blue-2:#12448F; --teal:#11B5A1; --teal-ink:#087867;
+  --ink:#14213A; --soft:#4C5A73; --rule:#D5DCE8; --ground:#F3F6FA; --white:#fff;
+  --wrap:1240px; --pad:32px;
+  --font:"Libre Franklin","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:400 17px/1.6 var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--blue-2)}
+a:hover{color:var(--navy)}
+h1,h2,h3,h4{margin:0;line-height:1.18;letter-spacing:-.012em;color:var(--navy)}
+p{margin:0 0 1em}
+ul{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
+.skip{position:absolute;left:-999px;top:0;background:var(--teal);color:var(--navy);padding:10px 16px;font-weight:700;z-index:100}
+.skip:focus{left:8px;top:8px}
+
+/* Top bar */
+.topbar{background:var(--navy);color:#C9D5EA;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;min-height:38px}
+.topbar p{margin:0}
+.topbar a{color:#fff;text-decoration:none}
+.topbar a:hover{text-decoration:underline}
+.topbar ul{display:flex;gap:0}
+.topbar li+li{border-left:1px solid #2B426D;margin-left:14px;padding-left:14px}
+
+/* Main bar */
+.mainbar{background:#fff;border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.mainbar .wrap{display:flex;align-items:stretch;justify-content:space-between;gap:20px;min-height:84px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--navy);padding:10px 0}
+.brand img{width:52px;height:auto}
+.brand b{display:block;font-size:23px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.brand span{display:block;font-size:12.5px;line-height:1.3;color:var(--soft);max-width:210px;margin-top:3px}
+.menu{display:flex;align-items:stretch}
+.menu>li{position:relative;display:flex;align-items:stretch}
+.menu>li>a,.menu>li>button{display:flex;align-items:center;gap:7px;padding:0 13px;background:none;border:0;border-bottom:4px solid transparent;border-top:4px solid transparent;
+  font-weight:600;font-size:15.5px;color:var(--navy);text-decoration:none;cursor:pointer;white-space:nowrap}
+.menu>li>a:hover,.menu>li>button:hover,.menu>li.open>button{border-bottom-color:var(--teal);background:var(--ground)}
+.menu>li>a[aria-current="page"],.menu>li.current>button{border-bottom-color:var(--blue)}
+.menu .chev{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.menu li.open .chev{transform:translateY(2px) rotate(225deg)}
+.menu .cta{align-self:center;margin-left:12px;background:var(--blue);color:#fff !important;border:0 !important;padding:12px 18px !important;border-radius:2px}
+.menu .cta:hover{background:var(--navy) !important}
+.panel{position:absolute;top:100%;left:0;width:560px;background:#fff;border:1px solid var(--rule);border-top:4px solid var(--teal);box-shadow:0 18px 40px rgba(6,27,63,.16);
+  padding:10px;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .18s,transform .18s,visibility 0s .18s}
+.panel.right{left:auto;right:0;width:400px}
+.menu li.open>.panel{opacity:1;visibility:visible;transform:none;transition:opacity .18s,transform .18s}
+.panel a{display:grid;grid-template-columns:10px 1fr;gap:14px;padding:13px 14px;text-decoration:none;color:var(--ink);border-radius:2px}
+.panel a:hover,.panel a:focus-visible{background:var(--ground)}
+.panel a i{display:block;width:10px;background:var(--k,var(--blue));border-radius:1px}
+.panel a b{display:block;color:var(--navy);font-size:15.5px;line-height:1.3}
+.panel a span{display:block;font-size:13.5px;line-height:1.45;color:var(--soft);margin-top:3px}
+.panel .all{grid-template-columns:1fr;border-top:1px solid var(--rule);margin-top:6px;font-weight:700;color:var(--blue-2);font-size:14.5px}
+.burger{display:none;align-self:center;background:var(--blue);color:#fff;border:0;padding:11px 16px;font-weight:700;font-size:15px;border-radius:2px;cursor:pointer}
+
+/* Banner */
+.banner{position:relative;color:#fff;background:var(--navy);overflow:hidden;isolation:isolate}
+.banner::before{content:"";position:absolute;inset:-4%;background:url(assets/brisbane.jpg) center 42%/cover no-repeat;z-index:-2;animation:drift 38s ease-in-out infinite alternate}
+.banner::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,27,63,.94) 0%,rgba(10,47,107,.82) 46%,rgba(10,47,107,.38) 100%)}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.08) translateX(-1.5%)}}
+.banner.home .wrap{padding-top:84px;padding-bottom:150px}
+.banner.inner .wrap{padding-top:34px;padding-bottom:46px}
+.plate{display:inline-block;background:var(--blue-2);padding:22px 30px 24px;border-left:8px solid var(--teal);max-width:760px}
+.plate h1{color:#fff;font-size:clamp(30px,4.2vw,52px);font-weight:800;line-height:1.06}
+.plate small{display:block;font-size:15px;font-weight:600;color:#BFE9E2;margin-bottom:8px;letter-spacing:0}
+.banner .lead{max-width:640px;font-size:clamp(18px,1.7vw,21.5px);line-height:1.5;margin:26px 0 0;color:#EEF3FB}
+.banner .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;font-weight:700;font-size:15.5px;text-decoration:none;border-radius:2px;border:2px solid transparent;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn.teal{background:var(--teal);color:var(--navy)}
+.btn.teal:hover{background:#fff;color:var(--navy)}
+.btn.ghost{border-color:#fff;color:#fff}
+.btn.ghost:hover{background:#fff;color:var(--navy)}
+.btn.blue{background:var(--blue);color:#fff}
+.btn.blue:hover{background:var(--navy);color:#fff}
+.btn.line{border-color:var(--blue);color:var(--blue);background:#fff}
+.btn.line:hover{background:var(--blue);color:#fff}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:#C9D5EA;margin-bottom:18px}
+.crumbs a{color:#fff}
+.crumbs li+li::before{content:"/";margin-right:8px;color:#7F95BD}
+.banner.inner h1{color:#fff;font-size:clamp(30px,3.6vw,46px);font-weight:800;max-width:900px}
+.banner.inner h1::after{content:"";display:block;width:72px;height:6px;background:var(--teal);margin-top:16px}
+.banner.inner .lead{margin-top:16px;font-size:18.5px;max-width:760px}
+
+/* Quick links */
+.quick{position:relative;margin-top:-84px;z-index:2}
+.quick ul{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;box-shadow:0 14px 40px rgba(6,27,63,.18);border-bottom:4px solid var(--teal)}
+.quick a{display:block;padding:26px 26px 24px;text-decoration:none;color:var(--ink);height:100%;border-left:1px solid var(--rule);transition:background .15s,color .15s}
+.quick li:first-child a{border-left:0}
+.quick svg{width:34px;height:34px;stroke:var(--teal-ink);fill:none;stroke-width:1.7;margin-bottom:14px;transition:stroke .15s}
+.quick b{display:flex;align-items:center;justify-content:space-between;font-size:19px;color:var(--navy);line-height:1.2}
+.quick a>span{display:block;font-size:14.5px;line-height:1.45;color:var(--soft);margin-top:6px}
+.quick a:hover,.quick a:focus-visible{background:var(--blue);color:#fff}
+.quick a:hover b,.quick a:hover>span,.quick a:focus-visible b,.quick a:focus-visible>span{color:#fff}
+.quick a:hover svg,.quick a:focus-visible svg{stroke:var(--teal)}
+.box{display:inline-grid;place-items:center;width:24px;height:24px;border:2px solid currentColor;flex:none}
+.box::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:translateX(-2px) rotate(45deg)}
+
+/* Sections */
+section.block{padding:76px 0}
+section.tint{background:var(--ground)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.head h2{font-size:clamp(26px,2.8vw,36px);font-weight:800}
+.head h2::after{content:"";display:block;width:56px;height:5px;background:var(--teal);margin-top:12px}
+.head p{margin:12px 0 0;max-width:680px;color:var(--soft)}
+.more{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:15.5px;text-decoration:none;color:var(--blue-2)}
+.more:hover{text-decoration:underline}
+
+.about{display:grid;grid-template-columns:1.25fr 1fr;gap:64px;align-items:start}
+.about .big{font-size:clamp(20px,1.9vw,24px);line-height:1.5;color:var(--navy);font-weight:500}
+.counts{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);background:#fff}
+.counts div{padding:24px 26px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.counts div:nth-child(2n){border-right:0}
+.counts div:nth-last-child(-n+2){border-bottom:0}
+.counts b{display:block;font-size:46px;font-weight:800;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.counts span{display:block;font-size:14.5px;color:var(--soft);margin-top:8px;line-height:1.35}
+
+/* Theme cards */
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.themes.two{grid-template-columns:repeat(2,1fr);gap:34px}
+.tcard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--rule);text-decoration:none;color:var(--ink);transition:box-shadow .2s,transform .2s}
+.tcard:hover,.tcard:focus-visible{box-shadow:0 16px 36px rgba(6,27,63,.16);transform:translateY(-3px);color:var(--ink)}
+.tcard .pic{height:190px;overflow:hidden;background:#fff;border-bottom:1px solid var(--rule)}
+.themes.two .pic{height:250px}
+.tcard .pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.tcard:hover .pic img,.tcard:focus-visible .pic img{transform:scale(1.07)}
+.tcard h3{position:relative;margin:-30px 22px 0 0;background:var(--k);color:#fff;padding:15px 20px 16px 22px;font-size:17.5px;font-weight:700;line-height:1.25;min-height:76px;display:flex;align-items:center}
+.themes.two h3{font-size:21px;min-height:0;margin-right:60px}
+.tcard .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
+.tcard p{font-size:15.5px;line-height:1.55;color:var(--soft)}
+.tcard .n{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:14px}
+.tcard .more{margin-top:auto;color:var(--k)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.tags li{font-size:13px;line-height:1.3;padding:5px 9px;background:var(--ground);border:1px solid var(--rule);color:var(--ink)}
+
+/* News and papers */
+.pair{display:grid;grid-template-columns:1fr 1.18fr;gap:60px}
+.col h2{font-size:26px;font-weight:800;padding-bottom:14px;border-bottom:4px solid var(--blue);margin-bottom:6px}
+.news li{display:grid;grid-template-columns:78px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.date{background:var(--blue);color:#fff;text-align:center;padding:10px 4px;align-self:start;font-weight:700;line-height:1.1}
+.date b{display:block;font-size:22px}
+.date span{display:block;font-size:12.5px;font-weight:600;margin-bottom:3px;color:#CFE0FA}
+.news h3{font-size:18px;font-weight:700;margin-bottom:5px}
+.news h3 a{color:var(--navy);text-decoration:none}
+.news h3 a:hover{text-decoration:underline}
+.news p{font-size:15.5px;color:var(--soft);margin:0 0 8px;line-height:1.5}
+.kind{display:inline-block;font-size:12.5px;font-weight:700;color:var(--teal-ink);border:1px solid var(--teal-ink);padding:2px 8px;margin-right:8px}
+.who{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--soft);vertical-align:middle}
+.face{position:relative;display:inline-grid;place-items:center;overflow:hidden;background:var(--blue-2);color:#fff;font-weight:700;flex:none}
+.face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.face.s{width:28px;height:28px;border-radius:50%;font-size:10.5px}
+.who .face+.face{margin-left:-14px;border:2px solid #fff}
+
+.pubs li{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.thumb{position:relative;height:72px;background:var(--k) var(--img) center/cover;background-blend-mode:multiply;overflow:hidden;align-self:start}
+.thumb::after{content:attr(data-y);position:absolute;left:0;bottom:0;background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;padding:2px 7px}
+.pubs h3{font-size:16.5px;font-weight:700;line-height:1.32;color:var(--navy);margin-bottom:4px}
+.pubs .au{font-size:14.5px;line-height:1.45;color:var(--ink);margin:0 0 3px}
+.pubs .au b{font-weight:700;color:var(--navy)}
+.pubs .ve{font-size:14.5px;font-style:italic;color:var(--soft);margin:0 0 8px;line-height:1.4}
+.links{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.links a{font-size:13px;font-weight:700;text-decoration:none;padding:3px 10px;border:1px solid var(--blue-2);color:var(--blue-2)}
+.links a:hover{background:var(--blue-2);color:#fff}
+.links .th{font-size:13px;padding:3px 10px;background:var(--k);color:#fff;font-weight:600;border:1px solid var(--k)}
+.links a.th:hover{background:#fff;color:var(--k)}
+
+/* Video */
+.feature{display:grid;grid-template-columns:1.2fr 1fr;background:var(--navy);color:#fff}
+.feature .v{position:relative;display:block;min-height:340px;background:#000 center/cover;overflow:hidden}
+.feature .v img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.86;transition:transform .5s,opacity .3s}
+.feature .v:hover img,.feature .v:focus-visible img{transform:scale(1.05);opacity:1}
+.play{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;background:var(--teal);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(17,181,161,.28)}
+.play::after{content:"";border-left:22px solid var(--navy);border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
+.feature .t{padding:44px 44px 40px;display:flex;flex-direction:column;justify-content:center}
+.feature small{font-size:14px;font-weight:700;color:var(--teal)}
+.feature h3{color:#fff;font-size:26px;font-weight:700;margin:10px 0 14px;line-height:1.22}
+.feature p{color:#C9D5EA;font-size:16px}
+
+/* Study band */
+.study{background:var(--blue);color:#fff;position:relative;overflow:hidden}
+.study::before{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border:70px solid rgba(17,181,161,.2);border-radius:50%}
+.study .wrap{position:relative;display:grid;grid-template-columns:1fr 1.3fr;gap:60px;padding-top:72px;padding-bottom:72px;align-items:center}
+.study h2{color:#fff;font-size:clamp(28px,3vw,38px);font-weight:800}
+.study .lead{color:#E3ECFA;font-size:18.5px;margin:18px 0 26px}
+.ways{display:grid;gap:14px}
+.ways li{background:rgba(255,255,255,.08);border-left:5px solid var(--teal);padding:18px 22px}
+.ways b{display:block;font-size:18px;margin-bottom:3px}
+.ways span{color:#D6E2F6;font-size:15.5px}
+
+/* People */
+.leaders{display:grid;grid-template-columns:repeat(2,1fr);gap:30px}
+.leader{display:grid;grid-template-columns:200px 1fr;background:#fff;border:1px solid var(--rule)}
+.leader .face{width:200px;height:100%;min-height:230px;font-size:40px}
+.leader div{padding:26px 28px}
+.leader small{font-size:13.5px;font-weight:700;color:var(--teal-ink)}
+.leader h3{font-size:22px;font-weight:800;margin:6px 0 8px}
+.leader p{font-size:15.5px;color:var(--soft);margin-bottom:14px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.pcard{background:#fff;border:1px solid var(--rule);display:flex;flex-direction:column;border-bottom:4px solid var(--k,var(--blue))}
+.pcard .face{width:100%;aspect-ratio:1/1;font-size:44px;border-radius:0}
+.pcard .face img{transition:transform .5s}
+.pcard:hover .face img{transform:scale(1.05)}
+.pcard div{padding:16px 18px 18px}
+.pcard h3{font-size:17px;font-weight:700;line-height:1.25;margin-bottom:5px}
+.pcard h3 a{color:var(--navy);text-decoration:none}
+.pcard h3 a:hover{text-decoration:underline}
+.pcard p{font-size:14px;line-height:1.45;color:var(--soft);margin:0}
+.pcard .t{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:600;color:#fff;background:var(--k);padding:3px 8px}
+.pcard .g{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--navy);background:#DDF4F0;padding:3px 8px}
+.group{margin-bottom:54px}
+.group>h2{font-size:24px;font-weight:800;padding-bottom:12px;border-bottom:4px solid var(--blue);margin-bottom:26px;display:flex;justify-content:space-between;align-items:baseline}
+.group>h2 span{font-size:14.5px;font-weight:600;color:var(--soft);letter-spacing:0}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:4px solid var(--blue);margin-bottom:36px}
+.tabs button{background:var(--ground);border:1px solid var(--rule);border-bottom:0;padding:13px 18px;font-weight:700;font-size:15px;color:var(--navy);cursor:pointer}
+.tabs button span{font-weight:500;color:var(--soft);margin-left:6px}
+.tabs button:hover{background:#E4EAF4}
+.tabs button[aria-selected="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tabs button[aria-selected="true"] span{color:#CFE0FA}
+
+/* Filters */
+.filters{display:grid;grid-template-columns:1.6fr 1fr 1.2fr auto;gap:16px;align-items:end;background:var(--ground);border:1px solid var(--rule);border-top:4px solid var(--blue);padding:22px 24px;margin-bottom:12px}
+.filters label{display:block;font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.filters input,.filters select{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid #9AA8C0;background:#fff;color:var(--ink);border-radius:2px}
+.count{font-size:15px;color:var(--soft);margin:18px 0 8px}
+.year{font-size:28px;font-weight:800;color:var(--blue);margin:34px 0 0;padding-bottom:8px;border-bottom:4px solid var(--blue);display:flex;justify-content:space-between;align-items:baseline}
+.year span{font-size:14.5px;font-weight:600;color:var(--soft)}
+.empty{padding:40px;background:var(--ground);border:1px dashed #9AA8C0;text-align:center;color:var(--soft)}
+
+/* Detail */
+.detail{display:grid;grid-template-columns:1fr 340px;gap:60px;align-items:start}
+.detail figure{margin:0 0 30px;border:1px solid var(--rule);border-top:6px solid var(--k);padding:18px;background:#fff}
+.detail figcaption{font-size:14px;color:var(--soft);margin-top:12px}
+.detail h2{font-size:24px;font-weight:800;margin:34px 0 14px}
+.bul li{position:relative;padding:9px 0 9px 28px;border-bottom:1px solid var(--rule)}
+.bul li::before{content:"";position:absolute;left:4px;top:18px;width:10px;height:10px;background:var(--k,var(--teal))}
+.side{border:1px solid var(--rule);border-top:6px solid var(--k,var(--blue));background:var(--ground);padding:24px;position:sticky;top:110px}
+.side h2{font-size:18px;margin:0 0 14px}
+.side h2+ul{margin-bottom:24px}
+.mini li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;padding:8px 0}
+.mini .face{width:44px;height:44px;border-radius:50%;font-size:14px}
+.mini b{display:block;font-size:15px;line-height:1.25;color:var(--navy)}
+.mini span{display:block;font-size:13px;color:var(--soft);line-height:1.3}
+.quote{border-left:6px solid var(--k);background:var(--ground);padding:20px 24px;font-size:18.5px;line-height:1.5;color:var(--navy);margin:0 0 28px}
+.quote small{display:block;font-size:13.5px;font-weight:700;color:var(--soft);margin-bottom:6px}
+
+/* Accordion */
+details{border:1px solid var(--rule);border-left:6px solid var(--blue);background:#fff;margin-bottom:12px}
+summary{cursor:pointer;padding:20px 24px;font-size:20px;font-weight:700;color:var(--navy);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:11px;height:11px;border-right:3px solid var(--teal-ink);border-bottom:3px solid var(--teal-ink);transform:rotate(45deg);transition:transform .2s;flex:none}
+details[open] summary::after{transform:rotate(225deg)}
+details[open]{border-left-color:var(--teal)}
+details .in{padding:0 24px 24px;max-width:860px}
+details .in>p{font-size:18px}
+details ul.bul ul{margin:6px 0 0 4px}
+details ul.bul ul li{border:0;padding:4px 0 4px 24px;font-size:16px;color:var(--soft)}
+details ul.bul ul li::before{width:7px;height:7px;top:14px;background:var(--blue)}
+.vals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.vals li{background:var(--ground);border-top:4px solid var(--teal);padding:18px;font-weight:700;color:var(--navy);line-height:1.3}
+.ack{columns:2;column-gap:40px;font-size:15px;color:var(--soft)}
+.ack li{break-inside:avoid;padding:5px 0}
+
+/* Videos and projects */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.vcard{display:flex;flex-direction:column;border:1px solid var(--rule);background:#fff;text-decoration:none;color:var(--ink)}
+.vcard .v{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.vcard .v img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.vcard:hover .v img,.vcard:focus-visible .v img{transform:scale(1.06)}
+.vcard .play{width:56px;height:56px;margin:-28px 0 0 -28px;box-shadow:0 0 0 7px rgba(17,181,161,.28)}
+.vcard .play::after{border-left-width:16px;border-top-width:10px;border-bottom-width:10px;margin-left:4px}
+.vcard div.t{padding:18px 20px 20px}
+.vcard small{font-size:13.5px;font-weight:700;color:var(--teal-ink)}
+.vcard h3{font-size:17px;font-weight:700;line-height:1.3;margin-top:5px}
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.site{display:block;border:2px dashed #8E9DB8;background:#fff;padding:24px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s}
+.site:hover,.site:focus-visible{border-color:var(--blue);border-style:solid;background:var(--ground);color:var(--ink)}
+.site small{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--navy);background:#E4EAF4;padding:4px 9px;margin-bottom:14px}
+.site svg,.ext svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.site b{display:block;font-size:19px;color:var(--navy);margin-bottom:4px}
+.site span{display:block;font-size:15px;color:var(--soft);margin-bottom:12px}
+.site em{font-style:normal;font-size:14.5px;font-weight:600;color:var(--blue-2);word-break:break-all}
+.note{background:#FFF8E1;border-left:6px solid #E0A100;padding:16px 20px;font-size:15.5px;margin-bottom:30px;max-width:860px}
+
+/* Join */
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:44px}
+.opts li{border:1px solid var(--rule);border-top:6px solid var(--blue);padding:26px;background:#fff}
+.opts svg{width:38px;height:38px;stroke:var(--teal-ink);fill:none;stroke-width:1.6;margin-bottom:14px}
+.opts h3{font-size:20px;font-weight:800;margin-bottom:8px}
+.opts p{font-size:15.5px;color:var(--soft);margin:0}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--rule);margin-bottom:44px}
+.steps li{counter-increment:s;padding:24px 26px;border-left:1px solid var(--rule);background:var(--ground)}
+.steps li:first-child{border-left:0}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:38px;height:38px;background:var(--blue);color:#fff;font-weight:800;margin-bottom:12px}
+.steps b{display:block;color:var(--navy);font-size:17px;margin-bottom:4px}
+.steps span{font-size:15px;color:var(--soft)}
+.contact{display:grid;grid-template-columns:120px 1fr auto;gap:28px;align-items:center;background:var(--navy);color:#fff;padding:30px 34px}
+.contact .face{width:120px;height:120px;border-radius:50%;font-size:32px}
+.contact h3{color:#fff;font-size:22px;margin-bottom:4px}
+.contact p{margin:0;color:#C9D5EA;font-size:15.5px}
+
+/* Partners and footer */
+.partners{background:var(--navy);padding:40px 0}
+.partners .wrap{display:flex;align-items:center;gap:44px;flex-wrap:wrap}
+.partners p{margin:0;color:#C9D5EA;font-size:14.5px;font-weight:600;max-width:190px;line-height:1.4}
+.partners ul{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.partners img{height:52px;width:auto}
+footer{background:#041230;color:#C9D5EA;font-size:15px;border-top:1px solid #1B2F58}
+footer .wrap{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:44px;padding-top:54px;padding-bottom:44px}
+footer img.word{width:230px;margin-bottom:18px}
+footer h2{color:#fff;font-size:15.5px;margin-bottom:14px;font-weight:700}
+footer li{margin-bottom:8px}
+footer a{color:#fff;text-decoration:none}
+footer a:hover{text-decoration:underline;color:#fff}
+footer .base{border-top:1px solid #1B2F58;padding:18px 0 22px;font-size:13.5px}
+footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:0;padding-bottom:0}
+.ext{display:inline-flex;align-items:center;gap:6px}
+
+@media (max-width:1180px){
+  .brand span{display:none}
+  .menu>li>a,.menu>li>button{padding:0 10px;font-size:15px}
+}
+@media (max-width:1020px){
+  :root{--pad:22px}
+  .burger{display:block}
+  .mainbar .wrap{flex-wrap:wrap;min-height:70px;align-items:center}
+  .menu{display:none;flex-direction:column;width:100%;border-top:1px solid var(--rule);padding:8px 0 16px}
+  .menu.show{display:flex}
+  .menu>li{flex-direction:column}
+  .menu>li>a,.menu>li>button{padding:13px 4px;border:0;border-bottom:1px solid var(--rule);justify-content:space-between;font-size:17px;width:100%}
+  .panel,.panel.right{position:static;width:auto;box-shadow:none;border:0;border-left:4px solid var(--teal);display:none;opacity:1;visibility:visible;transform:none;padding:4px 0 8px}
+  .menu li.open>.panel{display:block}
+  .menu .cta{align-self:stretch;margin:14px 0 0;justify-content:center}
+  .themes{grid-template-columns:repeat(2,1fr)}
+  .pgrid{grid-template-columns:repeat(3,1fr)}
+  .about,.pair,.study .wrap,.detail,.feature{grid-template-columns:1fr;gap:40px}
+  .feature{gap:0}
+  .side{position:static}
+  .quick ul{grid-template-columns:repeat(2,1fr)}
+  .quick li:nth-child(3) a{border-left:0}
+  .quick li:nth-child(-n+2) a{border-bottom:1px solid var(--rule)}
+  .leaders{grid-template-columns:1fr}
+  .vgrid,.sites,.opts{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:1fr 1fr}
+  footer .wrap{grid-template-columns:1fr 1fr}
+  .vals{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:16.5px}
+  .topbar p{display:none}
+  .topbar .wrap{justify-content:flex-end}
+  section.block{padding:52px 0}
+  .banner.home .wrap{padding-top:48px;padding-bottom:120px}
+  .plate{padding:18px 20px 20px}
+  .themes,.themes.two,.pgrid,.vgrid,.sites,.opts,.steps,.filters,.vals{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr 1fr;gap:14px}
+  .steps li{border-left:0;border-top:1px solid var(--rule)}
+  .steps li:first-child{border-top:0}
+  .quick ul{grid-template-columns:1fr}
+  .quick a{border-left:0 !important;border-bottom:1px solid var(--rule);padding:18px 20px}
+  .quick svg{display:none}
+  .leader{grid-template-columns:1fr}
+  .leader .face{width:100%;min-height:0;aspect-ratio:4/3}
+  .news li{grid-template-columns:64px 1fr;gap:14px}
+  .date b{font-size:18px}
+  .pubs li{grid-template-columns:70px 1fr;gap:14px}
+  .thumb{height:56px}
+  .feature .t{padding:28px 22px}
+  .feature .v{min-height:220px}
+  .contact{grid-template-columns:1fr;text-align:left;padding:26px 22px}
+  .ack{columns:1}
+  footer .wrap{grid-template-columns:1fr;gap:30px}
+  .themes.two h3{margin-right:22px}
+  .partners ul{gap:26px}
+  .partners img{height:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" id="skip">Skip to content</a>
+
+<div class="topbar">
+  <div class="wrap">
+    <p>A research lab at Queensland University of Technology, working with partners in Sydney, Lisbon and Leuven</p>
+    <ul>
+      <li><a href="#/join">Contact the lab</a></li>
+      <li><a class="ext" href="https://github.com/XAMI-LAB" rel="external">GitHub <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg></a></li>
+    </ul>
+  </div>
+</div>
+
+<header class="mainbar">
+  <div class="wrap">
+    <a class="brand" href="#/" aria-label="XAMI Lab home">
+      <img src="assets/xami-mark.png" alt="">
+      <div><b>XAMI Lab</b><span>Explainable Analytics for Machine Intelligence Lab</span></div>
+    </a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">Menu</button>
+    <ul class="menu" id="menu"></ul>
+  </div>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<div class="partners">
+  <div class="wrap">
+    <p>Our researchers work at these universities</p>
+    <ul id="partners"></ul>
+  </div>
+</div>
+<footer>
+  <div class="wrap">
+    <div>
+      <img class="word" src="assets/xami-long-white.png" alt="XAMI Lab">
+      <p>Explainable Analytics for Machine Intelligence Lab. We make machine intelligence explainable, transparent, fair and understandable to the people who rely on it.</p>
+      <p>School of Information Systems<br>Queensland University of Technology<br>Brisbane, Australia</p>
+    </div>
+    <div><h2>The lab</h2><ul>
+      <li><a href="#/mission">Mission and values</a></li>
+      <li><a href="#/people">People</a></li>
+      <li><a href="#/news">News</a></li>
+      <li><a href="#/videos">Videos</a></li>
+    </ul></div>
+    <div><h2>Research</h2><ul id="footthemes"></ul></div>
+    <div><h2>Get in touch</h2><ul>
+      <li><a href="#/join">Study with us</a></li>
+      <li><a href="#/join">Contact the lab</a></li>
+      <li><a href="#/projects">Project sites</a></li>
+      <li><a class="ext" href="https://github.com/XAMI-LAB" rel="external">GitHub <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg></a></li>
+    </ul></div>
+  </div>
+  <div class="base"><div class="wrap"><span>XAMI Lab, 2020 to 2026</span><span><a href="#/">Privacy policy</a></span></div></div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/mock-bar.js"></script>
+<script>
+(function () {
+  var X = window.XAMI;
+  var main = document.getElementById("main");
+  var menu = document.getElementById("menu");
+  var burger = document.getElementById("burger");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function plain(s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+
+  /* Themes */
+  var colour = { process: "#1B5FC4", causal: "#087867", persuasive: "#A35C00", medical: "#9C2F63" };
+  var themeById = {};
+  X.themes.forEach(function (t) { t.colour = colour[t.id] || "#0A2F6B"; themeById[t.id] = t; });
+
+  /* People, matched to their papers by surname and first initial */
+  var people = X.people.slice().sort(function (a, b) { return a.order - b.order; });
+  var byId = {};
+  people.forEach(function (p) {
+    var w = p.name.replace(/\(.*?\)/g, " ").replace(/\b(A\/Prof|Prof|Dr|Eng)\.?\s/g, " ").trim().split(/\s+/);
+    p.first = w[0]; p.last = w[w.length - 1];
+    p.initials = (p.first[0] + p.last[0]).toUpperCase();
+    p.papers = []; p.counts = {};
+    var y = /(\d{4})/.exec(p.role);
+    p.graduated = p.group === "Alumni" && y ? y[1] : "";
+    byId[p.id] = p;
+  });
+  X.pubs.forEach(function (pub) {
+    pub.lab = [];
+    pub.mine = pub.authors.map(function (a) {
+      var w = a.trim().split(/\s+/), hit = null;
+      people.forEach(function (p) {
+        if (!hit && plain(w[w.length - 1]) === plain(p.last) && plain(w[0])[0] === plain(p.first)[0]) hit = p;
+      });
+      if (hit && pub.lab.indexOf(hit) < 0) {
+        pub.lab.push(hit); hit.papers.push(pub);
+        hit.counts[pub.theme] = (hit.counts[pub.theme] || 0) + 1;
+      }
+      return !!hit;
+    });
+  });
+  people.forEach(function (p) {
+    var best = Object.keys(p.counts).sort(function (a, b) { return p.counts[b] - p.counts[a]; })[0];
+    p.theme = best ? themeById[best] : null;
+  });
+  function themePeople(id) {
+    return people.filter(function (p) { return p.counts[id]; })
+      .sort(function (a, b) { return b.counts[id] - a.counts[id] || a.order - b.order; });
+  }
+  function themePubs(id) { return X.pubs.filter(function (p) { return p.theme === id; }); }
+
+  /* Small pieces */
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var EXT = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg>';
+  function face(p, cls) {
+    return '<span class="face ' + (cls || "") + '" title="' + esc(p.name) + '"><span aria-hidden="true">' + esc(p.initials) +
+      '</span><img src="' + esc(p.photo) + '" alt="' + esc(p.name) + '" loading="lazy" onerror="this.remove()"></span>';
+  }
+  function dateBlock(d) {
+    var s = d.split("-");
+    return '<div class="date">' + (s[1] ? "<span>" + months[+s[1] - 1].slice(0, 3) + "</span>" : "<span>Year</span>") + "<b>" + esc(s[0]) + "</b></div>";
+  }
+  function newsItem(n) {
+    var who = (n.who || []).map(function (id) { return byId[id]; }).filter(Boolean);
+    return "<li>" + dateBlock(n.date) + '<div><h3><a href="#/news">' + esc(n.title) + "</a></h3><p>" + esc(n.text) +
+      '</p><span class="kind">' + esc(n.kind) + "</span>" +
+      (who.length ? '<span class="who">' + who.map(function (p) { return face(p, "s"); }).join("") + "<span>" +
+        esc(who.map(function (p) { return p.first + " " + p.last; }).join(" and ")) + "</span></span>" : "") + "</div></li>";
+  }
+  function doiLink(d) { return /^https?:/.test(d) ? d : "https://doi.org/" + d; }
+  function pubItem(pub, max) {
+    var t = themeById[pub.theme];
+    max = max || 8;
+    var names = pub.authors.slice(0, max).map(function (a, i) { return pub.mine[i] ? "<b>" + esc(a) + "</b>" : esc(a); }).join(", ") +
+      (pub.authors.length > max ? " and " + (pub.authors.length - max) + " more" : "");
+    var links = "";
+    if (pub.doi) links += '<a href="' + esc(doiLink(pub.doi)) + '" rel="external">Read the paper</a>';
+    if (pub.url && !/doi\.org/i.test(pub.url) && !(pub.doi && pub.url.indexOf(pub.doi) >= 0)) links += '<a href="' + esc(pub.url) + '" rel="external">' + (/arxiv/i.test(pub.url) ? "arXiv" : "Open link") + "</a>";
+    if (pub.code) links += '<a href="' + esc(pub.code) + '" rel="external">Code</a>';
+    return '<li style="--k:' + t.colour + '"><div class="thumb" data-y="' + pub.year + '" style="--img:url(' + esc(t.image) + ')" aria-hidden="true"></div><div><h3>' +
+      esc(pub.title) + '</h3><p class="au">' + names + '</p><p class="ve">' + esc(pub.venue ? pub.venue + ", " + pub.year : pub.year) +
+      '</p><div class="links"><a class="th" href="#/research/' + t.id + '">' + esc(t.short) + "</a>" + links + "</div></div></li>";
+  }
+  function themeCard(t) {
+    var n = themePubs(t.id).length;
+    return '<li><a class="tcard" href="#/research/' + t.id + '" style="--k:' + t.colour + '"><div class="pic"><img src="' + esc(t.image) +
+      '" alt="" loading="lazy"></div><h3>' + esc(t.title) + '</h3><div class="body"><p>' + esc(t.summary) +
+      '</p><p class="n">' + n + " papers, " + themePeople(t.id).length + ' researchers</p><span class="more">Read more <span class="box"></span></span></div></a></li>';
+  }
+  function personCard(p) {
+    var k = p.theme ? p.theme.colour : "#0A2F6B";
+    var name = p.url ? '<a href="' + esc(p.url) + '" rel="external">' + esc(p.name) + "</a>" : esc(p.name);
+    return '<li class="pcard" style="--k:' + k + '">' + face(p) + "<div><h3>" + name + "</h3><p>" + esc(p.role.replace(/\s*@/g, ", ")) + "</p>" +
+      (p.graduated ? '<span class="g">Graduated ' + p.graduated + "</span>" : (p.theme ? '<span class="t">' + esc(p.theme.short) + "</span>" : "")) + "</div></li>";
+  }
+  function videoCard(v) {
+    return '<li><a class="vcard" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external"><div class="v"><img src="https://i.ytimg.com/vi/' + esc(v.id) +
+      '/hqdefault.jpg" alt="" loading="lazy"><span class="play"></span></div><div class="t"><small>' + esc(v.venue) + "</small><h3>" + esc(v.title) + "</h3></div></a></li>";
+  }
+  function banner(title, lead, crumbs) {
+    var c = '<li><a href="#/">Home</a></li>' + (crumbs || []).map(function (x) {
+      return "<li>" + (x[1] ? '<a href="' + x[1] + '">' + esc(x[0]) + "</a>" : esc(x[0])) + "</li>";
+    }).join("");
+    return '<div class="banner inner"><div class="wrap"><nav aria-label="Breadcrumb"><ol class="crumbs" style="list-style:none;padding:0;margin:0 0 18px">' + c +
+      "</ol></nav><h1>" + esc(title) + "</h1>" + (lead ? '<p class="lead">' + esc(lead) + "</p>" : "") + "</div></div>";
+  }
+  var icon = {
+    research: '<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="15" cy="15" r="9"/><path d="M22 22l9 9M11 15h8M15 11v8"/></svg>',
+    people: '<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="13" cy="12" r="5"/><circle cx="25" cy="14" r="4"/><path d="M3 30c0-6 4-10 10-10s10 4 10 10M24 21c5 0 9 3 9 9"/></svg>',
+    pubs: '<svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h15l6 6v22H8zM22 4v7h7M13 17h11M13 22h11M13 27h7"/></svg>',
+    study: '<svg viewBox="0 0 36 36" aria-hidden="true"><path d="M2 13 18 6l16 7-16 7zM9 17v8c3 3 15 3 18 0v-8M33 13v10"/></svg>',
+    visit: '<svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="14"/><path d="M4 18h28M18 4c-7 8-7 20 0 28M18 4c7 8 7 20 0 28"/></svg>',
+    partner: '<svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 30V14l10-6v22M14 30V18l10-5v17M24 30V10l8 4v16M2 30h32"/></svg>'
+  };
+
+  /* Menu */
+  function buildMenu() {
+    var themes = X.themes.map(function (t) {
+      return '<a href="#/research/' + t.id + '" style="--k:' + t.colour + '"><i></i><div><b>' + esc(t.title) + "</b><span>" + esc(t.summary) + "</span></div></a>";
+    }).join("");
+    var sites = X.projects.map(function (s) {
+      return '<a href="https://' + esc(s.address) + '" rel="external" style="--k:#8E9DB8"><i></i><div><b class="ext">' + esc(s.name) + " " + EXT +
+        "</b><span>" + esc(s.address) + ", a separate website</span></div></a>";
+    }).join("");
+    menu.innerHTML =
+      '<li class="has" data-r="research"><button aria-expanded="false" aria-haspopup="true">Research <span class="chev"></span></button><div class="panel">' + themes +
+        '<a class="all" href="#/research">See all research themes</a></div></li>' +
+      '<li><a href="#/people" data-r="people">People</a></li>' +
+      '<li><a href="#/publications" data-r="publications">Publications</a></li>' +
+      '<li><a href="#/news" data-r="news">News</a></li>' +
+      '<li><a href="#/videos" data-r="videos">Videos</a></li>' +
+      '<li class="has" data-r="projects"><button aria-expanded="false" aria-haspopup="true">Projects <span class="chev"></span></button><div class="panel right">' + sites +
+        '<a class="all" href="#/projects">About our project sites</a></div></li>' +
+      '<li><a href="#/mission" data-r="mission">Mission</a></li>' +
+      '<li><a class="cta" href="#/join" data-r="join">Join us</a></li>';
+
+    var items = menu.querySelectorAll("li.has");
+    function close(except) {
+      items.forEach(function (li) {
+        if (li !== except) { li.classList.remove("open"); li.querySelector("button").setAttribute("aria-expanded", "false"); }
+      });
+    }
+    items.forEach(function (li) {
+      var b = li.querySelector("button"), timer;
+      b.addEventListener("click", function () {
+        var open = !li.classList.contains("open");
+        close(li); li.classList.toggle("open", open); b.setAttribute("aria-expanded", String(open));
+      });
+      li.addEventListener("mouseenter", function () {
+        if (window.innerWidth <= 1020) return;
+        clearTimeout(timer); close(li); li.classList.add("open"); b.setAttribute("aria-expanded", "true");
+      });
+      li.addEventListener("mouseleave", function () {
+        if (window.innerWidth <= 1020) return;
+        timer = setTimeout(function () { li.classList.remove("open"); b.setAttribute("aria-expanded", "false"); }, 160);
+      });
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    document.addEventListener("click", function (e) { if (!menu.contains(e.target)) close(); });
+    window.closeMenus = function () { close(); menu.classList.remove("show"); burger.setAttribute("aria-expanded", "false"); };
+    burger.addEventListener("click", function () {
+      var open = !menu.classList.contains("show");
+      menu.classList.toggle("show", open); burger.setAttribute("aria-expanded", String(open));
+    });
+  }
+
+  /* Views */
+  var views = {};
+
+  views.home = function () {
+    var leaders = people.filter(function (p) { return p.group === "Leader"; });
+    var v = X.videos[0];
+    var unis = X.partners.length;
+    return { title: "", html:
+      '<div class="banner home"><div class="wrap"><div class="plate"><small>Queensland University of Technology, Brisbane</small><h1>Explainable Analytics for Machine Intelligence Lab</h1></div>' +
+      '<p class="lead">We develop methods that make machine intelligence explainable, transparent, fair and understandable to the people who make decisions with it.</p>' +
+      '<div class="acts"><a class="btn teal" href="#/research">Explore our research</a><a class="btn ghost" href="#/join">Study with us</a></div></div></div>' +
+
+      '<div class="quick"><div class="wrap"><ul>' +
+        '<li><a href="#/research">' + icon.research + '<b>Our research <span class="box"></span></b><span>Four themes in explainable artificial intelligence</span></a></li>' +
+        '<li><a href="#/people">' + icon.people + '<b>Our people <span class="box"></span></b><span>' + people.length + " researchers, students and collaborators</span></a></li>" +
+        '<li><a href="#/publications">' + icon.pubs + '<b>Publications <span class="box"></span></b><span>' + X.pubs.length + " papers, searchable by year and theme</span></a></li>" +
+        '<li><a href="#/join">' + icon.study + '<b>Study with us <span class="box"></span></b><span>Research degrees, visits and partnerships</span></a></li>' +
+      "</ul></div></div>" +
+
+      '<section class="block"><div class="wrap about"><div><div class="head" style="margin-bottom:22px"><h2>About the lab</h2></div><p class="big">' + esc(X.intro) +
+        "</p><p>" + esc(X.vision) + '</p><a class="more" href="#/mission">Read our mission and values <span class="box"></span></a></div>' +
+        '<div class="counts"><div><b data-n="' + X.pubs.length + '">' + X.pubs.length + "</b><span>peer reviewed papers and preprints since 2020</span></div>" +
+        '<div><b data-n="' + people.length + '">' + people.length + "</b><span>researchers, students and collaborators</span></div>" +
+        '<div><b data-n="' + X.themes.length + '">' + X.themes.length + "</b><span>research themes</span></div>" +
+        '<div><b data-n="' + unis + '">' + unis + "</b><span>partner universities in three countries</span></div></div></div></section>" +
+
+      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Research themes</h2><p>Each theme looks at a different part of the same question: how can a person see why a machine made its decision?</p></div>' +
+        '<a class="more" href="#/research">All research themes <span class="box"></span></a></div><ul class="themes">' + X.themes.map(themeCard).join("") + "</ul></div></section>" +
+
+      '<section class="block"><div class="wrap pair"><div class="col"><h2>Latest news</h2><ul class="news">' + X.news.slice(0, 4).map(newsItem).join("") +
+        '</ul><p style="margin-top:22px"><a class="more" href="#/news">All news <span class="box"></span></a></p></div>' +
+        '<div class="col"><h2>Recent publications</h2><ul class="pubs">' + X.pubs.slice(0, 5).map(function (p) { return pubItem(p, 5); }).join("") +
+        '</ul><p style="margin-top:22px"><a class="more" href="#/publications">All ' + X.pubs.length + ' publications <span class="box"></span></a></p></div></div></section>' +
+
+      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Watch: the lab in its own words</h2></div><a class="more" href="#/videos">All videos <span class="box"></span></a></div>' +
+        '<div class="feature"><a class="v" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external" aria-label="Watch ' + esc(v.title) + '"><img src="https://i.ytimg.com/vi/' + esc(v.id) +
+        '/hqdefault.jpg" alt=""><span class="play"></span></a><div class="t"><small>' + esc(v.venue) + "</small><h3>" + esc(v.title) +
+        "</h3><p>A seminar by the lab leaders on why black-box models need explanations, and how the lab builds them.</p>" +
+        '<p style="margin:8px 0 0"><a class="btn teal" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external">Watch on YouTube</a></p></div></div></div></section>' +
+
+      '<section class="study"><div class="wrap"><div><h2>Study with us</h2><p class="lead">' + esc(X.join.lead) +
+        '</p><a class="btn teal" href="#/join">How to join the lab</a></div><ul class="ways">' + X.join.options.map(function (o) {
+          return "<li><b>" + esc(o.title) + "</b><span>" + esc(o.text) + "</span></li>";
+        }).join("") + "</ul></div></section>" +
+
+      '<section class="block"><div class="wrap"><div class="head"><div><h2>Lab leaders</h2><p>The lab is led from Brisbane and Sydney.</p></div>' +
+        '<a class="more" href="#/people">Meet all ' + people.length + ' people <span class="box"></span></a></div><ul class="leaders">' + leaders.map(function (p) {
+          return '<li class="leader">' + face(p) + "<div><small>Lab leader</small><h3>" + esc(p.name) + "</h3><p>" + esc(p.role.replace(/\s*@/g, ", ")) +
+            "</p><p>" + p.papers.length + " papers with the lab" + (p.theme ? ", most of them in " + esc(p.theme.short.toLowerCase()) : "") + '.</p>' +
+            (p.url ? '<a class="more ext" href="' + esc(p.url) + '" rel="external">Profile ' + EXT + "</a>" : "") + "</div></li>";
+        }).join("") + "</ul></div></section>"
+    };
+  };
+
+  views.research = function (id) {
+    if (id && themeById[id]) return themeDetail(themeById[id]);
+    return { title: "Research", html:
+      banner("Research", "Four connected themes, one aim: artificial intelligence that can explain itself to the people who use it.", [["Research"]]) +
+      '<section class="block"><div class="wrap"><ul class="themes two">' + X.themes.map(function (t) {
+        var n = themePubs(t.id).length;
+        return '<li><a class="tcard" href="#/research/' + t.id + '" style="--k:' + t.colour + '"><div class="pic"><img src="' + esc(t.image) + '" alt=""></div><h3>' + esc(t.title) +
+          '</h3><div class="body"><p>' + esc(t.summary) + '</p><ul class="tags">' + t.topics.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") +
+          '</ul><p class="n">' + n + " papers, " + themePeople(t.id).length + ' researchers</p><span class="more">Read about this theme <span class="box"></span></span></div></a></li>';
+      }).join("") + "</ul></div></section>" +
+      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Project sites</h2><p>Some projects have a website of their own. They open as separate sites with their own look.</p></div>' +
+      '<a class="more" href="#/projects">About our project sites <span class="box"></span></a></div>' + sitesList() + "</div></section>"
+    };
+  };
+
+  function sitesList() {
+    return '<ul class="sites">' + X.projects.map(function (s) {
+      return '<li><a class="site" href="https://' + esc(s.address) + '" rel="external"><small>' + EXT + " Separate website</small><b>" + esc(s.name) + "</b><span>" + esc(s.text) +
+        "</span><em>" + esc(s.address) + "</em></a></li>";
+    }).join("") + "</ul>";
+  }
+
+  function themeDetail(t) {
+    var pubs = themePubs(t.id), who = themePeople(t.id);
+    var others = X.themes.filter(function (o) { return o.id !== t.id; });
+    return { title: t.title, html:
+      '<div style="--k:' + t.colour + '">' + banner(t.title, t.summary, [["Research", "#/research"], [t.short]]) +
+      '<section class="block"><div class="wrap detail"><div>' +
+        '<figure><img src="' + esc(t.image) + '" alt="Diagram for ' + esc(t.title) + '"><figcaption>' + esc(t.title) + ": an overview of the approach.</figcaption></figure>" +
+        (t.example ? '<blockquote class="quote"><small>The kind of question this theme answers</small>' + esc(t.example) + "</blockquote>" : "") +
+        '<h2 style="margin-top:0">What we study</h2><ul class="bul">' + t.topics.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
+        (t.domains ? "<h2>Where it is applied</h2><ul class=\"tags\">" + t.domains.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "") +
+        "<h2>Papers in this theme</h2>" + (pubs.length ? '<ul class="pubs">' + pubs.slice(0, 8).map(function (p) { return pubItem(p); }).join("") + "</ul>" +
+          (pubs.length > 8 ? '<p style="margin-top:22px"><a class="more" href="#/publications?theme=' + t.id + '">See all ' + pubs.length + ' papers in this theme <span class="box"></span></a></p>' : "")
+          : '<p class="empty">Papers for this theme are being added.</p>') +
+      '</div><aside class="side"><h2>People in this theme</h2>' + (who.length ? '<ul class="mini">' + who.slice(0, 8).map(function (p) {
+          return "<li>" + face(p) + "<div><b>" + esc(p.name) + "</b><span>" + p.counts[t.id] + (p.counts[t.id] === 1 ? " paper" : " papers") + "</span></div></li>";
+        }).join("") + "</ul>" : "<p>Led by the lab leaders.</p>") +
+        "<h2>Other themes</h2><ul>" + others.map(function (o) {
+          return '<li style="margin-bottom:10px"><a class="more" style="color:' + o.colour + ';font-size:15px" href="#/research/' + o.id + '">' + esc(o.title) + "</a></li>";
+        }).join("") + '</ul><a class="btn blue" style="margin-top:12px" href="#/join">Work on this with us</a></aside></div></section></div>'
+    };
+  }
+
+  var tab = "all";
+  views.people = function () {
+    return { title: "People", html:
+      banner("People", "The lab is led from QUT in Brisbane and UTS in Sydney, with researchers and students across three countries.", [["People"]]) +
+      '<section class="block"><div class="wrap"><div class="tabs" role="tablist" aria-label="People by group" id="tabs"></div><div id="tabpanel" role="tabpanel"></div></div></section>',
+      after: function () {
+        var keys = Object.keys(X.groups);
+        var tabs = document.getElementById("tabs"), panel = document.getElementById("tabpanel");
+        function draw() {
+          tabs.innerHTML = [["all", "Everyone", people.length]].concat(keys.map(function (k) {
+            return [k, X.groups[k], people.filter(function (p) { return p.group === k; }).length];
+          })).map(function (x) {
+            return '<button role="tab" data-k="' + x[0] + '" aria-selected="' + (tab === x[0]) + '">' + esc(x[1]) + "<span>" + x[2] + "</span></button>";
+          }).join("");
+          panel.innerHTML = keys.filter(function (k) { return tab === "all" || tab === k; }).map(function (k) {
+            var list = people.filter(function (p) { return p.group === k; });
+            if (k === "Alumni") list.sort(function (a, b) { return a.order - b.order; });
+            return '<div class="group"><h2>' + esc(X.groups[k]) + "<span>" + list.length + (list.length === 1 ? " person" : " people") + "</span></h2>" +
+              '<ul class="pgrid">' + list.map(personCard).join("") + "</ul></div>";
+          }).join("");
+        }
+        tabs.addEventListener("click", function (e) {
+          var b = e.target.closest("button"); if (!b) return;
+          tab = b.dataset.k; draw();
+          tabs.querySelector('[data-k="' + tab + '"]').focus();
+        });
+        draw();
+      }
+    };
+  };
+
+  views.publications = function (_, query) {
+    var years = []; X.pubs.forEach(function (p) { if (years.indexOf(p.year) < 0) years.push(p.year); });
+    years.sort(function (a, b) { return b - a; });
+    var start = themeById[query.theme] ? query.theme : "";
+    return { title: "Publications", html:
+      banner("Publications", "All " + X.pubs.length + " papers from the lab since " + years[years.length - 1] + ". Names in bold are lab members.", [["Publications"]]) +
+      '<section class="block"><div class="wrap"><form class="filters" id="filters" role="search"><div><label for="q">Search title, author or venue</label><input id="q" type="search" placeholder="For example counterfactual" autocomplete="off" value="' + esc(query.q || "") + '"></div>' +
+      '<div><label for="fy">Year</label><select id="fy"><option value="">All years</option>' + years.map(function (y) { return "<option>" + y + "</option>"; }).join("") + "</select></div>" +
+      '<div><label for="ft">Research theme</label><select id="ft"><option value="">All themes</option>' + X.themes.map(function (t) {
+        return '<option value="' + t.id + '"' + (start === t.id ? " selected" : "") + ">" + esc(t.short) + "</option>";
+      }).join("") + '</select></div><div><button type="reset" class="btn line">Clear</button></div></form>' +
+      '<p class="count" id="count" aria-live="polite"></p><div id="list"></div></div></section>',
+      after: function () {
+        var f = document.getElementById("filters"), q = document.getElementById("q"), fy = document.getElementById("fy"), ft = document.getElementById("ft");
+        function draw() {
+          var words = plain(q.value).split(/\s+/).filter(Boolean);
+          var hits = X.pubs.filter(function (p) {
+            if (fy.value && String(p.year) !== fy.value) return false;
+            if (ft.value && p.theme !== ft.value) return false;
+            var hay = plain(p.title + " " + p.authors.join(" ") + " " + p.venue + " " + p.year);
+            return words.every(function (w) { return hay.indexOf(w) >= 0; });
+          });
+          document.getElementById("count").textContent = "Showing " + hits.length + " of " + X.pubs.length + " publications";
+          var html = "";
+          years.forEach(function (y) {
+            var list = hits.filter(function (p) { return p.year === y; });
+            if (list.length) html += '<h2 class="year">' + y + "<span>" + list.length + (list.length === 1 ? " paper" : " papers") + '</span></h2><ul class="pubs">' +
+              list.map(function (p) { return pubItem(p, 12); }).join("") + "</ul>";
+          });
+          document.getElementById("list").innerHTML = html || '<p class="empty">No publications match. Try fewer words or clear the filters.</p>';
+        }
+        f.addEventListener("input", draw);
+        f.addEventListener("submit", function (e) { e.preventDefault(); });
+        f.addEventListener("reset", function () { setTimeout(draw, 0); });
+        draw();
+      }
+    };
+  };
+
+  views.news = function () {
+    return { title: "News", html:
+      banner("News", "New people, graduations and papers from the lab.", [["News"]]) +
+      '<section class="block"><div class="wrap" style="max-width:940px"><ul class="news">' + X.news.map(newsItem).join("") + "</ul></div></section>"
+    };
+  };
+
+  views.videos = function () {
+    return { title: "Videos", html:
+      banner("Videos", "Talks and seminars by lab members. Each video opens on YouTube.", [["Videos"]]) +
+      '<section class="block"><div class="wrap"><ul class="vgrid">' + X.videos.map(videoCard).join("") + "</ul></div></section>"
+    };
+  };
+
+  views.projects = function () {
+    return { title: "Project sites", html:
+      banner("Project sites", "Some of our projects have a website of their own.", [["Project sites"]]) +
+      '<section class="block"><div class="wrap"><p class="note">These links leave the lab website. Each project site is a separate website with its own look and its own menu.</p>' + sitesList() + "</div></section>"
+    };
+  };
+
+  views.join = function () {
+    var lead = byId.chunouyang;
+    var ic = [icon.study, icon.visit, icon.partner];
+    return { title: "Join us", html:
+      banner("Study and work with us", X.join.lead, [["Join us"]]) +
+      '<section class="block"><div class="wrap"><div class="head"><div><h2>Ways to join</h2></div></div><ul class="opts">' + X.join.options.map(function (o, i) {
+        return "<li>" + ic[i % 3] + "<h3>" + esc(o.title) + "</h3><p>" + esc(o.text) + "</p></li>";
+      }).join("") + '</ul><div class="head"><div><h2>How to apply for a research degree</h2></div></div><ol class="steps" style="list-style:none;padding:0">' +
+        "<li><b>Find your theme</b><span>Read about our four research themes and recent papers.</span></li>" +
+        "<li><b>Write to us</b><span>Send a short note about your background and the topic that interests you.</span></li>" +
+        "<li><b>Apply through the university</b><span>We help you prepare the research proposal for your application.</span></li></ol>" +
+        '<div class="contact">' + (lead ? face(lead) : "") + "<div><h3>" + esc(X.join.contact) + "</h3><p>" + (lead ? esc(lead.role.replace(/\s*@/g, ", ")) : "") +
+        '</p></div><a class="btn teal" href="' + (lead && lead.url ? esc(lead.url) : "#/people") + '">Get in touch</a></div></div></section>' +
+      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Choose a research theme</h2></div></div><ul class="themes">' + X.themes.map(themeCard).join("") + "</ul></div></section>"
+    };
+  };
+
+  views.mission = function () {
+    var ack = ["QUT Women in Research Grant Scheme 2021", "QUT Centre for Data Science First Byte Funding Program 2021",
+      "Australian Government Research Training Program (International) Scholarship, 2019 to 2023",
+      "Australian Government Research Training Program (Domestic) Scholarship, 2020 to 2023",
+      "QUT Science and Engineering Faculty Diversity Scholarship, 2020 to 2023",
+      "QUT Postgraduate Research Award (International) Scholarship, 2021 to 2025",
+      "QUT Science and Engineering Faculty Scholarship, 2021 to 2024",
+      "QUT Centre for Data Science Higher Degree Research Scholarship, 2021 to 2024",
+      "QUT Centre for Data Science Top Up Scholarship, 2021 to 2024",
+      "QUT Vacation Research Experience Scheme Scholarship 2020", "QUT International Merit Scholarship 2021",
+      "QUT Higher Degree Research Internship Industry Scholarship 2021"];
+    return { title: "Mission", html:
+      banner("Our mission and vision", X.tagline.charAt(0).toUpperCase() + X.tagline.slice(1) + ".", [["Mission"]]) +
+      '<section class="block"><div class="wrap" style="max-width:1000px">' +
+      "<details open><summary>Our vision</summary><div class=\"in\"><p>" + esc(X.vision) + "</p></div></details>" +
+      '<details open><summary>Our mission</summary><div class="in"><ul class="bul">' +
+        "<li>Create breakthroughs in building explainable analytics for machine intelligence<ul>" +
+          "<li>Devise new methods and techniques to build robust and interpretable models</li>" +
+          "<li>Design new theories and algorithms to detect biases and provide ethical and fair analyses of machine learned predictions</li>" +
+          "<li>Develop new frameworks and tools for user-centric intelligent predictive systems that keep people in the loop</li></ul></li>" +
+        "<li>Apply explainable machine intelligence to a wide range of domains and industry sectors</li>" +
+        "<li>Build collaborative networks and partnerships around explainable machine intelligence</li>" +
+        "<li>Cultivate research students to become the next generation of achievers in data science</li></ul></div></details>" +
+      '<details open><summary>Our values</summary><div class="in"><ul class="vals">' + X.values.map(function (v) { return "<li>" + esc(v) + "</li>"; }).join("") + "</ul></div></details>" +
+      '<details><summary>Funding and scholarships we acknowledge</summary><div class="in"><ul class="ack">' + ack.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul></div></details>" +
+      "</div></section>"
+    };
+  };
+
+  /* Counters count up once when they come into view */
+  function counters() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        var el = e.target, n = +el.dataset.n, t0 = null;
+        function step(t) {
+          if (!t0) t0 = t;
+          var k = Math.min(1, (t - t0) / 900);
+          el.textContent = Math.round(n * (1 - Math.pow(1 - k, 3)));
+          if (k < 1) requestAnimationFrame(step); else el.textContent = n;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: .6 });
+    main.querySelectorAll("[data-n]").forEach(function (el) { io.observe(el); });
+  }
+
+  /* Router */
+  var first = true;
+  function route() {
+    var raw = location.hash.replace(/^#\/?/, "");
+    var qi = raw.indexOf("?"), query = {};
+    if (qi >= 0) {
+      raw.slice(qi + 1).split("&").forEach(function (kv) {
+        var p = kv.split("="); query[decodeURIComponent(p[0])] = decodeURIComponent((p[1] || "").replace(/\+/g, " "));
+      });
+      raw = raw.slice(0, qi);
+    }
+    var parts = raw.split("/").filter(Boolean);
+    var name = parts[0] || "home";
+    if (!views[name]) name = "home";
+    var v = views[name](parts[1], query);
+    main.innerHTML = v.html;
+    if (v.after) v.after();
+    document.title = (v.title ? v.title + " | " : "") + "XAMI Lab | Explainable Analytics for Machine Intelligence";
+    menu.querySelectorAll("[data-r]").forEach(function (el) {
+      var on = el.dataset.r === name;
+      if (el.tagName === "A") { if (on) el.setAttribute("aria-current", "page"); else el.removeAttribute("aria-current"); }
+      else el.classList.toggle("current", on);
+    });
+    if (window.closeMenus) window.closeMenus();
+    counters();
+    if (!first) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
+    first = false;
+  }
+
+  document.getElementById("skip").addEventListener("click", function (e) { e.preventDefault(); main.focus(); main.scrollIntoView(); });
+  document.getElementById("partners").innerHTML = X.partners.map(function (p) {
+    return '<li><img src="' + esc(p.logo) + '" alt="' + esc(p.name) + '"></li>';
+  }).join("");
+  document.getElementById("footthemes").innerHTML = X.themes.map(function (t) {
+    return '<li><a href="#/research/' + t.id + '">' + esc(t.short) + "</a></li>";
+  }).join("");
+  buildMenu();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>

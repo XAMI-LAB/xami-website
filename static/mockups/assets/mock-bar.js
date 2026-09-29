@@ -2,12 +2,13 @@
 // It is part of the review tool, not part of any design.
 (function () {
   var designs = [
-    { file: "explain.html", name: "Try an explanation" },
-    { file: "map.html", name: "Research map" },
-    { file: "paper.html", name: "Working paper" },
-    { file: "timeline.html", name: "Lab timeline" },
-    { file: "poster.html", name: "Four themes" },
-    { file: "finder.html", name: "Search first" },
+    { file: "institute.html", name: "Institute" },
+    { file: "showcase.html", name: "Showcase" },
+    { file: "classic.html", name: "Academic classic" },
+    { file: "bold.html", name: "Bold" },
+    { file: "university.html", name: "University" },
+    { file: "immersive.html", name: "Immersive" },
+    { file: "bento.html", name: "Mosaic" },
   ];
   window.XAMI_DESIGNS = designs;
 
