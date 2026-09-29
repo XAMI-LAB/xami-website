@@ -6,7 +6,6 @@
     { file: "map.html", name: "Research map" },
     { file: "paper.html", name: "Working paper" },
     { file: "timeline.html", name: "Lab timeline" },
-    { file: "people.html", name: "People first" },
     { file: "poster.html", name: "Four themes" },
     { file: "finder.html", name: "Search first" },
   ];
