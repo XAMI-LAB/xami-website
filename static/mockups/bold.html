@@ -173,15 +173,13 @@ ul,ol{list-style:none}
 .pgrid.big{grid-template-columns:repeat(2,minmax(0,1fr))}
 .pgrid.small{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
 .person{position:relative;display:block;color:#fff;text-decoration:none;overflow:hidden;background:var(--ink2);aspect-ratio:1;isolation:isolate}
-.person img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:grayscale(1) contrast(1.15);transition:filter .45s,transform .6s cubic-bezier(.2,.7,.2,1);z-index:-2}
-.person::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(140deg,var(--violet),var(--sky) 55%,var(--teal));mix-blend-mode:color;opacity:.9;transition:opacity .45s}
+.person img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .6s cubic-bezier(.2,.7,.2,1);z-index:-2}
 .person::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(11,16,51,.92),rgba(11,16,51,0) 58%)}
-.person:hover img,.person:focus-visible img{filter:none;transform:scale(1.06)}
-.person:hover::before,.person:focus-visible::before{opacity:0}
+.person:hover img,.person:focus-visible img{transform:scale(1.06)}
 .person .init{position:absolute;inset:0;display:grid;place-items:center;font:900 64px/1 var(--display);opacity:.25;z-index:-3}
 .person .who{position:absolute;left:16px;right:16px;bottom:14px}
 .person .who b{display:block;font:800 18px/1.15 var(--display);letter-spacing:-.01em}
-.person .who span{display:block;font:500 12.5px/1.35 var(--body);margin-top:5px;color:#DDE2FF}
+.person .who span{display:block;font:500 12.5px/1.35 var(--body);letter-spacing:0;word-spacing:normal;margin-top:5px;color:#DDE2FF}
 .person .tag{position:absolute;left:0;top:0;padding:7px 10px;font:800 12px/1 var(--body);background:#fff;color:var(--ink)}
 .pgrid.big .person{aspect-ratio:5/4}
 .pgrid.big .person .who b{font-size:clamp(24px,2.6vw,38px)}
