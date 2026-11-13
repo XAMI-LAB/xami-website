@@ -51,7 +51,7 @@
     "prettier": "^3.9.9",
     "typescript": "~6.0.3",
     "webpack-license-plugin": "^4.5.1",
-    "wrangler": "^4.141.0"
+    "wrangler": "^4.161.0"
   },
   "browserslist": {
     "production": [
