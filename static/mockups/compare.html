@@ -280,6 +280,61 @@
         background: #fff;
         transform-origin: 0 0;
       }
+
+      /* Home page: whole page or section by section */
+      .modes {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        margin: 0 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--paper);
+      }
+      .modes button {
+        font: inherit;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 7px 14px;
+        border: 0;
+        border-radius: 7px;
+        background: none;
+        color: var(--soft);
+        cursor: pointer;
+      }
+      .modes button[aria-pressed="true"] {
+        background: var(--ink);
+        color: #fff;
+      }
+      .part {
+        margin: 0 0 44px;
+      }
+      .part h3.part-title {
+        font-size: 21px;
+        margin: 0 0 4px;
+      }
+      .part > p {
+        margin: 0 0 16px;
+        color: var(--soft);
+        font-size: 15.5px;
+      }
+      .none {
+        display: grid;
+        place-items: center;
+        padding: 28px 20px;
+        min-height: 120px;
+        color: var(--soft);
+        font-size: 15px;
+        text-align: center;
+        background: var(--ground);
+      }
+      .more {
+        margin: 0;
+        padding: 8px 16px;
+        border-top: 1px solid var(--line);
+        color: var(--soft);
+        font-size: 14px;
+      }
     </style>
   </head>
   <body>
@@ -297,6 +352,12 @@
           Each preview is the real page, so you can scroll inside it and click
           around. Use <strong>Enlarge</strong> for a bigger view. If you like
           parts of different designs on one page, say which in the notes.
+        </p>
+        <p>
+          The home page can also be compared
+          <strong>section by section</strong>: the top banner, research
+          themes, people, publications, news and so on, each with its own
+          choice.
         </p>
       </header>
     </div>
@@ -346,11 +407,85 @@
           { id: "news", route: "news", name: "News" },
           { id: "join", route: "join", name: "Join us" },
         ];
+
+        /* The parts of the home page, and where each design puts them.
+           A design that has no separate part of that kind leaves it out. */
+        var sections = [
+          { id: "top", name: "Top banner", text: "The first thing a visitor sees: the menu, the lab name and the opening banner." },
+          { id: "about", name: "About the lab", text: "A short introduction to what the lab does, when it is separate from the banner." },
+          { id: "themes", name: "Research themes", text: "How the research themes are introduced on the home page." },
+          { id: "people", name: "People", text: "How the team is shown on the home page." },
+          { id: "publications", name: "Publications", text: "How recent papers are shown on the home page." },
+          { id: "news", name: "News", text: "How lab news is shown on the home page." },
+          { id: "join", name: "Join us", text: "The invitation to students, visitors and partners." },
+        ];
+        var where = {
+          "institute.html": {
+            top: "#top, #view > .hero, #view > .numbers",
+            themes: "#view > .block.deep",
+            people: "#view > .block.mint",
+            publications: "#view > .block.paper",
+            news: "#view > .strip",
+            join: "#view > .block.grad",
+          },
+          "showcase.html": {
+            top: "header.head, #view > section:nth-of-type(1)",
+            people: "#view > section:nth-of-type(2)",
+            news: "#view > section:nth-of-type(3)",
+            themes: "#view > section:nth-of-type(4)",
+            join: "#view > section:nth-of-type(5)",
+          },
+          "classic.html": {
+            top: "#side, .view > .lab-name, .view > .affil, #banner",
+            about: ".view > .mission",
+            themes: ".view > section:nth-of-type(1)",
+            people: ".view > section:nth-of-type(2)",
+            publications: ".cols > section",
+            news: ".aside > section:first-child",
+            join: ".aside > section:last-child",
+          },
+          "bold.html": {
+            top: "header.top, #view > section.hero",
+            about: "#view > div.wrap",
+            themes: "#research",
+            people: "#people",
+            publications: "#publications",
+            news: "#view > .ticker, #news",
+            join: "#join",
+          },
+          "university.html": {
+            top: ".topbar, .mainbar, #main > .banner, #main > .quick",
+            about: "#main > section:nth-of-type(1)",
+            themes: "#main > section:nth-of-type(2)",
+            people: "#main > section:nth-of-type(5)",
+            publications: "#main > section:nth-of-type(3) .col:last-child",
+            news: "#main > section:nth-of-type(3) .col:first-child",
+            join: "#main > section.study",
+          },
+          "immersive.html": {
+            top: "#head, #s-top",
+            about: "#s-about",
+            themes: "#s-process, #s-causal, #s-persuasive, #s-medical",
+            people: "#s-people",
+            publications: "#s-work",
+            join: "#s-join",
+          },
+          "bento.html": {
+            top: "body > header, section.hello, .t-photo",
+            themes: ".t-theme",
+            people: ".t-crew, .t-nums",
+            publications: ".t-paper",
+            news: ".t-news",
+            join: ".t-join",
+          },
+        };
+
         var VIEW_W = 1440;
         var VIEW_H = 900;
         var KEY = "xami-design-choices";
 
         var $ = function (id) { return document.getElementById(id); };
+        var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
         var esc = function (s) {
           return String(s).replace(/[&<>"']/g, function (c) {
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -372,6 +507,10 @@
           var id = location.hash.slice(1);
           return pages.filter(function (p) { return p.id === id; })[0] || pages[0];
         }
+        function bySection() { return current().id === "home" && state.homeMode === "sections"; }
+        function sectionPicks() {
+          return sections.filter(function (s) { return state.pick["home:" + s.id]; }).length;
+        }
 
         /* Keep every scaled preview the width of its card */
         var fit = new ResizeObserver(function (entries) {
@@ -380,36 +519,114 @@
           });
         });
 
+        /* Find one part of a design's home page inside a preview, scroll the
+           preview to it and, when asked, hide everything around it. Needs the
+           pages to be served from the same site (not opened as local files). */
+        function locate(frame, selector, hideRest) {
+          var doc, win = frame.contentWindow;
+          try { doc = frame.contentDocument; } catch (e) { doc = null; }
+          if (!doc) return null;
+          var found = Array.prototype.slice.call(doc.querySelectorAll(selector));
+          if (!found.length) return null;
+          if (hideRest) {
+            var keep = new Set();
+            found.forEach(function (el) { for (var n = el; n; n = n.parentElement) keep.add(n); });
+            keep.forEach(function (n) {
+              if (found.indexOf(n) >= 0) return;
+              each(n.children, function (c) { if (!keep.has(c)) c.style.visibility = "hidden"; });
+            });
+          }
+          win.scrollTo({ top: 0, behavior: "instant" });
+          var top = Infinity, bottom = 0;
+          found.forEach(function (el) {
+            var r = el.getBoundingClientRect();
+            if (!r.height) return;
+            top = Math.min(top, r.top);
+            bottom = Math.max(bottom, r.bottom);
+          });
+          if (top === Infinity) return null;
+          win.scrollTo({ top: top, behavior: "instant" });
+          return bottom - top;
+        }
+
+        function cutOut(frame, selector) {
+          var card = frame.closest(".card");
+          var show = function () {
+            var h = locate(frame, selector, true);
+            if (h === null) return;
+            card.querySelector(".screen").style.aspectRatio = VIEW_W + " / " + Math.round(Math.min(h, VIEW_H));
+            card.querySelector(".more").hidden = h <= VIEW_H + 8;
+          };
+          /* Once the page has drawn itself, and again after images settle */
+          setTimeout(show, 700);
+          setTimeout(show, 2500);
+        }
+
         function drawTabs() {
           var page = current();
           $("tabs").innerHTML = pages.map(function (p) {
             var picked = state.pick[p.id];
+            var label = picked ? nameOf[picked] : "Not chosen";
+            if (p.id === "home" && state.homeMode === "sections") label = sectionPicks() + " of " + sections.length + " sections chosen";
             return '<li><a href="#' + p.id + '"' + (p === page ? ' aria-current="page"' : "") + ">" +
-              esc(p.name) + '<small class="' + (picked ? "done" : "") + '">' +
-              (picked ? esc(nameOf[picked]) : "Not chosen") + "</small></a></li>";
+              esc(p.name) + '<small class="' + (picked || (p.id === "home" && sectionPicks()) ? "done" : "") + '">' +
+              esc(label) + "</small></a></li>";
           }).join("");
+        }
+
+        function card(d, i, key, frameSrc, title) {
+          var on = state.pick[key] === d.file;
+          return '<li class="card' + (on ? " picked" : "") + '" data-file="' + d.file + '" data-key="' + key + '">' +
+            '<div class="card-head"><h3><span>' + (i + 1) + "</span>" + esc(d.name) + "</h3>" +
+            '<button class="btn pickbtn" type="button" data-pick aria-pressed="' + on + '">' + (on ? "Chosen" : "Choose") + "</button>" +
+            '<button class="btn" type="button" data-big>Enlarge</button></div>' +
+            '<div class="screen"><iframe loading="lazy" title="' + esc(title) + '" src="' + frameSrc + '"></iframe></div>' +
+            '<p class="more" hidden>This part is taller than one screen. Scroll inside the preview to see the rest.</p></li>';
         }
 
         function drawPage() {
           var page = current();
           fit.disconnect();
-          /* Fresh frames for each page, so switching pages adds no history entries */
-          $("page").innerHTML =
-            "<h2>" + esc(page.name) + "</h2>" +
-            "<p>The " + esc(page.name.toLowerCase()) + " page in each design, shown as it looks in a 1440 pixel wide browser window.</p>" +
-            '<ul class="grid">' + designs.map(function (d, i) {
-              var on = state.pick[page.id] === d.file;
-              return '<li class="card' + (on ? " picked" : "") + '" data-file="' + d.file + '">' +
-                '<div class="card-head"><h3><span>' + (i + 1) + "</span>" + esc(d.name) + "</h3>" +
-                '<button class="btn pickbtn" type="button" data-pick aria-pressed="' + on + '">' + (on ? "Chosen" : "Choose") + "</button>" +
-                '<button class="btn" type="button" data-big>Enlarge</button></div>' +
-                '<div class="screen"><iframe loading="lazy" title="' + esc(d.name + " design, " + page.name + " page") +
-                '" src="' + src(d.file, page) + '"></iframe></div></li>';
-            }).join("") + "</ul>" +
-            '<div class="notes"><label for="note">Notes on the ' + esc(page.name.toLowerCase()) + " page</label>" +
+          var html = "<h2>" + esc(page.name) + "</h2>";
+          if (page.id === "home") {
+            html += '<div class="modes" role="group" aria-label="How to compare the home page">' +
+              '<button type="button" data-mode="page" aria-pressed="' + !bySection() + '">Whole page</button>' +
+              '<button type="button" data-mode="sections" aria-pressed="' + bySection() + '">Section by section</button></div>';
+          }
+          if (bySection()) {
+            html += "<p>Each part of the home page, cut out of every design that has it. Choose the version you like best for each part.</p>" +
+              sections.map(function (s) {
+                var key = "home:" + s.id;
+                var cards = designs.map(function (d, i) {
+                  var sel = where[d.file][s.id];
+                  if (!sel) {
+                    return '<li class="card" data-file="' + d.file + '"><div class="card-head"><h3><span>' + (i + 1) + "</span>" + esc(d.name) +
+                      '</h3></div><div class="none">This design has no separate ' + esc(s.name.toLowerCase()) + " part on its home page.</div></li>";
+                  }
+                  return card(d, i, key, src(d.file, page), d.name + " design, home page, " + s.name);
+                }).join("");
+                return '<section class="part" aria-labelledby="part-' + s.id + '"><h3 class="part-title" id="part-' + s.id + '">' + esc(s.name) +
+                  "</h3><p>" + esc(s.text) + '</p><ul class="grid">' + cards + "</ul></section>";
+              }).join("");
+          } else {
+            html += "<p>The " + esc(page.name.toLowerCase()) + " page in each design, shown as it looks in a 1440 pixel wide browser window.</p>" +
+              '<ul class="grid">' + designs.map(function (d, i) {
+                return card(d, i, page.id, src(d.file, page), d.name + " design, " + page.name + " page");
+              }).join("") + "</ul>";
+          }
+          html += '<div class="notes"><label for="note">Notes on the ' + esc(page.name.toLowerCase()) + " page</label>" +
             '<textarea id="note" rows="3" placeholder="For example: the top banner from Bold, the news strip from Institute, the people grid from Mosaic">' +
             esc(state.note[page.id] || "") + "</textarea></div>";
-          Array.prototype.forEach.call(document.querySelectorAll(".screen"), function (s) { fit.observe(s); });
+          /* Fresh frames for each page, so switching pages adds no history entries */
+          $("page").innerHTML = html;
+          each(document.querySelectorAll(".screen"), function (s) { fit.observe(s); });
+          if (bySection()) {
+            each(document.querySelectorAll(".card[data-key] iframe"), function (f) {
+              var c = f.closest(".card");
+              var sel = where[c.dataset.file][c.dataset.key.slice(5)];
+              f.addEventListener("load", function () { cutOut(f, sel); });
+            });
+          }
           $("note").addEventListener("input", function (e) {
             state.note[page.id] = e.target.value;
             save();
@@ -417,13 +634,12 @@
           });
         }
 
-        function setPick(file) {
-          var page = current();
-          if (state.pick[page.id] === file) delete state.pick[page.id];
-          else state.pick[page.id] = file;
+        function setPick(key, file) {
+          if (state.pick[key] === file) delete state.pick[key];
+          else state.pick[key] = file;
           save();
-          Array.prototype.forEach.call(document.querySelectorAll(".card"), function (c) {
-            var on = state.pick[page.id] === c.dataset.file;
+          each(document.querySelectorAll('.card[data-key="' + key + '"]'), function (c) {
+            var on = state.pick[key] === c.dataset.file;
             c.classList.toggle("picked", on);
             var b = c.querySelector("[data-pick]");
             b.setAttribute("aria-pressed", String(on));
@@ -437,18 +653,23 @@
         function drawSummary() {
           var lines = ["XAMI Lab website: design chosen for each page", ""];
           pages.forEach(function (p) {
-            var line = p.name + ": " + (state.pick[p.id] ? nameOf[state.pick[p.id]] : "not chosen");
+            lines.push(p.name + ": " + (state.pick[p.id] ? nameOf[state.pick[p.id]] : "not chosen"));
+            if (p.id === "home" && sectionPicks()) {
+              sections.forEach(function (s) {
+                var file = state.pick["home:" + s.id];
+                lines.push("  " + s.name + ": " + (file ? nameOf[file] : "not chosen"));
+              });
+            }
             var note = (state.note[p.id] || "").trim();
-            lines.push(line);
             if (note) lines.push("  Notes: " + note.replace(/\s*\n\s*/g, " / "));
           });
           $("summary").value = lines.join("\n");
         }
 
-        /* Enlarged view */
-        var bigFile = null;
+        /* Enlarged view: the whole page, scrolled to the chosen part */
+        var big = { file: null, key: null };
         function drawBigPick() {
-          var on = state.pick[current().id] === bigFile;
+          var on = state.pick[big.key] === big.file;
           $("big-pick").setAttribute("aria-pressed", String(on));
           $("big-pick").textContent = on ? "Chosen" : "Choose";
         }
@@ -461,29 +682,38 @@
           frame.style.height = stage.clientHeight / s + "px";
           frame.style.transform = "scale(" + s + ")";
         }
-        function openBig(file) {
+        function openBig(file, key) {
           var page = current();
-          bigFile = file;
-          $("big-title").textContent = nameOf[file] + ", " + page.name + " page";
+          var part = key.indexOf("home:") === 0 ? sections.filter(function (s) { return "home:" + s.id === key; })[0] : null;
+          big = { file: file, key: key };
+          $("big-title").textContent = nameOf[file] + ", " + page.name + (part ? " page, " + part.name : " page");
           $("big-open").href = src(file, page);
           var frame = document.createElement("iframe");
-          frame.title = nameOf[file] + " design, " + page.name + " page";
+          frame.title = $("big-title").textContent;
           frame.src = src(file, page);
+          if (part) frame.addEventListener("load", function () { setTimeout(function () { locate(frame, where[file][part.id], false); }, 700); });
           $("stage").replaceChildren(frame);
           drawBigPick();
           $("big").showModal();
           sizeBig();
         }
-        $("big").addEventListener("close", function () { $("stage").replaceChildren(); bigFile = null; });
+        $("big").addEventListener("close", function () { $("stage").replaceChildren(); big = { file: null, key: null }; });
         $("big-close").addEventListener("click", function () { $("big").close(); });
-        $("big-pick").addEventListener("click", function () { setPick(bigFile); });
+        $("big-pick").addEventListener("click", function () { setPick(big.key, big.file); });
         window.addEventListener("resize", sizeBig);
 
         $("page").addEventListener("click", function (e) {
-          var card = e.target.closest(".card");
-          if (!card) return;
-          if (e.target.closest("[data-pick]")) setPick(card.dataset.file);
-          else if (e.target.closest("[data-big]")) openBig(card.dataset.file);
+          var mode = e.target.closest("[data-mode]");
+          if (mode) {
+            state.homeMode = mode.dataset.mode;
+            save();
+            render();
+            return;
+          }
+          var c = e.target.closest(".card[data-key]");
+          if (!c) return;
+          if (e.target.closest("[data-pick]")) setPick(c.dataset.key, c.dataset.file);
+          else if (e.target.closest("[data-big]")) openBig(c.dataset.file, c.dataset.key);
         });
 
         $("copy").addEventListener("click", function () {
@@ -497,7 +727,7 @@
           }
         });
         $("clear").addEventListener("click", function () {
-          state = { pick: {}, note: {} };
+          state = { pick: {}, note: {}, homeMode: state.homeMode };
           save();
           render();
         });
