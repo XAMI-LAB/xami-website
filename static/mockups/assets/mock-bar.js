@@ -19,7 +19,8 @@
   var index = designs.findIndex(function (d) {
     return d.file.replace(/\.html$/, "") === page;
   });
-  if (index < 0) return;
+  // No bar on non-design pages or inside the comparison page's previews.
+  if (index < 0 || window.self !== window.top) return;
 
   var previous = designs[(index + designs.length - 1) % designs.length];
   var next = designs[(index + 1) % designs.length];

@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Compare the XAMI Lab designs page by page</title>
+    <style>
+      :root {
+        --ink: #14212b;
+        --soft: #51626f;
+        --line: #d5dde3;
+        --ground: #f3f6f8;
+        --paper: #ffffff;
+        --link: #0b6f8f;
+        --pick: #0b7a4b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--ink);
+        font:
+          17px/1.55 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+      .wrap {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      header {
+        padding: 40px 0 20px;
+      }
+      header .back {
+        color: var(--link);
+        font-size: 15px;
+      }
+      header img {
+        width: 44px;
+        height: auto;
+        display: block;
+        margin: 18px 0 16px;
+      }
+      h1 {
+        font-size: clamp(28px, 3.6vw, 40px);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 0 0 12px;
+      }
+      header p {
+        max-width: 74ch;
+        margin: 0 0 8px;
+        color: var(--soft);
+      }
+      header p strong {
+        color: var(--ink);
+      }
+      h2 {
+        font-size: 24px;
+        letter-spacing: -0.01em;
+        margin: 0 0 6px;
+      }
+
+      /* Page tabs */
+      .tabs {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: color-mix(in srgb, var(--ground) 94%, transparent);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--line);
+      }
+      .tabs ul {
+        list-style: none;
+        margin: 0;
+        padding: 10px 0;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+      }
+      .tabs a {
+        display: block;
+        padding: 7px 14px 6px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        color: inherit;
+        text-decoration: none;
+        white-space: nowrap;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.25;
+      }
+      .tabs a small {
+        display: block;
+        font-weight: 400;
+        font-size: 12.5px;
+        color: var(--soft);
+      }
+      .tabs a small.done {
+        color: var(--pick);
+      }
+      .tabs a[aria-current="page"] {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #fff;
+      }
+      .tabs a[aria-current="page"] small {
+        color: #c9d6df;
+      }
+
+      /* Designs for the current page */
+      .page {
+        padding: 26px 0 10px;
+      }
+      .page > p {
+        margin: 0 0 20px;
+        color: var(--soft);
+        max-width: 80ch;
+      }
+      .grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
+        gap: 26px 22px;
+      }
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .card.picked {
+        border-color: var(--pick);
+        outline: 3px solid color-mix(in srgb, var(--pick) 30%, transparent);
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px 10px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .card-head h3 {
+        margin: 0;
+        font-size: 17px;
+        flex: 1;
+      }
+      .card-head h3 span {
+        color: var(--soft);
+        font-weight: 400;
+        margin-right: 4px;
+      }
+      .btn {
+        font: inherit;
+        font-size: 14px;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+        color: var(--ink);
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .btn:hover,
+      .btn:focus-visible {
+        border-color: var(--link);
+        color: var(--link);
+      }
+      .pickbtn[aria-pressed="true"] {
+        background: var(--pick);
+        border-color: var(--pick);
+        color: #fff;
+      }
+      /* A live 1440 by 900 browser window, scaled down to fit the card */
+      .screen {
+        position: relative;
+        aspect-ratio: 1440 / 900;
+        overflow: hidden;
+        background: var(--line);
+      }
+      .screen iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1440px;
+        height: 900px;
+        border: 0;
+        background: #fff;
+        transform-origin: 0 0;
+        transform: scale(var(--s, 0.36));
+      }
+
+      .notes {
+        margin: 26px 0 0;
+        max-width: 900px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      textarea {
+        width: 100%;
+        font: inherit;
+        font-size: 15.5px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        color: var(--ink);
+        resize: vertical;
+      }
+
+      /* Summary */
+      .summary {
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        margin-top: 44px;
+        padding: 40px 0 70px;
+      }
+      .summary p {
+        margin: 0 0 16px;
+        color: var(--soft);
+        max-width: 74ch;
+      }
+      .summary textarea {
+        max-width: 900px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 14px;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      #copied {
+        color: var(--pick);
+        font-size: 15px;
+      }
+
+      /* Enlarged view */
+      dialog {
+        width: 96vw;
+        height: 94vh;
+        max-width: none;
+        max-height: none;
+        padding: 0;
+        border: 0;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      dialog::backdrop {
+        background: rgb(8 20 32 / 0.7);
+      }
+      dialog .card-head {
+        height: 54px;
+      }
+      dialog .stage {
+        position: relative;
+        height: calc(100% - 54px);
+        overflow: hidden;
+        background: var(--line);
+      }
+      dialog .stage iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 0;
+        background: #fff;
+        transform-origin: 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="back" href="index.html">All designs</a>
+        <img src="assets/xami-mark.png" alt="XAMI Lab" />
+        <h1>Compare the designs page by page</h1>
+        <p>
+          The new site does not have to follow one design. Pick a page below
+          to see how each of the seven designs shows it, then
+          <strong>choose the one you like best for that page</strong>.
+        </p>
+        <p>
+          Each preview is the real page, so you can scroll inside it and click
+          around. Use <strong>Enlarge</strong> for a bigger view. If you like
+          parts of different designs on one page, say which in the notes.
+        </p>
+      </header>
+    </div>
+
+    <nav class="tabs" aria-label="Site pages">
+      <div class="wrap"><ul id="tabs"></ul></div>
+    </nav>
+
+    <main class="wrap page" id="page" tabindex="-1"></main>
+
+    <section class="summary" aria-labelledby="summary-title">
+      <div class="wrap">
+        <h2 id="summary-title">Your choices</h2>
+        <p>
+          Your choices are saved in this browser only. Copy them and send them
+          to the team.
+        </p>
+        <textarea id="summary" rows="12" readonly></textarea>
+        <div class="actions">
+          <button class="btn" id="copy" type="button">Copy my choices</button>
+          <button class="btn" id="clear" type="button">Clear all choices</button>
+          <span id="copied" role="status"></span>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="big" aria-labelledby="big-title">
+      <div class="card-head">
+        <h3 id="big-title"></h3>
+        <button class="btn pickbtn" id="big-pick" type="button"></button>
+        <a class="btn" id="big-open" target="_blank" rel="noopener">Open in new tab</a>
+        <button class="btn" id="big-close" type="button">Close</button>
+      </div>
+      <div class="stage" id="stage"></div>
+    </dialog>
+
+    <script src="assets/mock-bar.js"></script>
+    <script>
+      (function () {
+        var designs = window.XAMI_DESIGNS;
+        var pages = [
+          { id: "home", route: "", name: "Home" },
+          { id: "mission", route: "mission", name: "Mission" },
+          { id: "research", route: "research", name: "Research" },
+          { id: "people", route: "people", name: "People" },
+          { id: "publications", route: "publications", name: "Publications" },
+          { id: "news", route: "news", name: "News" },
+          { id: "videos", route: "videos", name: "Videos" },
+          { id: "projects", route: "projects", name: "Project sites" },
+          { id: "join", route: "join", name: "Join us" },
+        ];
+        var VIEW_W = 1440;
+        var VIEW_H = 900;
+        var KEY = "xami-design-choices";
+
+        var $ = function (id) { return document.getElementById(id); };
+        var esc = function (s) {
+          return String(s).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+          });
+        };
+
+        var state;
+        try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+        state.pick = state.pick || {};
+        state.note = state.note || {};
+        function save() {
+          try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
+        }
+
+        var nameOf = {};
+        designs.forEach(function (d) { nameOf[d.file] = d.name; });
+        function src(file, page) { return file + "#/" + page.route; }
+        function current() {
+          var id = location.hash.slice(1);
+          return pages.filter(function (p) { return p.id === id; })[0] || pages[0];
+        }
+
+        /* Keep every scaled preview the width of its card */
+        var fit = new ResizeObserver(function (entries) {
+          entries.forEach(function (e) {
+            e.target.style.setProperty("--s", e.contentRect.width / VIEW_W);
+          });
+        });
+
+        function drawTabs() {
+          var page = current();
+          $("tabs").innerHTML = pages.map(function (p) {
+            var picked = state.pick[p.id];
+            return '<li><a href="#' + p.id + '"' + (p === page ? ' aria-current="page"' : "") + ">" +
+              esc(p.name) + '<small class="' + (picked ? "done" : "") + '">' +
+              (picked ? esc(nameOf[picked]) : "Not chosen") + "</small></a></li>";
+          }).join("");
+        }
+
+        function drawPage() {
+          var page = current();
+          fit.disconnect();
+          /* Fresh frames for each page, so switching pages adds no history entries */
+          $("page").innerHTML =
+            "<h2>" + esc(page.name) + "</h2>" +
+            "<p>The " + esc(page.name.toLowerCase()) + " page in each design, shown as it looks in a 1440 pixel wide browser window.</p>" +
+            '<ul class="grid">' + designs.map(function (d, i) {
+              var on = state.pick[page.id] === d.file;
+              return '<li class="card' + (on ? " picked" : "") + '" data-file="' + d.file + '">' +
+                '<div class="card-head"><h3><span>' + (i + 1) + "</span>" + esc(d.name) + "</h3>" +
+                '<button class="btn pickbtn" type="button" data-pick aria-pressed="' + on + '">' + (on ? "Chosen" : "Choose") + "</button>" +
+                '<button class="btn" type="button" data-big>Enlarge</button></div>' +
+                '<div class="screen"><iframe loading="lazy" title="' + esc(d.name + " design, " + page.name + " page") +
+                '" src="' + src(d.file, page) + '"></iframe></div></li>';
+            }).join("") + "</ul>" +
+            '<div class="notes"><label for="note">Notes on the ' + esc(page.name.toLowerCase()) + " page</label>" +
+            '<textarea id="note" rows="3" placeholder="For example: the top banner from Bold, the news strip from Institute, the people grid from Mosaic">' +
+            esc(state.note[page.id] || "") + "</textarea></div>";
+          Array.prototype.forEach.call(document.querySelectorAll(".screen"), function (s) { fit.observe(s); });
+          $("note").addEventListener("input", function (e) {
+            state.note[page.id] = e.target.value;
+            save();
+            drawSummary();
+          });
+        }
+
+        function setPick(file) {
+          var page = current();
+          if (state.pick[page.id] === file) delete state.pick[page.id];
+          else state.pick[page.id] = file;
+          save();
+          Array.prototype.forEach.call(document.querySelectorAll(".card"), function (c) {
+            var on = state.pick[page.id] === c.dataset.file;
+            c.classList.toggle("picked", on);
+            var b = c.querySelector("[data-pick]");
+            b.setAttribute("aria-pressed", String(on));
+            b.textContent = on ? "Chosen" : "Choose";
+          });
+          drawTabs();
+          drawSummary();
+          if ($("big").open) drawBigPick();
+        }
+
+        function drawSummary() {
+          var lines = ["XAMI Lab website: design chosen for each page", ""];
+          pages.forEach(function (p) {
+            var line = p.name + ": " + (state.pick[p.id] ? nameOf[state.pick[p.id]] : "not chosen");
+            var note = (state.note[p.id] || "").trim();
+            lines.push(line);
+            if (note) lines.push("  Notes: " + note.replace(/\s*\n\s*/g, " / "));
+          });
+          $("summary").value = lines.join("\n");
+        }
+
+        /* Enlarged view */
+        var bigFile = null;
+        function drawBigPick() {
+          var on = state.pick[current().id] === bigFile;
+          $("big-pick").setAttribute("aria-pressed", String(on));
+          $("big-pick").textContent = on ? "Chosen" : "Choose";
+        }
+        function sizeBig() {
+          var stage = $("stage"), frame = stage.firstChild;
+          if (!frame) return;
+          /* Scale down on narrow screens, fill the space at full size on wide ones */
+          var s = Math.min(1, stage.clientWidth / VIEW_W);
+          frame.style.width = stage.clientWidth / s + "px";
+          frame.style.height = stage.clientHeight / s + "px";
+          frame.style.transform = "scale(" + s + ")";
+        }
+        function openBig(file) {
+          var page = current();
+          bigFile = file;
+          $("big-title").textContent = nameOf[file] + ", " + page.name + " page";
+          $("big-open").href = src(file, page);
+          var frame = document.createElement("iframe");
+          frame.title = nameOf[file] + " design, " + page.name + " page";
+          frame.src = src(file, page);
+          $("stage").replaceChildren(frame);
+          drawBigPick();
+          $("big").showModal();
+          sizeBig();
+        }
+        $("big").addEventListener("close", function () { $("stage").replaceChildren(); bigFile = null; });
+        $("big-close").addEventListener("click", function () { $("big").close(); });
+        $("big-pick").addEventListener("click", function () { setPick(bigFile); });
+        window.addEventListener("resize", sizeBig);
+
+        $("page").addEventListener("click", function (e) {
+          var card = e.target.closest(".card");
+          if (!card) return;
+          if (e.target.closest("[data-pick]")) setPick(card.dataset.file);
+          else if (e.target.closest("[data-big]")) openBig(card.dataset.file);
+        });
+
+        $("copy").addEventListener("click", function () {
+          var done = function () { $("copied").textContent = "Copied"; setTimeout(function () { $("copied").textContent = ""; }, 2000); };
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText($("summary").value).then(done);
+          } else {
+            $("summary").select();
+            document.execCommand("copy");
+            done();
+          }
+        });
+        $("clear").addEventListener("click", function () {
+          state = { pick: {}, note: {} };
+          save();
+          render();
+        });
+
+        function render() {
+          drawTabs();
+          drawPage();
+          drawSummary();
+        }
+        window.addEventListener("hashchange", function () {
+          render();
+          $("tabs").querySelector('[aria-current="page"]').scrollIntoView({ block: "nearest", inline: "nearest" });
+        });
+        render();
+      })();
+    </script>
+  </body>
+</html>
