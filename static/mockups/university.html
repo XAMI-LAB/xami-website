@@ -58,7 +58,6 @@ button{font:inherit;color:inherit}
 .menu .cta:hover{background:var(--navy) !important}
 .panel{position:absolute;top:100%;left:0;width:560px;background:#fff;border:1px solid var(--rule);border-top:4px solid var(--teal);box-shadow:0 18px 40px rgba(6,27,63,.16);
   padding:10px;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .18s,transform .18s,visibility 0s .18s}
-.panel.right{left:auto;right:0;width:400px}
 .menu li.open>.panel{opacity:1;visibility:visible;transform:none;transition:opacity .18s,transform .18s}
 .panel a{display:grid;grid-template-columns:10px 1fr;gap:14px;padding:13px 14px;text-decoration:none;color:var(--ink);border-radius:2px}
 .panel a:hover,.panel a:focus-visible{background:var(--ground)}
@@ -178,18 +177,6 @@ section.tint{background:var(--ground)}
 .links .th{font-size:13px;padding:3px 10px;background:var(--k);color:#fff;font-weight:600;border:1px solid var(--k)}
 .links a.th:hover{background:#fff;color:var(--k)}
 
-/* Video */
-.feature{display:grid;grid-template-columns:1.2fr 1fr;background:var(--navy);color:#fff}
-.feature .v{position:relative;display:block;min-height:340px;background:#000 center/cover;overflow:hidden}
-.feature .v img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.86;transition:transform .5s,opacity .3s}
-.feature .v:hover img,.feature .v:focus-visible img{transform:scale(1.05);opacity:1}
-.play{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;background:var(--teal);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(17,181,161,.28)}
-.play::after{content:"";border-left:22px solid var(--navy);border-top:14px solid transparent;border-bottom:14px solid transparent;margin-left:6px}
-.feature .t{padding:44px 44px 40px;display:flex;flex-direction:column;justify-content:center}
-.feature small{font-size:14px;font-weight:700;color:var(--teal)}
-.feature h3{color:#fff;font-size:26px;font-weight:700;margin:10px 0 14px;line-height:1.22}
-.feature p{color:#C9D5EA;font-size:16px}
-
 /* Study band */
 .study{background:var(--blue);color:#fff;position:relative;overflow:hidden}
 .study::before{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border:70px solid rgba(17,181,161,.2);border-radius:50%}
@@ -274,26 +261,6 @@ details ul.bul ul li::before{width:7px;height:7px;top:14px;background:var(--blue
 .ack{columns:2;column-gap:40px;font-size:15px;color:var(--soft)}
 .ack li{break-inside:avoid;padding:5px 0}
 
-/* Videos and projects */
-.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
-.vcard{display:flex;flex-direction:column;border:1px solid var(--rule);background:#fff;text-decoration:none;color:var(--ink)}
-.vcard .v{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
-.vcard .v img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.vcard:hover .v img,.vcard:focus-visible .v img{transform:scale(1.06)}
-.vcard .play{width:56px;height:56px;margin:-28px 0 0 -28px;box-shadow:0 0 0 7px rgba(17,181,161,.28)}
-.vcard .play::after{border-left-width:16px;border-top-width:10px;border-bottom-width:10px;margin-left:4px}
-.vcard div.t{padding:18px 20px 20px}
-.vcard small{font-size:13.5px;font-weight:700;color:var(--teal-ink)}
-.vcard h3{font-size:17px;font-weight:700;line-height:1.3;margin-top:5px}
-.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.site{display:block;border:2px dashed #8E9DB8;background:#fff;padding:24px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s}
-.site:hover,.site:focus-visible{border-color:var(--blue);border-style:solid;background:var(--ground);color:var(--ink)}
-.site small{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--navy);background:#E4EAF4;padding:4px 9px;margin-bottom:14px}
-.site svg,.ext svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-.site b{display:block;font-size:19px;color:var(--navy);margin-bottom:4px}
-.site span{display:block;font-size:15px;color:var(--soft);margin-bottom:12px}
-.site em{font-style:normal;font-size:14.5px;font-weight:600;color:var(--blue-2);word-break:break-all}
-.note{background:#FFF8E1;border-left:6px solid #E0A100;padding:16px 20px;font-size:15.5px;margin-bottom:30px;max-width:860px}
 
 /* Join */
 .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:44px}
@@ -328,6 +295,7 @@ footer a:hover{text-decoration:underline;color:#fff}
 footer .base{border-top:1px solid #1B2F58;padding:18px 0 22px;font-size:13.5px}
 footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:0;padding-bottom:0}
 .ext{display:inline-flex;align-items:center;gap:6px}
+.ext svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
 @media (max-width:1180px){
   .brand span{display:none}
@@ -341,19 +309,18 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
   .menu.show{display:flex}
   .menu>li{flex-direction:column}
   .menu>li>a,.menu>li>button{padding:13px 4px;border:0;border-bottom:1px solid var(--rule);justify-content:space-between;font-size:17px;width:100%}
-  .panel,.panel.right{position:static;width:auto;box-shadow:none;border:0;border-left:4px solid var(--teal);display:none;opacity:1;visibility:visible;transform:none;padding:4px 0 8px}
+  .panel{position:static;width:auto;box-shadow:none;border:0;border-left:4px solid var(--teal);display:none;opacity:1;visibility:visible;transform:none;padding:4px 0 8px}
   .menu li.open>.panel{display:block}
   .menu .cta{align-self:stretch;margin:14px 0 0;justify-content:center}
   .themes{grid-template-columns:repeat(2,1fr)}
   .pgrid{grid-template-columns:repeat(3,1fr)}
-  .about,.pair,.study .wrap,.detail,.feature{grid-template-columns:1fr;gap:40px}
-  .feature{gap:0}
+  .about,.pair,.study .wrap,.detail{grid-template-columns:1fr;gap:40px}
   .side{position:static}
   .quick ul{grid-template-columns:repeat(2,1fr)}
   .quick li:nth-child(3) a{border-left:0}
   .quick li:nth-child(-n+2) a{border-bottom:1px solid var(--rule)}
   .leaders{grid-template-columns:1fr}
-  .vgrid,.sites,.opts{grid-template-columns:repeat(2,1fr)}
+  .opts{grid-template-columns:repeat(2,1fr)}
   .filters{grid-template-columns:1fr 1fr}
   footer .wrap{grid-template-columns:1fr 1fr}
   .vals{grid-template-columns:repeat(2,1fr)}
@@ -365,7 +332,7 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
   section.block{padding:52px 0}
   .banner.home .wrap{padding-top:48px;padding-bottom:120px}
   .plate{padding:18px 20px 20px}
-  .themes,.themes.two,.pgrid,.vgrid,.sites,.opts,.steps,.filters,.vals{grid-template-columns:1fr}
+  .themes,.themes.two,.pgrid,.opts,.steps,.filters,.vals{grid-template-columns:1fr}
   .pgrid{grid-template-columns:1fr 1fr;gap:14px}
   .steps li{border-left:0;border-top:1px solid var(--rule)}
   .steps li:first-child{border-top:0}
@@ -378,8 +345,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
   .date b{font-size:18px}
   .pubs li{grid-template-columns:70px 1fr;gap:14px}
   .thumb{height:56px}
-  .feature .t{padding:28px 22px}
-  .feature .v{min-height:220px}
   .contact{grid-template-columns:1fr;text-align:left;padding:26px 22px}
   .ack{columns:1}
   footer .wrap{grid-template-columns:1fr;gap:30px}
@@ -435,13 +400,11 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
       <li><a href="#/mission">Mission and values</a></li>
       <li><a href="#/people">People</a></li>
       <li><a href="#/news">News</a></li>
-      <li><a href="#/videos">Videos</a></li>
     </ul></div>
     <div><h2>Research</h2><ul id="footthemes"></ul></div>
     <div><h2>Get in touch</h2><ul>
       <li><a href="#/join">Study with us</a></li>
       <li><a href="#/join">Contact the lab</a></li>
-      <li><a href="#/projects">Project sites</a></li>
       <li><a class="ext" href="https://github.com/XAMI-LAB" rel="external">GitHub <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg></a></li>
     </ul></div>
   </div>
@@ -550,10 +513,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
     return '<li class="pcard" style="--k:' + k + '">' + face(p) + "<div><h3>" + name + "</h3><p>" + esc(p.role.replace(/\s*@/g, ", ")) + "</p>" +
       (p.graduated ? '<span class="g">Graduated ' + p.graduated + "</span>" : (p.theme ? '<span class="t">' + esc(p.theme.short) + "</span>" : "")) + "</div></li>";
   }
-  function videoCard(v) {
-    return '<li><a class="vcard" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external"><div class="v"><img src="https://i.ytimg.com/vi/' + esc(v.id) +
-      '/hqdefault.jpg" alt="" loading="lazy"><span class="play"></span></div><div class="t"><small>' + esc(v.venue) + "</small><h3>" + esc(v.title) + "</h3></div></a></li>";
-  }
   function banner(title, lead, crumbs) {
     var c = '<li><a href="#/">Home</a></li>' + (crumbs || []).map(function (x) {
       return "<li>" + (x[1] ? '<a href="' + x[1] + '">' + esc(x[0]) + "</a>" : esc(x[0])) + "</li>";
@@ -575,19 +534,12 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
     var themes = X.themes.map(function (t) {
       return '<a href="#/research/' + t.id + '" style="--k:' + t.colour + '"><i></i><div><b>' + esc(t.title) + "</b><span>" + esc(t.summary) + "</span></div></a>";
     }).join("");
-    var sites = X.projects.map(function (s) {
-      return '<a href="https://' + esc(s.address) + '" rel="external" style="--k:#8E9DB8"><i></i><div><b class="ext">' + esc(s.name) + " " + EXT +
-        "</b><span>" + esc(s.address) + ", a separate website</span></div></a>";
-    }).join("");
     menu.innerHTML =
       '<li class="has" data-r="research"><button aria-expanded="false" aria-haspopup="true">Research <span class="chev"></span></button><div class="panel">' + themes +
         '<a class="all" href="#/research">See all research themes</a></div></li>' +
       '<li><a href="#/people" data-r="people">People</a></li>' +
       '<li><a href="#/publications" data-r="publications">Publications</a></li>' +
       '<li><a href="#/news" data-r="news">News</a></li>' +
-      '<li><a href="#/videos" data-r="videos">Videos</a></li>' +
-      '<li class="has" data-r="projects"><button aria-expanded="false" aria-haspopup="true">Projects <span class="chev"></span></button><div class="panel right">' + sites +
-        '<a class="all" href="#/projects">About our project sites</a></div></li>' +
       '<li><a href="#/mission" data-r="mission">Mission</a></li>' +
       '<li><a class="cta" href="#/join" data-r="join">Join us</a></li>';
 
@@ -626,7 +578,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
 
   views.home = function () {
     var leaders = people.filter(function (p) { return p.group === "Leader"; });
-    var v = X.videos[0];
     var unis = X.partners.length;
     return { title: "", html:
       '<div class="banner home"><div class="wrap"><div class="plate"><small>Queensland University of Technology, Brisbane</small><h1>Explainable Analytics for Machine Intelligence Lab</h1></div>' +
@@ -655,12 +606,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
         '<div class="col"><h2>Recent publications</h2><ul class="pubs">' + X.pubs.slice(0, 5).map(function (p) { return pubItem(p, 5); }).join("") +
         '</ul><p style="margin-top:22px"><a class="more" href="#/publications">All ' + X.pubs.length + ' publications <span class="box"></span></a></p></div></div></section>' +
 
-      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Watch: the lab in its own words</h2></div><a class="more" href="#/videos">All videos <span class="box"></span></a></div>' +
-        '<div class="feature"><a class="v" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external" aria-label="Watch ' + esc(v.title) + '"><img src="https://i.ytimg.com/vi/' + esc(v.id) +
-        '/hqdefault.jpg" alt=""><span class="play"></span></a><div class="t"><small>' + esc(v.venue) + "</small><h3>" + esc(v.title) +
-        "</h3><p>A seminar by the lab leaders on why black-box models need explanations, and how the lab builds them.</p>" +
-        '<p style="margin:8px 0 0"><a class="btn teal" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external">Watch on YouTube</a></p></div></div></div></section>' +
-
       '<section class="study"><div class="wrap"><div><h2>Study with us</h2><p class="lead">' + esc(X.join.lead) +
         '</p><a class="btn teal" href="#/join">How to join the lab</a></div><ul class="ways">' + X.join.options.map(function (o) {
           return "<li><b>" + esc(o.title) + "</b><span>" + esc(o.text) + "</span></li>";
@@ -684,18 +629,9 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
         return '<li><a class="tcard" href="#/research/' + t.id + '" style="--k:' + t.colour + '"><div class="pic"><img src="' + esc(t.image) + '" alt=""></div><h3>' + esc(t.title) +
           '</h3><div class="body"><p>' + esc(t.summary) + '</p><ul class="tags">' + t.topics.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") +
           '</ul><p class="n">' + n + " papers, " + themePeople(t.id).length + ' researchers</p><span class="more">Read about this theme <span class="box"></span></span></div></a></li>';
-      }).join("") + "</ul></div></section>" +
-      '<section class="block tint"><div class="wrap"><div class="head"><div><h2>Project sites</h2><p>Some projects have a website of their own. They open as separate sites with their own look.</p></div>' +
-      '<a class="more" href="#/projects">About our project sites <span class="box"></span></a></div>' + sitesList() + "</div></section>"
+      }).join("") + "</ul></div></section>"
     };
   };
-
-  function sitesList() {
-    return '<ul class="sites">' + X.projects.map(function (s) {
-      return '<li><a class="site" href="https://' + esc(s.address) + '" rel="external"><small>' + EXT + " Separate website</small><b>" + esc(s.name) + "</b><span>" + esc(s.text) +
-        "</span><em>" + esc(s.address) + "</em></a></li>";
-    }).join("") + "</ul>";
-  }
 
   function themeDetail(t) {
     var pubs = themePubs(t.id), who = themePeople(t.id);
@@ -793,20 +729,6 @@ footer .base .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap
     return { title: "News", html:
       banner("News", "New people, graduations and papers from the lab.", [["News"]]) +
       '<section class="block"><div class="wrap" style="max-width:940px"><ul class="news">' + X.news.map(newsItem).join("") + "</ul></div></section>"
-    };
-  };
-
-  views.videos = function () {
-    return { title: "Videos", html:
-      banner("Videos", "Talks and seminars by lab members. Each video opens on YouTube.", [["Videos"]]) +
-      '<section class="block"><div class="wrap"><ul class="vgrid">' + X.videos.map(videoCard).join("") + "</ul></div></section>"
-    };
-  };
-
-  views.projects = function () {
-    return { title: "Project sites", html:
-      banner("Project sites", "Some of our projects have a website of their own.", [["Project sites"]]) +
-      '<section class="block"><div class="wrap"><p class="note">These links leave the lab website. Each project site is a separate website with its own look and its own menu.</p>' + sitesList() + "</div></section>"
     };
   };
 

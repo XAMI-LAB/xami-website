@@ -162,13 +162,7 @@
       .updates li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; line-height: 1.4; }
       .updates time { display: block; font-style: italic; color: var(--soft); font-size: 14.5px; }
       .updates b { font-weight: 600; }
-      .vids li { padding: 12px 0; border-bottom: 1px solid var(--line); }
-      .vids a.plain { display: grid; grid-template-columns: 96px 1fr; gap: 12px; color: var(--ink); font-size: 15px; line-height: 1.3; }
-      .vids .shot { position: relative; overflow: hidden; height: 60px; background: #000; }
-      .vids .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-      .vids a:hover .shot img { transform: scale(1.1); }
-      .vids .shot::after { content: ""; position: absolute; left: 50%; top: 50%; border-style: solid; border-width: 8px 0 8px 13px; border-color: transparent transparent transparent #fff; transform: translate(-40%, -50%); filter: drop-shadow(0 0 3px rgba(0,0,0,.6)); }
-      .vids small, .small { display: block; color: var(--soft); font-size: 14px; }
+      .small { display: block; color: var(--soft); font-size: 14px; }
       .joinbox { padding-top: 12px; font-size: 15.5px; }
       .joinbox li { padding: 8px 0 8px 14px; border-left: 2px solid var(--line); margin-top: 8px; line-height: 1.35; }
       .joinbox li b { display: block; font-weight: 600; }
@@ -261,17 +255,7 @@
       .stack .ph + .ph { margin-left: -14px; }
       .stack img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 
-      /* Videos page */
-      .vid-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px 24px; }
-      .vid-grid a.plain { color: var(--ink); display: block; }
-      .vid-grid .shot { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #000; margin-bottom: 10px; }
-      .vid-grid .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, opacity 0.3s; opacity: 0.92; }
-      .vid-grid a:hover .shot img { transform: scale(1.06); opacity: 1; }
-      .vid-grid .shot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; border-radius: 50%; background: rgba(19,36,47,0.82) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center / 30px no-repeat; transform: translate(-50%, -50%); transition: background-color 0.2s; }
-      .vid-grid a:hover .shot::after { background-color: var(--link); }
-      .vid-grid h3 { font: 600 17px/1.3 var(--text); }
-
-      /* Join, mission, projects */
+      /* Join, mission */
       .two { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; }
       .opts li { padding: 20px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 230px 1fr; gap: 24px; }
       .opts h3 { font: 600 19px/1.3 var(--text); }
@@ -289,12 +273,6 @@
       .values li { padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 600; }
       .funding { columns: 2; column-gap: 40px; font-size: 15px; color: #36434f; margin-top: 8px; }
       .funding li { padding: 5px 0; break-inside: avoid; }
-      .sites li { border: 1px dashed #aab6c0; padding: 18px 20px; margin-top: 16px; display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: center; transition: border-color 0.2s, background 0.2s; }
-      .sites li:hover { border-color: var(--ink); background: var(--tint); }
-      .sites h3 { font: 600 19px/1.3 var(--text); }
-      .sites p { color: var(--soft); font-size: 15.5px; }
-      .ext { font-size: 14.5px; white-space: nowrap; }
-      .ext::after { content: ""; display: inline-block; width: 11px; height: 11px; margin-left: 6px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4.5 1.5h-3v9h9v-3M7 1.5h3.5V5M10.5 1.5 5.5 6.5' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M4.5 1.5h-3v9h9v-3M7 1.5h3.5V5M10.5 1.5 5.5 6.5' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E") center / contain no-repeat; }
 
       /* Footer */
       .foot { background: var(--foot); color: #c6d3dc; font-size: 15px; }
@@ -339,7 +317,6 @@
         .opts li { grid-template-columns: 1fr; gap: 4px; }
         .tools .row2 { grid-template-columns: 1fr; }
         .funding { columns: 1; }
-        .sites li { grid-template-columns: 1fr; }
       }
       @media (max-width: 520px) {
         .areas { grid-template-columns: 1fr; }
@@ -387,7 +364,6 @@
             <ul>
               <li><a href="#/join">Work with us</a></li>
               <li><a href="https://github.com/XAMI-LAB">GitHub</a></li>
-              <li><a href="#/projects">Project sites</a></li>
               <li>Brisbane, Australia</li>
             </ul>
           </div>
@@ -536,12 +512,6 @@
         function newsItem(n) {
           return "<li><time>" + esc(when(n.date)) + "</time><b>" + esc(n.title) + ".</b> " + esc(n.text) + "</li>";
         }
-        function videoItem(v, big) {
-          return '<li><a class="plain" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener">' +
-            '<span class="shot"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy" /></span>' +
-            (big ? "<span><h3>" + esc(v.title) + '</h3><small>' + esc(v.venue) + "</small></span>"
-              : "<span>" + esc(v.title) + "<small>" + esc(v.venue) + "</small></span>") + "</a></li>";
-        }
         function head(title, text, crumb) {
           return '<header class="page-head">' + (crumb ? '<p class="crumb">' + crumb + "</p>" : "") + "<h1>" + esc(title) + "</h1>" +
             (text ? "<p>" + esc(text) + "</p>" : "") + "</header>";
@@ -571,9 +541,7 @@
             '<div class="cols"><section><h2 class="sec">Recent publications <a href="#/publications">View all ' + X.pubs.length +
             " publications</a></h2>" + pubsByYear(recent) + "</section>" +
             '<div class="aside"><section><h2 class="sec">Updates <a href="#/news">All news</a></h2><ul class="updates">' +
-            X.news.slice(0, 5).map(newsItem).join("") + "</ul></section>" +
-            '<section><h2 class="sec">Videos <a href="#/videos">All videos</a></h2><ul class="vids">' +
-            X.videos.slice(0, 3).map(function (v) { return videoItem(v); }).join("") + "</ul></section>" +
+            X.news.slice(0, 6).map(newsItem).join("") + "</ul></section>" +
             '<section><h2 class="sec">Join us</h2><div class="joinbox"><p>' + esc(X.join.lead) + "</p><ul>" +
             X.join.options.map(function (o) { return "<li><b>" + esc(o.title) + "</b>" + esc(o.text) + "</li>"; }).join("") +
             '</ul><a class="btn plain" href="#/join">How to join the lab</a></div></section></div></div>' +
@@ -712,11 +680,6 @@
             }).join("") + "</ul>";
         };
 
-        views.videos = function () {
-          return head("Videos", "Talks and seminars by lab members. Each video opens on YouTube.") +
-            '<ul class="vid-grid">' + X.videos.map(function (v) { return videoItem(v, true); }).join("") + "</ul>";
-        };
-
         views.join = function () {
           return head("Join us", X.join.lead) + '<div class="two"><div><h2 class="sec">Ways to work with the lab</h2><ul class="opts">' +
             X.join.options.map(function (o) { return "<li><h3>" + esc(o.title) + "</h3><p>" + esc(o.text) + "</p></li>"; }).join("") +
@@ -750,18 +713,9 @@
             funding.map(function (f) { return "<li>" + esc(f) + "</li>"; }).join("") + "</ul></div>";
         };
 
-        views.projects = function () {
-          return head("Project sites", "Some projects have a website of their own, with their own look. These links leave the lab site.") +
-            '<ul class="sites">' + X.projects.map(function (s) {
-              return "<li><div><h3>" + esc(s.name) + "</h3><p>" + esc(s.text) + '</p></div><a class="ext" href="https://' + esc(s.address) +
-                '" target="_blank" rel="noopener external">' + esc(s.address) + "</a></li>";
-            }).join("") + "</ul>";
-        };
-
         /* ---------- Menu and routing ---------- */
-        var routes = { Mission: "mission", People: "people", Research: "research", Publications: "publications", News: "news", Videos: "videos", "Join us": "join" };
-        var items = [{ label: "Home", route: "" }].concat(X.nav.map(function (n) { return { label: n.label, route: routes[n.label] || "" }; }))
-          .concat([{ label: "Projects", route: "projects" }]);
+        var routes = { Mission: "mission", People: "people", Research: "research", Publications: "publications", News: "news", "Join us": "join" };
+        var items = [{ label: "Home", route: "" }].concat(X.nav.map(function (n) { return { label: n.label, route: routes[n.label] || "" }; }));
         var menu = $("menu"), marker = $("marker");
         items.forEach(function (it) {
           var a = document.createElement("a");
@@ -778,7 +732,7 @@
           marker.style.transform = "translateY(" + a.offsetTop + "px)";
         }
 
-        var titles = { "": "Home", mission: "Mission", people: "People", research: "Research", publications: "Publications", news: "News", videos: "Videos", join: "Join us", projects: "Project sites" };
+        var titles = { "": "Home", mission: "Mission", people: "People", research: "Research", publications: "Publications", news: "News", join: "Join us" };
         var timer = null;
         function startBanner() {
           clearInterval(timer);

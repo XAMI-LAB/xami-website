@@ -219,28 +219,7 @@ main{padding-top:var(--head);min-height:70vh}
 .tcard h3{font-size:23px;font-weight:800}
 .tcard p{color:var(--soft);margin-top:10px}
 
-/* Videos, projects, join */
-.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media (max-width:960px){.vids{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:600px){.vids{grid-template-columns:1fr}}
-.vid{overflow:hidden;text-decoration:none;display:block;transition:transform .25s,border-color .25s}
-.vid:hover{transform:translateY(-5px);border-color:var(--edge-strong)}
-.vid .pic{position:relative;aspect-ratio:16/9;background:#0A2742;overflow:hidden}
-.vid .pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.vid:hover .pic img{transform:scale(1.06)}
-.vid .play{position:absolute;inset:0;margin:auto;width:60px;height:60px;border-radius:50%;background:rgba(5,22,42,.78);border:2px solid #fff;display:flex;align-items:center;justify-content:center}
-.vid .play::after{content:"";border-left:18px solid #fff;border-block:11px solid transparent;margin-left:5px}
-.vid .tx{padding:16px 18px 20px}
-.vid h3{font-size:16.5px;font-weight:700;line-height:1.3;margin-top:8px}
-.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media (max-width:860px){.sites{grid-template-columns:1fr}}
-.site{padding:22px 24px;text-decoration:none;display:block;border-style:dashed;border-color:var(--edge-strong);transition:transform .2s,background .2s}
-.site:hover{transform:translateY(-4px);background:rgba(126,200,240,.12)}
-.site b{font:800 19px var(--display);display:flex;justify-content:space-between;gap:10px;align-items:center}
-.site b svg{width:18px;height:18px;stroke:#9FE6FF;fill:none;stroke-width:2;flex:none}
-.site span{display:block;color:var(--soft);font-size:15px;margin-top:6px}
-.site em{display:block;font-style:normal;color:#8FD8FF;font-size:14.5px;margin-top:10px;word-break:break-all}
-.site small{display:block;color:var(--faint);font-size:13px;margin-top:4px}
+/* Join */
 .joinband{position:relative;overflow:hidden;padding:48px;border-radius:26px;border:1px solid var(--edge-strong);background:linear-gradient(120deg,rgba(53,174,251,.22),rgba(31,221,174,.18)),var(--navy)}
 .joinband h2{font-size:clamp(26px,3.2vw,42px);font-weight:900;max-width:22ch}
 .joinband>p{color:var(--soft);font-size:18.5px;max-width:60ch;margin-top:14px}
@@ -309,7 +288,6 @@ footer .fl a:hover{color:#fff}
         <a href="#/join">Work with the lab</a>
         <a href="#">Email the lab</a>
         <a href="https://github.com/XAMI-LAB" rel="external">XAMI Lab on GitHub</a>
-        <a href="#/projects">Project sites</a>
       </div>
     </div>
     <div class="fine"><span>XAMI Lab, School of Information Systems, QUT, Brisbane, Australia</span><span><a href="#">Privacy policy</a></span></div>
@@ -369,8 +347,7 @@ footer .fl a:hover{color:#fff}
     Graduation: '<svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.500V16c1.600 1.700 3.600 2.500 6 2.500s4.400-.8 6-2.500v-4.500"/><path d="M22 9v6"/></svg>',
     Paper: '<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></svg>',
     doc: '<svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
-    code: '<svg viewBox="0 0 24 24"><path d="M8.500 7L3.500 12l5 5M15.500 7l5 5-5 5M13.500 4.500l-3 15"/></svg>',
-    out: '<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>'
+    code: '<svg viewBox="0 0 24 24"><path d="M8.500 7L3.500 12l5 5M15.500 7l5 5-5 5M13.500 4.500l-3 15"/></svg>'
   };
   function portrait(p) {
     return '<span class="ph"><span class="ini" aria-hidden="true">' + esc(p.initials) + '</span><img src="' + esc(p.photo) + '" alt="" loading="lazy" onerror="this.remove()" /></span>';
@@ -425,12 +402,6 @@ footer .fl a:hover{color:#fff}
     return '<article class="nitem glass rv"><div class="nico">' + (ico[n.kind] || ico.Paper) + '</div><div><div class="nmeta"><time>' + esc(when(n.date)) + '</time><span class="tag">' + esc(n.kind) + "</span></div><h3>" + esc(n.title) + "</h3><p>" + esc(n.text) + "</p>" +
       (who.length ? '<div class="nwho">' + who.map(function (p) { return '<img src="' + esc(p.photo) + '" alt="' + esc(p.plainName) + '" title="' + esc(p.plainName) + '" onerror="this.remove()" />'; }).join("") + "</div>" : "") + "</div></article>";
   }
-  function videoCard(v) {
-    return '<a class="vid glass rv" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" rel="external"><div class="pic"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy" /><span class="play" aria-hidden="true"></span></div><div class="tx"><span class="tag">' + esc(v.venue) + "</span><h3>" + esc(v.title) + "</h3></div></a>";
-  }
-  function siteCard(s) {
-    return '<a class="site glass rv" href="https://' + esc(s.address) + '" rel="external"><b>' + esc(s.name) + ico.out + "</b><span>" + esc(s.text) + "</span><em>" + esc(s.address) + "</em><small>Separate website, opens outside the lab site</small></a>";
-  }
   function joinBand() {
     return '<div class="joinband rv"><h2>Work with us on AI that people can understand</h2><p>' + esc(X.join.lead) + '</p><div class="opts">' +
       X.join.options.map(function (o) { return '<div class="opt glass"><b>' + esc(o.title) + "</b><span>" + esc(o.text) + "</span></div>"; }).join("") +
@@ -466,9 +437,7 @@ footer .fl a:hover{color:#fff}
           '<div class="papers">' + list.slice(0, 4).map(paperCard).join("") + '</div><a class="more" href="#/research/' + t.id + '">All ' + list.length + " papers on " + esc(t.short.toLowerCase()) + "</a></div>";
       }).join("") + "</section>" +
 
-      '<section class="sec tint"><div class="wrap"><div class="sechead"><div><h2>Talks and videos</h2></div><a class="more" href="#/videos">All videos</a></div><div class="vids">' + X.videos.slice(0, 3).map(videoCard).join("") + "</div></div></section>" +
-
-      '<section class="sec"><div class="wrap"><div class="sechead"><div><h2>Project sites</h2><p>Some projects have a website of their own, with their own look. These links leave the lab site.</p></div></div><div class="sites">' + X.projects.map(siteCard).join("") + '</div><div style="margin-top:70px">' + joinBand() + "</div></div></section>";
+      '<section class="sec tint"><div class="wrap">' + joinBand() + "</div></section>";
   };
 
   views.research = function (id) {
@@ -477,8 +446,7 @@ footer .fl a:hover{color:#fff}
       return pageHead("Research", "Our research builds methods that let machine learning models explain themselves, and give people a way to check the explanation.") +
         '<section class="sec"><div class="wrap"><div class="tcards">' + X.themes.map(function (t) {
           return '<a class="tcard glass rv" style="--k:' + colour[t.id] + '" href="#/research/' + t.id + '"><div class="im"><img src="' + esc(t.image) + '" alt="" loading="lazy" /></div><div class="tx"><span class="tag"><i style="background:' + colour[t.id] + '"></i>' + pubsOf(t.id).length + " papers</span><h3 style=\"margin-top:12px\">" + esc(t.title) + "</h3><p>" + esc(t.summary) + "</p></div></a>";
-        }).join("") + "</div></div></section>" +
-        '<section class="sec tint"><div class="wrap"><div class="sechead"><div><h2>Project sites</h2><p>Separate websites for single projects. They open outside the lab site.</p></div></div><div class="sites">' + X.projects.map(siteCard).join("") + "</div></div></section>";
+        }).join("") + "</div></div></section>";
     }
     var list = pubsOf(id);
     var who = people.filter(function (p) { return p.counts[id]; }).sort(function (a, b) { return b.counts[id] - a.counts[id]; });
@@ -546,12 +514,6 @@ footer .fl a:hover{color:#fff}
   views.news = function () {
     return pageHead("News", "New people, graduations and papers from the lab.") + '<section class="sec"><div class="wrap"><div class="news">' + X.news.map(newsItem).join("") + "</div></div></section>";
   };
-  views.videos = function () {
-    return pageHead("Videos", "Talks and seminars by lab members.") + '<section class="sec"><div class="wrap"><div class="vids">' + X.videos.map(videoCard).join("") + "</div></div></section>";
-  };
-  views.projects = function () {
-    return pageHead("Project sites", "Some projects have a website of their own, with their own look. These links leave the lab site and open a separate website.") + '<section class="sec"><div class="wrap"><div class="sites">' + X.projects.map(siteCard).join("") + "</div></div></section>";
-  };
   views.join = function () {
     return pageHead("Join us", X.join.lead) + '<section class="sec"><div class="wrap"><div class="split"><div><h2 style="font-size:28px;margin-bottom:18px">Ways to work with the lab</h2><div class="opts" style="grid-template-columns:1fr;margin-top:0">' +
       X.join.options.map(function (o) { return '<div class="opt glass rv"><b>' + esc(o.title) + "</b><span>" + esc(o.text) + "</span></div>"; }).join("") +
@@ -575,10 +537,9 @@ footer .fl a:hover{color:#fff}
   };
 
   /* Navigation */
-  var routes = { Mission: "#/mission", People: "#/people", Research: "#/research", Publications: "#/publications", News: "#/news", Videos: "#/videos", "Join us": "#/join" };
+  var routes = { Mission: "#/mission", People: "#/people", Research: "#/research", Publications: "#/publications", News: "#/news", "Join us": "#/join" };
   var nav = document.getElementById("nav"), burger = document.getElementById("burger");
   var items = X.nav.filter(function (n) { return n.label !== "Join us"; }).map(function (n) { return [n.label, routes[n.label] || "#/"]; });
-  items.push(["Projects", "#/projects"]);
   nav.innerHTML = items.map(function (n) { return '<a href="' + n[1] + '">' + esc(n[0]) + "</a>"; }).join("") + '<a class="cta" href="#/join">Join us</a>';
   burger.addEventListener("click", function () {
     var open = nav.classList.toggle("open"); burger.setAttribute("aria-expanded", open ? "true" : "false");
@@ -675,7 +636,7 @@ footer .fl a:hover{color:#fff}
     nav.querySelectorAll("a").forEach(function (a) {
       if (a.getAttribute("href") === "#/" + name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
-    var titles = { home: "", research: "Research", people: "People", publications: "Publications", news: "News", videos: "Videos", projects: "Project sites", join: "Join us", mission: "Mission" };
+    var titles = { home: "", research: "Research", people: "People", publications: "Publications", news: "News", join: "Join us", mission: "Mission" };
     document.title = (titles[name] ? titles[name] + " | " : "") + "XAMI Lab";
     window.scrollTo(0, 0);
     if (name === "home") { network(); counters(); }

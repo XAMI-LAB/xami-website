@@ -18,7 +18,6 @@ window.XAMI = {
     { label: "Research", href: "#" },
     { label: "Publications", href: "#" },
     { label: "News", href: "#" },
-    { label: "Videos", href: "#" },
     { label: "Join us", href: "#" },
   ],
   themes: [
@@ -133,53 +132,6 @@ window.XAMI = {
       title: "Guidelines for evaluating explainable AI on tabular data",
       who: ["mythreyivelmurugan", "chunouyang"],
       text: "Published in Engineering Applications of Artificial Intelligence.",
-    },
-  ],
-  videos: [
-    {
-      id: "xUs_H9m3DrI",
-      venue: "ACEMS Seminar Series",
-      title: 'Explainable Analytics for "Black-Box" Machine Intelligence',
-    },
-    {
-      id: "RYrrUyEvgOY",
-      venue: "CAiSE 2022",
-      title:
-        "Generating Purpose-Driven Explanations: The Case of Process Predictive Model Inspection",
-    },
-    {
-      id: "m1K5-lTEt6o",
-      venue: "ADSN Data Ethics Workshop #2",
-      title: "Towards Human-Centric XAI using Eye Tracking in Chest Xrays",
-    },
-    {
-      id: "D1yuUVD2DAY",
-      venue: "CAiSE 2021 Forum",
-      title:
-        "Evaluating Fidelity of Explainable Methods for Predictive Process Analytics",
-    },
-    {
-      id: "3qQFkVm_x4c",
-      venue: "i-Waves 2020",
-      title: "Towards Explainability in Machine Learning Approaches",
-    },
-  ],
-  // Project sites live on their own subdomains with their own design. Names here are placeholders.
-  projects: [
-    {
-      name: "Project site one",
-      address: "project-one.xami-lab.org",
-      text: "Placeholder for a project with its own website.",
-    },
-    {
-      name: "Project site two",
-      address: "project-two.xami-lab.org",
-      text: "Placeholder for a project with its own website.",
-    },
-    {
-      name: "Project site three",
-      address: "project-three.xami-lab.org",
-      text: "Placeholder for a project with its own website.",
     },
   ],
   // Sample wording for the Join us section.

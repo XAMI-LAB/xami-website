@@ -345,28 +345,6 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
 .nlist p{color:var(--soft);margin-top:6px;max-width:64ch}
 @media (max-width:700px){.nlist li{grid-template-columns:52px minmax(0,1fr)}.nlist time{grid-column:1/-1}.nlist .face{width:52px;height:52px}}
 
-.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:clamp(20px,3vw,40px)}
-.vid{display:block;text-decoration:none}
-.vid .shot{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:var(--deep2)}
-.vid .shot img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
-.vid:hover .shot img{transform:scale(1.06)}
-.vid .shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(4,26,32,.7))}
-.vid .play{position:absolute;left:18px;bottom:16px;z-index:1;width:54px;height:54px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:transform .3s}
-.vid:hover .play{transform:scale(1.1)}
-.vid .play::before{content:"";border-left:15px solid var(--deep);border-block:9px solid transparent;margin-left:4px}
-.vid span{display:block;color:var(--soft);font-size:14.5px;margin-top:14px}
-.vid b{display:block;font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.25;margin-top:2px}
-
-.sites{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
-.site{display:block;text-decoration:none;border-radius:20px;padding:26px;border:1.5px dashed #9DB3B6;background:#fff;transition:border-color .2s,transform .3s}
-.site:hover{border-color:var(--ink);transform:translateY(-3px)}
-.site .ext{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;background:var(--mist);padding:6px 12px;border-radius:999px}
-.site .ext svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-.site b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;margin-top:18px}
-.site p{color:var(--soft);font-size:15.5px;margin-top:6px}
-.site code{display:block;font:500 14.5px/1.3 var(--sans);margin-top:18px;color:var(--deep3);word-break:break-all}
-.note{background:var(--mist);border-radius:16px;padding:18px 22px;color:var(--soft);font-size:15.5px;max-width:70ch;margin-bottom:30px}
-
 .prose p{max-width:62ch}
 .prose .big{font-family:var(--serif);font-weight:350;font-size:clamp(24px,2.6vw,38px);line-height:1.25;letter-spacing:-.012em;max-width:26ch}
 .mlist > li{padding:16px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:54px minmax(0,1fr);gap:8px}
@@ -563,9 +541,8 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
   }
 
   /* ---------- navigation ---------- */
-  var ROUTE = { Mission: "#/mission", People: "#/people", Research: "#/research", Publications: "#/publications", News: "#/news", Videos: "#/videos", "Join us": "#/join", Projects: "#/projects" };
+  var ROUTE = { Mission: "#/mission", People: "#/people", Research: "#/research", Publications: "#/publications", News: "#/news", "Join us": "#/join" };
   var menu = X.nav.filter(function (n) { return n.label !== "Join us"; }).map(function (n) { return n.label; });
-  menu.push("Projects");
   function buildNav() {
     var links = menu.map(function (l) { return '<a href="' + ROUTE[l] + '" data-r="' + ROUTE[l] + '">' + esc(l) + "</a>"; }).join("");
     $("nav").innerHTML = links + '<a class="cta" href="#/join" data-r="#/join">Join us</a>';
@@ -593,7 +570,7 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
       "<p>" + esc(X.tagline) + ".</p></div>" +
       "<div><h2>Explore</h2><ul>" + menu.concat(["Join us"]).map(function (l) { return '<li><a href="' + ROUTE[l] + '">' + esc(l) + "</a></li>"; }).join("") + "</ul></div>" +
       '<div><h2>Contact</h2><ul><li><a href="#/join">' + esc(X.join.contact) + '</a></li><li><a href="https://github.com/XAMI-LAB" target="_blank" rel="noopener">XAMI Lab on GitHub</a></li>' +
-      '<li><a href="#/videos">Talks and seminars</a></li><li><a href="#/">Privacy policy</a></li></ul>' +
+      '<li><a href="#/">Privacy policy</a></li></ul>' +
       '<p>School of Information Systems, Queensland University of Technology, Brisbane, Australia</p></div></div>' +
       '<h2 style="margin-top:34px">Research affiliations</h2><div class="partners">' +
       X.partners.map(function (p) { return '<img src="' + esc(p.logo) + '" alt="' + esc(p.name) + '" loading="lazy">'; }).join("") +
@@ -690,7 +667,7 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
       '<div class="inner"><p class="kicker rv">Join us</p><h2 class="join-h rv" style="--d:1">Work with us on AI that people can understand</h2>' +
       '<p class="join-l rv" style="--d:2">' + esc(X.join.lead) + '</p><ul class="opts rv" style="--d:3">' +
       X.join.options.map(function (o) { return "<li><b>" + esc(o.title) + "</b><span>" + esc(o.text) + "</span></li>"; }).join("") +
-      '</ul><p class="acts rv" style="--d:4"><a class="btn" href="#/join">' + esc(X.join.contact) + '</a> <a class="btn ghost" href="#/projects">See our project sites</a></p></div></section>');
+      '</ul><p class="acts rv" style="--d:4"><a class="btn" href="#/join">' + esc(X.join.contact) + '</a></p></div></section>');
 
     return scenes.join("");
   }
@@ -819,13 +796,6 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
           "<div><h2>" + esc(n.title) + "</h2><p>" + esc(n.text) + "</p></div></li>";
       }).join("") + "</ul>");
   }
-  function viewVideos() {
-    return phead("Videos", "Talks and seminars by members of the lab.") +
-      page('<div class="vgrid">' + X.videos.map(function (v) {
-        return '<a class="vid rv" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener"><span class="shot"><img src="https://i.ytimg.com/vi/' + esc(v.id) +
-          '/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span></span><span>' + esc(v.venue) + "</span><b>" + esc(v.title) + "</b></a>";
-      }).join("") + "</div>");
-  }
   function viewJoin() {
     var lead = people.filter(function (p) { return p.group === "Leader"; });
     return phead("Join us", X.join.lead) +
@@ -835,14 +805,6 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
         '<section class="block"><div class="block-h"><div><h2>What to send</h2><p>A short first message is enough.</p></div><ul class="ticks" style="--tc:var(--teal)">' +
         "<li class=\"rv\">Who you are and what you have studied or worked on</li><li class=\"rv\">Which research theme interests you, and why</li><li class=\"rv\">Your CV, and a paper or project you are proud of</li></ul></div></section>" +
         '<section class="block"><div class="block-h"><div><h2>Lab leaders</h2><p>Your first point of contact.</p></div><div class="pgrid big">' + lead.map(personCard).join("") + "</div></div></section>");
-  }
-  function viewProjects() {
-    return phead("Project sites", "Some projects have a website of their own.") +
-      page('<p class="note">These are separate websites on their own addresses, each with its own look. The links below leave the lab site.</p><div class="sites">' +
-        X.projects.map(function (s) {
-          return '<a class="site rv" href="https://' + esc(s.address) + '" target="_blank" rel="noopener external"><span class="ext"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>Separate website</span>' +
-            "<b>" + esc(s.name) + "</b><p>" + esc(s.text) + "</p><code>" + esc(s.address) + "</code></a>";
-        }).join("") + "</div>");
   }
   var MISSION = [
     ["Create breakthroughs in building explainable analytics for machine intelligence", [
@@ -949,7 +911,7 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
   });
 
   /* ---------- router ---------- */
-  var TITLES = { "": "Home", research: "Research", people: "People", publications: "Publications", news: "News", videos: "Videos", join: "Join us", mission: "Mission", projects: "Project sites" };
+  var TITLES = { "": "Home", research: "Research", people: "People", publications: "Publications", news: "News", join: "Join us", mission: "Mission" };
   function draw(route) {
     var parts = route.replace(/^#\/?/, "").split("/").filter(Boolean);
     var name = parts[0] || "", html;
@@ -957,10 +919,8 @@ mark{background:rgba(24,212,160,.28);color:inherit;border-radius:3px;padding:0 1
     else if (name === "people") html = viewPeople();
     else if (name === "publications") html = viewPubs();
     else if (name === "news") html = viewNews();
-    else if (name === "videos") html = viewVideos();
     else if (name === "join") html = viewJoin();
     else if (name === "mission") html = viewMission();
-    else if (name === "projects") html = viewProjects();
     else { name = ""; html = home(); }
     var view = $("view");
     root.classList.toggle("home-view", name === "");

@@ -180,7 +180,6 @@
       .block.deep::after { content: ""; position: absolute; right: -180px; top: -220px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(closest-side, rgba(30, 143, 225, 0.5), rgba(30, 143, 225, 0)); pointer-events: none; }
       .block.mint { background: var(--mint); }
       .block.paper { background: var(--paper); border: 1px solid var(--line); }
-      .block.sky { background: var(--sky); }
       .block.grad { background: linear-gradient(118deg, #1268c4 0%, #1790c8 45%, #12b5a0 100%); color: #fff; }
       .bhead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 56px; align-items: end; margin-bottom: 44px; position: relative; z-index: 1; }
       .bhead h2 { font-size: clamp(38px, 4.6vw, 66px); font-weight: 800; letter-spacing: -0.035em; display: flex; align-items: baseline; gap: 20px; }
@@ -189,7 +188,7 @@
       .block.deep .bhead h2 { color: #9fe9ff; }
       .block.deep .bhead p { color: rgba(255, 255, 255, 0.9); }
       .block.mint .bhead h2 { color: #0a5e55; }
-      .block.paper .bhead h2, .block.sky .bhead h2 { color: var(--blue-deep); }
+      .block.paper .bhead h2 { color: var(--blue-deep); }
       .bfoot { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 40px; position: relative; z-index: 1; }
       .arrows { display: flex; gap: 10px; margin-left: auto; }
       .arrows button { width: 52px; height: 52px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.16); color: inherit; display: grid; place-items: center; transition: background 0.2s, transform 0.2s; }
@@ -252,18 +251,6 @@
       .links a { font: 600 13.5px/1 var(--body); text-decoration: none; padding: 9px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--line); transition: background 0.2s, color 0.2s, box-shadow 0.2s; white-space: nowrap; }
       .links a:hover { background: var(--ink); color: #fff; box-shadow: none; }
 
-      /* Videos */
-      .videos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; z-index: 1; }
-      .video { text-decoration: none; display: block; }
-      .video .shot { position: relative; border-radius: var(--r-md); overflow: hidden; aspect-ratio: 16 / 9; background: #10283c; }
-      .video .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, filter 0.3s; }
-      .video:hover .shot img { transform: scale(1.06); filter: brightness(0.8); }
-      .video .play { position: absolute; left: 16px; bottom: 16px; width: 54px; height: 54px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); transition: transform 0.25s; }
-      .video:hover .play { transform: scale(1.12); }
-      .video .play svg { width: 20px; height: 20px; margin-left: 3px; }
-      .video b { display: block; font: 700 17.5px/1.3 var(--display); margin-top: 14px; }
-      .video span { display: block; font-size: 14.5px; color: var(--soft); margin-top: 4px; }
-
       /* Join */
       .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; z-index: 1; }
       .option { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--r-md); padding: 26px; transition: transform 0.25s, background 0.25s; }
@@ -272,19 +259,6 @@
       .option p { font-size: 15.5px; color: rgba(255, 255, 255, 0.92); }
       .option .ic { width: 46px; height: 46px; border-radius: 14px; background: #fff; color: var(--blue-deep); display: grid; place-items: center; margin-bottom: 18px; }
       .option .ic svg { width: 24px; height: 24px; }
-
-      /* Project sites */
-      .sites { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-      .site { display: block; text-decoration: none; border: 1.5px dashed #9fb4c6; border-radius: var(--r-md); padding: 22px 24px; background: transparent; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
-      .site:hover { background: #fff; border-color: var(--ink); transform: translateY(-3px); }
-      .site .ext { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--soft); }
-      .site .ext svg { width: 13px; height: 13px; }
-      .site b { display: block; font: 700 19px/1.2 var(--display); margin: 10px 0 4px; }
-      .site p { font-size: 14.5px; color: var(--soft); }
-      .site code { display: block; margin-top: 12px; font: 500 14px/1 var(--body); color: var(--blue-deep); }
-      .section { padding: 40px 8px 28px; }
-      .section > h2 { font-size: 30px; margin-bottom: 8px; }
-      .section > p { color: var(--soft); max-width: 62ch; margin-bottom: 26px; }
 
       /* Inner pages */
       .phead { border-radius: var(--r-xl); padding: 64px 60px 56px; margin-top: 10px; background: var(--deep); color: #fff; position: relative; overflow: hidden; }
@@ -387,8 +361,7 @@
         .bhead { grid-template-columns: 1fr; }
         .block, .phead { padding: 56px 36px; }
         .rail { padding-inline: 36px; margin-inline: -36px; scroll-padding-left: 36px; }
-        .leaders, .options, .sites, .tgrid, .two { grid-template-columns: 1fr; }
-        .videos { grid-template-columns: repeat(2, 1fr); }
+        .leaders, .options, .tgrid, .two { grid-template-columns: 1fr; }
         .group { grid-template-columns: 1fr; gap: 18px; }
         .fgrid { grid-template-columns: 1fr 1fr; }
         .pub { grid-template-columns: 110px minmax(0, 1fr); }
@@ -425,7 +398,7 @@
         .pub { grid-template-columns: 1fr; padding: 20px 4px; }
         .pub .thumb { width: 132px; height: 92px; }
         .pub .links { grid-column: 1; }
-        .videos, .values { grid-template-columns: 1fr; }
+        .values { grid-template-columns: 1fr; }
         .filters { grid-template-columns: 1fr; position: static; }
         .fgrid { grid-template-columns: 1fr; gap: 32px; }
         .funding { columns: 1; }
@@ -474,7 +447,6 @@
             <ul>
               <li><a href="#/join">Contact A/Prof. Chun Ouyang</a></li>
               <li><a href="https://github.com/XAMI-LAB" target="_blank" rel="noopener">XAMI Lab on GitHub</a></li>
-              <li><a href="#/projects">Project sites</a></li>
               <li>School of Information Systems, QUT<br />Gardens Point, Brisbane, Australia</li>
             </ul>
           </div>
@@ -505,8 +477,6 @@
         var ICON = {
           arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
           back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
-          ext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
-          play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',
           cap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c2 2 10 2 12 0v-4.5M22 9v6"/></svg>',
           globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>',
           hands: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h4l4-3 4 3h6v8h-3l-4 3-3-2-2 1-3-2H3z"/><path d="M9 12l3 2 3-2"/></svg>'
@@ -634,14 +604,6 @@
           var who = (n.who || []).map(function (id) { return byId[id]; }).filter(Boolean);
           return who.length ? '<span class="faces">' + who.slice(0, 2).map(function (p) { return face(p); }).join("") + "</span>" : "";
         }
-        function videoCard(v) {
-          return '<a class="video" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener"><span class="shot"><img src="https://i.ytimg.com/vi/' +
-            esc(v.id) + '/hqdefault.jpg" alt="" loading="lazy" /><span class="play">' + ICON.play + "</span></span><b>" + esc(v.title) + "</b><span>" + esc(v.venue) + "</span></a>";
-        }
-        function siteCard(s) {
-          return '<a class="site" href="https://' + esc(s.address) + '" target="_blank" rel="external noopener"><span class="ext">' + ICON.ext +
-            "Separate website</span><b>" + esc(s.name) + "</b><p>" + esc(s.text) + "</p><code>" + esc(s.address) + "</code></a>";
-        }
         function joinOptions() {
           var icons = [ICON.cap, ICON.globe, ICON.hands];
           return X.join.options.map(function (o, i) {
@@ -705,25 +667,17 @@
             '<ul class="pubs rv">' + X.pubs.slice(0, 5).map(pubRow).join("") + '</ul><div class="bfoot"><a class="btn dark" href="#/publications">All ' +
             X.pubs.length + " publications" + ICON.arrow + "</a></div></section>";
 
-          h += '<section class="block sky" aria-labelledby="h-talks"><div class="bhead rv"><h2 id="h-talks"><span class="n">04</span>Talks</h2>' +
-            "<p>Seminars and conference talks by lab members, recorded and free to watch.</p></div>" +
-            '<div class="videos rv">' + X.videos.slice(0, 3).map(videoCard).join("") + '</div><div class="bfoot"><a class="btn line" href="#/videos">All talks' +
-            ICON.arrow + "</a></div></section>";
-
-          h += '<section class="block grad" aria-labelledby="h-join"><div class="bhead rv"><h2 id="h-join"><span class="n">05</span>Join us</h2><p>' +
+          h += '<section class="block grad" aria-labelledby="h-join"><div class="bhead rv"><h2 id="h-join"><span class="n">04</span>Join us</h2><p>' +
             esc(X.join.lead) + '</p></div><ul class="options">' + joinOptions() + '</ul><div class="bfoot"><a class="btn white" href="#/join">' +
             esc(X.join.contact) + ICON.arrow + "</a></div></section>";
 
-          h += '<section class="section rv" aria-labelledby="h-sites"><h2 id="h-sites">Project sites</h2><p>Some projects have their own website, with their own look. These links leave the lab site.</p>' +
-            '<div class="sites">' + X.projects.map(siteCard).join("") + "</div></section>";
           return h;
         }
 
         function research() {
           return pageHead("Research", "Our work spans four connected themes. Each looks at a different part of the same question: how can a person see why a machine made its decision?") +
             '<div class="pbody"><div class="tgrid">' + X.themes.map(function (t) { return themeCard(t).replace('class="tcard"', 'class="tcard rv"'); }).join("") +
-            '</div><section class="section rv"><h2>Project sites</h2><p>Some projects have their own website, with their own look. These links leave the lab site.</p><div class="sites">' +
-            X.projects.map(siteCard).join("") + "</div></section></div>";
+            "</div></div>";
         }
 
         function themeView(id) {
@@ -814,10 +768,6 @@
           }).join("") + '</ul><p class="note">News is a new section. These entries are sample wording based on real lab events.</p></div>';
           return h;
         }
-        function videosView() {
-          return pageHead("Talks and videos", "Seminars and conference talks by lab members. Each one opens on YouTube.") +
-            '<div class="pbody"><div class="videos">' + X.videos.map(function (v) { return videoCard(v).replace('class="video"', 'class="video rv"'); }).join("") + "</div></div>";
-        }
         function joinView() {
           var lead = byId.chunouyang;
           var h = pageHead("Join us", X.join.lead);
@@ -867,20 +817,14 @@
             funding.map(function (f) { return "<li>" + esc(f) + "</li>"; }).join("") + "</ul></div>";
           return h;
         }
-        function projectsView() {
-          return pageHead("Project sites", "Some of our projects have their own website, with their own name and look. The links below leave the lab site and open in a new tab.") +
-            '<div class="pbody"><div class="sites">' + X.projects.map(function (s) { return siteCard(s).replace('class="site"', 'class="site rv"'); }).join("") +
-            '</div><p class="note">The three sites shown are placeholders for where project links will go.</p></div>';
-        }
         function notFound() {
           return pageHead("Page not found", "That page does not exist. The menu above has everything on the site.") +
             '<div class="pbody"><a class="btn dark" href="#/">Back to home' + ICON.arrow + "</a></div>";
         }
 
         /* ---------- navigation ---------- */
-        var ROUTE = { Mission: "mission", People: "people", Research: "research", Publications: "publications", News: "news", Videos: "videos", "Join us": "join", Projects: "projects" };
+        var ROUTE = { Mission: "mission", People: "people", Research: "research", Publications: "publications", News: "news", "Join us": "join" };
         var items = X.nav.map(function (n) { return n.label; });
-        if (items.indexOf("Projects") < 0) items.splice(items.indexOf("Join us") < 0 ? items.length : items.indexOf("Join us"), 0, "Projects");
         var nav = document.getElementById("nav");
         nav.innerHTML = items.map(function (l) {
           return '<a href="#/' + ROUTE[l] + '" data-route="' + ROUTE[l] + '"' + (l === "Join us" ? ' class="cta"' : "") + ">" + esc(l) + "</a>";
@@ -951,7 +895,7 @@
           });
           return { path: bits[0].split("/").filter(Boolean), query: query };
         }
-        var TITLES = { mission: "Mission", people: "People", research: "Research", publications: "Publications", news: "News", videos: "Talks and videos", join: "Join us", projects: "Project sites" };
+        var TITLES = { mission: "Mission", people: "People", research: "Research", publications: "Publications", news: "News", join: "Join us" };
         function render() {
           if (location.hash && location.hash.indexOf("#/") !== 0) return;
           var r = parse(), a = r.path[0] || "", html, title = TITLES[a];
@@ -961,10 +905,8 @@
           else if (a === "people") html = peopleView();
           else if (a === "publications") html = pubsView(r.query);
           else if (a === "news") html = newsView();
-          else if (a === "videos") html = videosView();
           else if (a === "join") html = joinView();
           else if (a === "mission") html = missionView();
-          else if (a === "projects") html = projectsView();
           else { html = notFound(); title = "Page not found"; }
 
           closeMenu();
