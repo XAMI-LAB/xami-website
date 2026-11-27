@@ -160,7 +160,7 @@ ol {
 .page-head {
   position: relative;
   overflow: hidden;
-  padding: calc(var(--head) + 84px) 0 64px;
+  padding: calc(var(--head) + 52px) 0 52px;
   border-bottom: 1px solid rgba(17, 33, 43, 0.08);
 }
 .page-head canvas {
@@ -177,11 +177,63 @@ ol {
   -webkit-mask-image: linear-gradient(180deg, #000 38%, transparent 62%);
   mask-image: linear-gradient(180deg, #000 38%, transparent 62%);
 }
+/* the page name: a ring node on a line that runs on with a signal, as on the theme rail and the news timeline */
+.page-head .ttl {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.page-head .ttl i {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--ground);
+  border: 2.2px solid var(--accent);
+}
 .page-head h1 {
-  font-size: clamp(44px, 5.4vw, 72px);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.page-head .ln {
+  position: relative;
+  flex: 1;
+  height: 1.2px;
+  margin-left: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 107, 124, 0.42),
+    rgba(10, 107, 124, 0.08)
+  );
+}
+.page-head .ln b {
+  position: absolute;
+  top: -2.6px;
+  left: 0;
+  width: 6.4px;
+  height: 6.4px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: page-signal 6s linear infinite;
+}
+@keyframes page-signal {
+  from {
+    left: 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.85;
+  }
+  to {
+    left: calc(100% - 7px);
+    opacity: 0;
+  }
 }
 
 /* a section: its heading on the left, its content on the right */
@@ -214,7 +266,7 @@ ol {
 }
 .site-foot .cols {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.3fr 1fr;
+  grid-template-columns: 2.4fr 1fr 1fr;
   gap: 40px;
 }
 .site-foot .logo {

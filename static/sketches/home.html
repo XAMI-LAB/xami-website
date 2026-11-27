@@ -51,8 +51,6 @@ main{padding-top:var(--head)}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
 .hero .wrap{width:100%;padding-top:56px;padding-bottom:56px}
 .hero .word{width:min(330px,70vw);margin-bottom:34px}
-.hero .affil{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;color:#33434E;padding:7px 14px 7px 8px;border-radius:999px;border:1px solid rgba(17,33,43,.14);background:#fff;margin-bottom:26px}
-.hero .affil img{height:24px;width:24px;border-radius:5px}
 .hero h1{font-size:clamp(38px,6vw,78px);font-weight:900;max-width:15ch;letter-spacing:-.03em;line-height:1.02}
 .hero .lead{font-size:clamp(17px,1.6vw,20.5px);color:#3B4B56;max-width:44ch;margin-top:26px}
 
@@ -395,11 +393,11 @@ a.pp.lg:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 18px 3
   box-shadow:0 0 0 1px rgba(17,33,43,.09),0 1px 0 #fff inset,0 40px 90px -50px rgba(17,33,43,.35)}
 .join::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(17,33,43,.11) 1px,transparent 1.3px);background-size:18px 18px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%)}
 .join > *{position:relative}
-.join .todo{margin:10px 0 0;color:#606B73;font-style:italic}
+.join .lead{margin:12px 0 0;color:#3B4B56;font-size:17.5px;line-height:1.6;max-width:56ch}
 .cta{flex:none;font:700 16px var(--display);color:#fff;background:#0A6B7C;padding:15px 24px;border-radius:13px;text-decoration:none;box-shadow:0 14px 26px -12px rgba(10,107,124,.8);transition:translate .2s,box-shadow .2s}
 .cta:hover{translate:0 -2px;box-shadow:0 18px 30px -12px rgba(10,107,124,.9)}
 .site-foot{background:#05162A;color:#B4CADB;padding:64px 0 28px;font-size:15px}
-.site-foot .cols{display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:40px}
+.site-foot .cols{display:grid;grid-template-columns:2.4fr 1fr 1fr;gap:40px}
 .site-foot .logo{width:240px}
 .site-foot h3{font:700 13px var(--body);color:#86A3BA;margin:0 0 14px}
 .site-foot ul{list-style:none;margin:0;padding:0}
@@ -422,7 +420,7 @@ a.pp.lg:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 18px 3
   <div class="wrap">
     <a class="brand" href="#"><img src="assets/xami-mark.png" alt=""><span>XAMI Lab<small>Queensland University of Technology</small></span></a>
     <nav class="nav" aria-label="Main">
-      <a href="mission.html">Mission</a><a href="people.html">People</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="news.html">News</a><a class="cta" href="#join">Join us</a>
+      <a href="mission.html">Mission</a><a href="people.html">People</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="news.html">News</a><a class="cta" href="join.html">Join us</a>
     </nav>
   </div>
 </header>
@@ -432,7 +430,6 @@ a.pp.lg:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 18px 3
     <canvas id="net" aria-hidden="true"></canvas>
     <div class="wrap">
       <img class="word" id="word" src="assets/xami-long-white.png" alt="XAMI Lab">
-      <p class="affil"><img src="assets/qut.svg" alt="">Research lab at Queensland University of Technology, Brisbane</p>
       <h1>Explainable analytics for <span class="grad">machine intelligence</span></h1>
       <p class="lead">The Explainable Analytics for Machine Intelligence (XAMI) Lab develops methods to make machine intelligence explainable, transparent, fair and understandable to human decision-makers.</p>
       <ul class="themes" id="themes" aria-label="Research themes">
@@ -586,7 +583,7 @@ a.pp.lg:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 18px 3
   </section>
   <section class="sec" id="join" aria-label="Join us">
     <div class="wrap">
-      <div class="join"><div><h2>Join us</h2><p class="todo">Text to come.</p></div><a class="cta" href="mailto:hello@xami-lab.example">Contact us</a></div>
+      <div class="join"><div><h2>Join us</h2><p class="lead">We welcome PhD and Master by research students, visiting researchers and industry partners who want AI that people can understand.</p></div><a class="cta" href="join.html">How to join</a></div>
     </div>
   </section>
 </main>
@@ -594,9 +591,8 @@ a.pp.lg:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 18px 3
   <div class="wrap">
     <div class="cols">
       <div><img class="logo" src="assets/xami-long-white.png" alt="XAMI Lab"></div>
-      <div><h3>Explore</h3><ul><li><a href="mission.html">Mission</a></li><li><a href="people.html">People</a></li><li><a href="research.html">Research themes</a></li><li><a href="publications.html">Publications</a></li><li><a href="news.html">News</a></li><li><a href="#join">Join us</a></li></ul></div>
-      <div><h3>Universities</h3><ul><li><a href="https://www.qut.edu.au/">Queensland University of Technology</a></li><li><a href="https://www.uts.edu.au/">University of Technology Sydney</a></li><li><a href="https://tecnico.ulisboa.pt/en/">Instituto Superior Técnico, ULisboa</a></li><li><a href="https://www.kuleuven.be/english/kuleuven">KU Leuven</a></li></ul></div>
-      <div><h3>About</h3><ul><li><a href="mailto:hello@xami-lab.example">Contact us</a></li><li><a href="#">Acknowledgements</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Third-party licences</a></li></ul></div>
+      <div><h3>Explore</h3><ul><li><a href="mission.html">Mission</a></li><li><a href="people.html">People</a></li><li><a href="research.html">Research themes</a></li><li><a href="publications.html">Publications</a></li><li><a href="news.html">News</a></li><li><a href="join.html">Join us</a></li></ul></div>
+      <div><h3>About</h3><ul><li><a href="mailto:hello@xami-lab.example">Contact us</a></li><li><a href="acknowledgements.html">Acknowledgements</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Third-party licences</a></li></ul></div>
     </div>
     <p class="legal">Copyright © 2021 - 2026 XAMI Lab @QUT</p>
   </div>
