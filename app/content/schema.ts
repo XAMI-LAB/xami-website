@@ -14,6 +14,8 @@ const link = z.strictObject({
   ),
 });
 
+const degree = z.strictObject({ degree: text, year: z.number().int().optional() });
+
 export const personSchema = z.strictObject({
   id,
   name: text,
@@ -21,8 +23,11 @@ export const personSchema = z.strictObject({
   groups: z.array(z.enum(GROUPS)).min(1),
   position: text.optional(),
   affiliations: z.array(text).max(2).default([]),
-  /** the degree a person earned in the lab; the year can be added when it is known */
-  graduated: z.strictObject({ degree: text, year: z.number().int().optional() }).optional(),
+  /** the degrees a person earned in the lab, earliest first: one, or a list; a year can be added when it is known */
+  graduated: z
+    .union([degree, z.array(degree)])
+    .optional()
+    .transform((value) => (value === undefined ? [] : Array.isArray(value) ? value : [value])),
   photo: text.optional(),
   links: z.partialRecord(z.enum(LINK_KINDS), text).default({}),
   aliases: z.array(text).default([]),

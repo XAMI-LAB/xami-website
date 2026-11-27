@@ -25,25 +25,20 @@ export async function loader() {
       affiliation: contact.affiliations[0],
       email: contact.links.email,
     },
-    // People who graduated from the lab and where they are now, newest first.
+    // People who earned a degree in the lab and where they are now, the most recent graduates first.
+    // Those who graduated in the same year keep the order of the People page.
     graduates: people
-      .flatMap((person) =>
-        person.graduated
-          ? [
-              {
-                id: person.id,
-                name: displayName(person),
-                photo: person.photo,
-                degree: person.graduated.degree,
-                year: person.graduated.year,
-                // A graduate still listed as a collaborator has a position before the place they work.
-                now: person.affiliations.at(-1),
-              },
-            ]
-          : [],
-      )
-      // Those whose year is not recorded yet follow, in the order of the People page.
-      .sort((a, b) => (b.year ?? 0) - (a.year ?? 0)),
+      .filter((person) => person.graduated.length > 0)
+      .map((person) => ({
+        id: person.id,
+        name: displayName(person),
+        photo: person.photo,
+        degrees: person.graduated.map((d) => [d.degree, d.year].filter(Boolean).join(", ")),
+        latest: Math.max(0, ...person.graduated.map((d) => d.year ?? 0)),
+        // Only the organisation is named: "School of Information Systems, QUT" reads as "QUT" here.
+        now: person.affiliations.at(-1)?.split(", ").at(-1),
+      }))
+      .sort((a, b) => b.latest - a.latest),
   };
 }
 
@@ -195,7 +190,7 @@ export default function Join({ loaderData }: Route.ComponentProps) {
                             <span>
                               <b>{person.name}</b>
                               <small>
-                                {[person.degree, person.year].filter(Boolean).join(", ")}
+                                {person.degrees.join(" and ")}
                                 {person.now && `. Now at ${person.now}`}
                               </small>
                             </span>

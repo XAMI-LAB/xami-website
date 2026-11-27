@@ -141,7 +141,7 @@ function readPublications(people: Person[]): Publication[] {
   // matched by first and last name or by an alias.
   const labNames = new Set<string>();
   for (const p of people) {
-    if (!p.graduated && !p.groups.some((g) => g !== "collaborator")) continue;
+    if (p.graduated.length === 0 && !p.groups.some((g) => g !== "collaborator")) continue;
     const words = plain(p.name.replace(/\([^)]*\)/g, " "))
       .split(/\s+/)
       .filter(Boolean);

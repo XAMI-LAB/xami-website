@@ -7,7 +7,7 @@
 # Collaborators the lab no longer works with stay in the list, after the current ones.
 # name is written as on the site; papers are matched by the name without the part in brackets, plus any aliases.
 # On the lab's papers, leaders, members, alumni and anyone with "graduated" are shown darker in the author list.
-# graduated records a degree earned in the lab (degree, and year when known). Members who stayed on keep it too;
+# graduated records a degree earned in the lab (degree, and year when known), or a list of them, earliest first. Members who stayed on keep it too;
 # the Join us page lists everyone who has it as a graduate of the lab.
 
 - id: chun-ouyang
@@ -46,6 +46,7 @@
   groups: [member]
   graduated:
     degree: PhD
+    year: 2023
   aliases: ["Roy Yang"] # how one paper writes his name
   position: "Post-doc Research Fellow"
   affiliations:
@@ -64,6 +65,7 @@
   groups: [member]
   graduated:
     degree: PhD
+    year: 2024
   position: "Lecturer"
   affiliations:
     - "School of Information Systems, QUT"
@@ -80,6 +82,7 @@
   groups: [member]
   graduated:
     degree: PhD
+    year: 2026
   position: "Lecturer"
   affiliations:
     - "School of Information Systems, QUT"
@@ -93,7 +96,10 @@
   title: Dr.
   groups: [member]
   graduated:
-    degree: PhD
+    - degree: Honours
+      year: 2021
+    - degree: PhD
+      year: 2026
   position: "Post-doc Research Fellow"
   affiliations:
     - "School of Mech., Medical & Process Engineering, QUT"

@@ -42,9 +42,11 @@ type Details = Pick<Person, "position" | "affiliations" | "graduated">;
 function PersonDetails({ person, group }: { person: Details; group: Group }) {
   if (group === "alumni") {
     const { graduated, affiliations } = person;
+    // An alumnus is described by the last degree they earned in the lab.
+    const latest = graduated.at(-1);
     return (
       <span className="info">
-        {graduated && <b>{[`${graduated.degree} Graduate`, graduated.year].filter(Boolean).join(", ")}</b>}
+        {latest && <b>{[`${latest.degree} Graduate`, latest.year].filter(Boolean).join(", ")}</b>}
         {affiliations.length > 0 && <small>{`Now at ${affiliations.join(", ")}`}</small>}
       </span>
     );
@@ -61,9 +63,9 @@ function PersonDetails({ person, group }: { person: Details; group: Group }) {
 }
 
 /** The people of one group, in the order of the content file; alumni by graduation year, newest first. */
-function listed<P extends { groups: Group[]; graduated?: { year?: number } }>(people: P[], group: Group): P[] {
+function listed<P extends { groups: Group[]; graduated: { year?: number }[] }>(people: P[], group: Group): P[] {
   const members = people.filter((person) => person.groups.includes(group));
-  if (group === "alumni") members.sort((a, b) => (b.graduated?.year ?? 0) - (a.graduated?.year ?? 0));
+  if (group === "alumni") members.sort((a, b) => (b.graduated.at(-1)?.year ?? 0) - (a.graduated.at(-1)?.year ?? 0));
   return members;
 }
 

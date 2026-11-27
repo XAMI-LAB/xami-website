@@ -56,12 +56,10 @@ export function llmsTxt(): string {
 function personLine(person: Person, group: (typeof GROUP_HEADINGS)[number][0]): string {
   const details =
     group === "alumni"
-      ? person.graduated
-        ? [
-            [`${person.graduated.degree} Graduate`, person.graduated.year].filter(Boolean).join(", "),
-            ...person.affiliations.map((a) => `now at ${a}`),
-          ]
-        : []
+      ? [
+          ...person.graduated.map((d) => [`${d.degree} Graduate`, d.year].filter(Boolean).join(", ")),
+          ...(person.graduated.length ? person.affiliations.map((a) => `now at ${a}`) : []),
+        ]
       : [person.position, ...person.affiliations].filter(Boolean);
   const links = Object.entries(person.links)
     .filter(([kind]) => kind !== "email")
