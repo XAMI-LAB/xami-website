@@ -3,6 +3,7 @@
 # Alumni are listed by the year they graduated, newest first. Their affiliations say where they are now.
 # Members with a doctorate come first, in the order they graduated; a position does not decide the order.
 # Everyone except alumni has a position (for example Associate Professor, Lecturer, PhD Student).
+# Collaborators are ordered by how closely they work with the lab today, closest first; the lab decides this order.
 # Collaborators the lab no longer works with stay in the list, after the current ones.
 # name is written as on the site; papers are matched by the name without the part in brackets, plus any aliases.
 # On the lab's papers, leaders, members, alumni and anyone with "graduated" are shown darker in the author list.
@@ -140,20 +141,6 @@
     email: calebfianku.quao@hdr.qut.edu.au
     linkedin: https://www.linkedin.com/in/calebfiankuquao/
 
-- id: laith-alzubaidi
-  name: "Laith Alzubaidi"
-  title: Dr.
-  groups: [collaborator]
-  position: "Senior Research Fellow"
-  affiliations:
-    - "School of Mech., Medical & Process Engineering, QUT"
-  photo: laith-alzubaidi.jpg
-  links:
-    email: l.alzubaidi@qut.edu.au
-    website: https://www.qut.edu.au/about/our-people/academic-profiles/l.alzubaidi
-    linkedin: https://www.linkedin.com/in/laith-alzubaidi-148447191
-    scholar: https://scholar.google.com/citations?user=TqoZSacAAAAJ&hl=en
-
 - id: yue-xu
   name: "Yue Xu"
   title: A/Prof.
@@ -182,6 +169,20 @@
     linkedin: https://www.linkedin.com/in/sara-khalifa-3618bb94/
     scholar: https://scholar.google.com/citations?user=51qUEL4AAAAJ
 
+- id: laith-alzubaidi
+  name: "Laith Alzubaidi"
+  title: Dr.
+  groups: [collaborator]
+  position: "Senior Research Fellow"
+  affiliations:
+    - "School of Mech., Medical & Process Engineering, QUT"
+  photo: laith-alzubaidi.jpg
+  links:
+    email: l.alzubaidi@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/l.alzubaidi
+    linkedin: https://www.linkedin.com/in/laith-alzubaidi-148447191
+    scholar: https://scholar.google.com/citations?user=TqoZSacAAAAJ&hl=en
+
 - id: hongxia-wang
   name: "Hongxia Wang"
   title: Prof.
@@ -196,6 +197,20 @@
     linkedin: https://www.linkedin.com/in/caroline-wang-298290167/
     scholar: https://scholar.google.com.au/citations?user=TSTIUPwAAAAJ
 
+- id: bemali-wickramanayake
+  name: "Bemali Wickramanayake"
+  title: Dr.
+  groups: [collaborator]
+  graduated: # a graduate of the lab, so her name is highlighted on the lab's papers
+    degree: PhD
+    year: 2025
+  position: "Senior Data Scientist (Tech Lead)"
+  affiliations:
+    - "Suncorp Group"
+  photo: bemali-wickramanayake.png
+  links:
+    linkedin: https://www.linkedin.com/in/bemali-wickramanayake-b2627261
+
 - id: alistair-barros
   name: "Alistair Barros"
   title: Prof.
@@ -209,22 +224,6 @@
     website: https://www.qut.edu.au/about/our-people/academic-profiles/alistair.barros
     linkedin: https://www.linkedin.com/in/alistairbarros/
     scholar: https://scholar.google.com/citations?user=TyWyf30AAAAJ
-
-- id: joaquim-jorge
-  name: "Joaquim Jorge"
-  title: Prof.
-  groups: [collaborator]
-  position: "Full Professor"
-  affiliations:
-    - "Instituto Superior Técnico, ULisboa"
-    - "UNESCO Chair on AI & XR"
-
-  photo: joaquim-jorge.jpg
-  links:
-    email: jorgej@tecnico.ulisboa.pt
-    website: https://web.ist.utl.pt/jorgej/
-    linkedin: https://www.linkedin.com/in/jorgej
-    scholar: https://scholar.google.com/citations?user=RgiMdpAAAAAJ
 
 - id: jian-cao
   name: "Jian Cao"
@@ -252,19 +251,34 @@
     website: https://novaims.unl.pt/en/nova-ims/teaching-staff/d/793
     scholar: https://scholar.google.com/citations?user=TjQYB-IAAAAJ
 
-- id: bemali-wickramanayake
-  name: "Bemali Wickramanayake"
-  title: Dr.
+- id: joaquim-jorge
+  name: "Joaquim Jorge"
+  title: Prof.
   groups: [collaborator]
-  graduated: # a graduate of the lab, so her name is highlighted on the lab's papers
-    degree: PhD
-    year: 2025
-  position: "Senior Data Scientist (Tech Lead)"
+  position: "Full Professor"
   affiliations:
-    - "Suncorp Group"
-  photo: bemali-wickramanayake.png
+    - "Instituto Superior Técnico, ULisboa"
+    - "UNESCO Chair on AI & XR"
+
+  photo: joaquim-jorge.jpg
   links:
-    linkedin: https://www.linkedin.com/in/bemali-wickramanayake-b2627261
+    email: jorgej@tecnico.ulisboa.pt
+    website: https://web.ist.utl.pt/jorgej/
+    linkedin: https://www.linkedin.com/in/jorgej
+    scholar: https://scholar.google.com/citations?user=RgiMdpAAAAAJ
+
+- id: johannes-de-smedt
+  name: "Johannes De Smedt"
+  title: A/Prof.
+  groups: [collaborator]
+  position: "Associate Professor"
+  affiliations:
+    - "Faculty of Economics and Business, KU Leuven"
+  photo: johannes-de-smedt.jpg
+  links:
+    email: johannes.desmedt@kuleuven.be
+    website: https://www.kuleuven.be/wieiswie/en/person/00092789
+    scholar: https://scholar.google.com/citations?user=Hv2zeMIAAAAJ
 
 - id: alexander-stevens
   name: "Alexander Stevens"
@@ -279,19 +293,6 @@
     website: https://alexanderpaulstevens.github.io/
     linkedin: https://www.linkedin.com/in/alexander-stevens-354b41183/
     scholar: https://scholar.google.com/citations?user=fNeFT5EAAAAJ
-
-- id: johannes-de-smedt
-  name: "Johannes De Smedt"
-  title: A/Prof.
-  groups: [collaborator]
-  position: "Associate Professor"
-  affiliations:
-    - "Faculty of Economics and Business, KU Leuven"
-  photo: johannes-de-smedt.jpg
-  links:
-    email: johannes.desmedt@kuleuven.be
-    website: https://www.kuleuven.be/wieiswie/en/person/00092789
-    scholar: https://scholar.google.com/citations?user=Hv2zeMIAAAAJ
 
 - id: margot-brereton
   name: "Margot Brereton"

@@ -274,6 +274,9 @@ function read(): Content {
 
   // Newest year first. Within a year the file's own order is kept, since some items give no month.
   news.sort((a, b) => Number(b.date.slice(0, 4)) - Number(a.date.slice(0, 4)));
+  // A theme shows its people in the order of the People page, however the theme lists them.
+  const placeOf = new Map(people.map((p, i) => [p.id, i]));
+  for (const theme of themes) theme.people.sort((a, b) => placeOf.get(a)! - placeOf.get(b)!);
   return { site, people, themes, news, publications };
 }
 

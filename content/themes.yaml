@@ -1,9 +1,9 @@
 # The five research themes, in order. people and publications refer to ids in people.yaml and keys in publications.bib.
 # summary is one short paragraph for the home page; description is the full text for the Research themes page.
 # publications lists every paper of the theme, in any order; the Research themes page shows the newest five.
-# people are those working on the theme now, in this order: leaders, members, then the collaborators the lab
-# works with today, with whoever has more of the theme's papers first. Alumni and collaborators the lab no longer
-# works with are left out; a recent graduate stays while their work in the theme is still recent.
+# people are those working on the theme now. Alumni and collaborators the lab no longer works with are left out;
+# a recent graduate stays while their work in the theme is still recent. The pages show them in the order of
+# people.yaml, whatever order they are written in here.
 # scene is the animated example: loan-decision, chest-xray, chilled-shipment, invoice-handoff or battery-plan.
 
 - id: explainable-and-trustworthy-intelligent-systems
@@ -18,13 +18,13 @@
     - catarina-moreira
     - mythreyi-velmurugan
     - zhipeng-he
-    - bemali-wickramanayake
     - yue-xu
+    - laith-alzubaidi
+    - bemali-wickramanayake
     - alistair-barros
     - cong-liu
-    - alexander-stevens
     - johannes-de-smedt
-    - laith-alzubaidi
+    - alexander-stevens
   publications:
     - he2026tabattackbench
     - he2026crafting
@@ -54,11 +54,11 @@
   title: "Human-centric Explainable Medical Diagnostic Systems"
   scene: chest-xray
   people:
-    - catarina-moreira
     - chun-ouyang
-    - chihcheng-hsieh
-    - joaquim-jorge
+    - catarina-moreira
     - laith-alzubaidi
+    - joaquim-jorge
+    - chihcheng-hsieh
   publications:
     - hsieh2025dallm
     - alzubaidi2024comprehensive
@@ -111,8 +111,8 @@
   scene: battery-plan
   people:
     - chun-ouyang
-    - mohammed-osman-gani
     - zhipeng-he
+    - mohammed-osman-gani
     - cao-tram-anh-hoang
     - sara-khalifa
   publications:
