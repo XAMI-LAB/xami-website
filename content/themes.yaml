@@ -53,6 +53,11 @@
 - id: human-centric-explainable-medical-diagnostic-systems
   title: "Human-centric Explainable Medical Diagnostic Systems"
   scene: chest-xray
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We build explainable medical diagnostic systems around the way clinicians work, combining medical images with eye-tracking, clinical data and language models so that AI findings can be understood, checked and trusted."
+  description:
+    - "We develop human-centric, explainable AI for medical diagnosis, designing systems that reflect how clinicians read images and reach decisions."
+    - "Our research spans multimodal learning that fuses chest X-rays with radiologists' eye gaze and patients' clinical data, clinical data augmentation with large language models, open multimodal datasets, and trustworthy deep learning for radiology and orthopaedics, with a focus on diagnostic support that clinicians can interpret and verify."
   people:
     - chun-ouyang
     - catarina-moreira
@@ -76,6 +81,11 @@
 - id: iot-enabled-process-monitoring-and-intelligence
   title: "IoT-enabled Process Monitoring and Intelligence"
   scene: chilled-shipment
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We bring Internet of Things data into business process analysis, deriving IoT-enriched and object-centric event logs so that processes can be monitored and understood in their physical context."
+  description:
+    - "We connect data from the Internet of Things with business process management, so that what sensors and devices observe can inform how processes are monitored, analysed and improved."
+    - "Our research spans methods and tools for deriving IoT-enriched and object-centric event logs, the classification of IoT context in business processes, and applications in real-life logistics, with a focus on turning low-level sensor data into process-level insight."
   people:
     - chun-ouyang
     - jia-wei
@@ -89,6 +99,11 @@
 - id: agentic-automation-and-workforce-intelligence
   title: "Agentic Automation and Workforce Intelligence"
   scene: invoice-handoff
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We study how software robots, AI agents and people share work, combining robotic process automation with process mining of the workforce to design automation that fits how organisations operate."
+  description:
+    - "We investigate how work is divided between people, software robots and AI agents, and how event data can guide that division."
+    - "Our research spans robotic process automation, from bot design patterns to its integration with business process management systems, and workforce analytics through process mining, including resource grouping, work specialisation and the capabilities of new employees, with a focus on automation and work assignment decisions grounded in how work is done."
   people:
     - chun-ouyang
     - jing-yang
@@ -109,6 +124,12 @@
 - id: ai-driven-energy-forecasting-and-optimisation
   title: "AI-Driven Energy Forecasting and Optimisation"
   scene: battery-plan
+  # From the energy group's site (https://energy.xami-lab.org/research/). The second description paragraph is
+  # put together from that page's two project descriptions; awaiting the team's review.
+  summary: "We develop data-driven methods for forecasting and optimisation in electricity markets, with a particular focus on Australia's National Electricity Market. Our research addresses the challenges the energy transition brings to market operation, including price volatility, uncertainty, and the growing role of renewable and distributed energy resources, with an emphasis on methods that remain reliable under real-world conditions."
+  description:
+    - "We develop data-driven methods for forecasting and optimisation in electricity markets, with a particular focus on Australia's National Electricity Market. Our research addresses the challenges the energy transition brings to market operation, including price volatility, uncertainty, and the growing role of renewable and distributed energy resources, with an emphasis on methods that remain reliable under real-world conditions."
+    - "Our research spans wholesale electricity price forecasting in the National Electricity Market under extreme volatility and renewable-driven structural shifts, including multi-horizon and multi-region forecasting, spike-aware modelling and regime-adaptive methods, and AI-driven coordination of household and community batteries with multi-agent reinforcement learning, balancing household value with community objectives such as peak reduction, renewable utilisation, market participation and battery longevity."
   people:
     - chun-ouyang
     - zhipeng-he
