@@ -17,6 +17,8 @@ export const DESCRIBED_PAGES = [
   "join",
   "acknowledgements",
 ] as const;
+/** The small illustrations a way of joining can carry on its card. */
+export const JOIN_SCENE_IDS = ["degree-path", "visitors", "joint-project"] as const;
 /** The animated examples a research theme can be illustrated with. */
 export const SCENE_IDS = [
   "loan-decision",
@@ -34,6 +36,8 @@ export type Group = (typeof GROUPS)[number];
 export type LinkKind = (typeof LINK_KINDS)[number];
 export type NewsKind = (typeof NEWS_KINDS)[number];
 export type SceneId = (typeof SCENE_IDS)[number];
+export type JoinSceneId = (typeof JOIN_SCENE_IDS)[number];
+export type JoinPath = Site["join"]["paths"][number];
 
 export type PublicationKind = "journal" | "conference" | "preprint" | "dataset";
 export type Publication = {

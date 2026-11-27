@@ -58,7 +58,7 @@ function personLine(person: Person, group: (typeof GROUP_HEADINGS)[number][0]): 
     group === "alumni"
       ? person.graduated
         ? [
-            `${person.graduated.degree} Graduate, ${person.graduated.year}`,
+            [`${person.graduated.degree} Graduate`, person.graduated.year].filter(Boolean).join(", "),
             ...person.affiliations.map((a) => `now at ${a}`),
           ]
         : []
@@ -124,8 +124,19 @@ export function llmsFullTxt(): string {
     `## News\n\n${news.map((item) => `- ${item.date}: ${item.title}. ${item.text}`).join("\n")}`,
     `## Join us`,
     join.welcome,
-    join.ways.map((way) => `- ${way.title}: ${way.text}`).join("\n"),
-    ...join.contact.text,
+    ...join.paths.map((p) => {
+      const links = (list: { label: string; url: string }[]) =>
+        list.map((l) => ` [${l.label}](${l.url.startsWith("/") ? lab.url + l.url : l.url})`).join("");
+      return [
+        `### ${p.title}`,
+        ...p.intro,
+        p.steps.map((step, i) => `${i + 1}. ${step.title}. ${step.text}${links(step.links)}`).join("\n"),
+        p.note ? p.note.text + links(p.note.links) : "",
+        `What to send:\n\n${p.send.map((item) => `- ${item}`).join("\n")}`,
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+    }),
     `## Acknowledgements`,
     `### Acknowledgement of Traditional Owners\n\n${acknowledgements.traditionalOwners}`,
     `### Affiliated institutions and research centres\n\n${acknowledgements.institutions

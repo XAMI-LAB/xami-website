@@ -74,23 +74,6 @@
     color: #3b4b56;
   }
 }
-@keyframes join-tickin {
-  0%,
-  6% {
-    scale: 0;
-  }
-  11% {
-    scale: 1.2;
-  }
-  14%,
-  86% {
-    scale: 1;
-  }
-  92%,
-  100% {
-    scale: 0;
-  }
-}
 
 .p-join {
   .grad {
@@ -408,12 +391,233 @@
     box-shadow: 0 12px 24px -12px rgba(17, 33, 43, 0.7);
   }
 
-  /* how to get in touch: the note to write, shown as a message */
+  /* a card leads to its way of joining, further down the page */
+  .pt > a {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+  }
+  /* the cards' last lines sit level, however long each summary is */
+  .pt .txt {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .pt .go {
+    margin-top: auto;
+    padding-top: 16px;
+    font: 600 15px var(--body);
+    color: var(--accent);
+  }
+  .pt .go::after {
+    content: "\2193";
+    margin-left: 6px;
+  }
+
+  /* the ways, one under another on the left; the message beside them is written for the one it is level with */
+  .way {
+    scroll-margin-top: calc(var(--head) + 40px);
+    /* room for the message to sit beside each way in turn */
+    min-height: 640px;
+    padding-bottom: 96px;
+    opacity: 0.4;
+    transition: opacity 0.45s ease;
+  }
+  .way.on {
+    opacity: 1;
+  }
+  .way + .way {
+    padding-top: 88px;
+    border-top: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .way:last-child {
+    padding-bottom: 0;
+  }
+  /* the plain list of what to send is for narrow screens, where the message has no column of its own */
+  .send {
+    display: none;
+  }
   .touch {
     display: grid;
-    grid-template-columns: 5fr 7fr;
+    grid-template-columns: 6fr 6fr;
     gap: 64px;
+    align-items: start;
+  }
+  /* the message stays in view while the ways scroll past beside it */
+  .touch .stage {
+    position: sticky;
+    top: calc(var(--head) + 24px);
+  }
+  /* the steps, as ring nodes on a line */
+  .steps {
+    position: relative;
+    margin: 36px 0 0;
+    padding: 0 0 0 40px;
+    list-style: none;
+    max-width: 50ch;
+  }
+  /* the line runs from each step to the next and stops at the last one */
+  .steps li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: -33px;
+    top: 12px;
+    bottom: -12px;
+    width: 1.2px;
+    background: rgba(10, 107, 124, 0.3);
+  }
+  .steps li {
+    position: relative;
+    padding-bottom: 28px;
+  }
+  .steps li:last-child {
+    padding-bottom: 0;
+  }
+  .steps li > i {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--ground);
+    border: 2px solid var(--accent);
+  }
+  .steps h3 {
+    font: 800 19px/1.3 var(--display);
+    letter-spacing: -0.01em;
+  }
+  .touch .prose .steps p {
+    margin-top: 6px;
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+  /* links under a step or a note */
+  .touch .prose .lks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 22px;
+    margin-top: 0;
+    font-size: 15.5px;
+  }
+  .lks a {
+    /* tall enough to tap */
+    padding: 9px 0;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .lks a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .lks a.out::after {
+    color: var(--accent);
+  }
+  .note {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(17, 33, 43, 0.1);
+    max-width: 50ch;
+  }
+  .touch .prose .note p:first-child {
+    margin-top: 0;
+    font-size: 16.5px;
+  }
+  /* each way's subject and checklist are laid one over another; the current one rises into place */
+  .mail .layers {
+    display: grid;
+  }
+  .mail .layer {
+    grid-area: 1 / 1;
+    opacity: 0;
+    translate: 0 14px;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      translate 0.45s cubic-bezier(0.2, 0.9, 0.25, 1),
+      visibility 0s 0.3s;
+  }
+  .mail .layer.on {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition-delay: 0.12s, 0.12s, 0s;
+  }
+  /* the checklist is ticked off, one line after another, each time its way comes up */
+  .mail .layer .tick {
+    scale: 0;
+    transition: scale 0.2s ease;
+  }
+  .mail .layer.on .tick {
+    scale: 1;
+    transition: scale 0.4s cubic-bezier(0.2, 0.9, 0.25, 1);
+    transition-delay: calc(0.35s + var(--i) * 0.12s);
+  }
+  /* the subject line the message starts with */
+  .mail .subj {
+    display: flex;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    font: 600 15px var(--body);
+    color: var(--ink);
+  }
+  .mail .subj span {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  /* graduates of the lab and where they are now */
+  .grads {
+    margin-top: 40px;
+    max-width: 50ch;
+  }
+  .grads .lbl {
+    font: 700 13px var(--body);
+    color: var(--muted);
+  }
+  .grads ul {
+    display: grid;
+    gap: 14px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .grads a {
+    display: flex;
     align-items: center;
+    gap: 13px;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .grads .ph {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e3eaee;
+    display: grid;
+    place-items: center;
+    font: 700 13px var(--body);
+    color: #3b4b56;
+  }
+  .grads b {
+    display: block;
+    font: 700 15px/1.3 var(--display);
+    transition: color 0.2s;
+  }
+  .grads small {
+    display: block;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .grads a:hover b {
+    color: var(--accent);
   }
   .touch .prose p {
     margin-top: 18px;
@@ -522,11 +726,6 @@
     color: var(--muted);
     white-space: nowrap;
   }
-  .mail .tick {
-    scale: 0;
-    animation: join-tickin 9s ease infinite;
-    animation-delay: calc(var(--i) * 0.9s);
-  }
   .mail .box {
     flex: none;
     position: relative;
@@ -573,24 +772,13 @@
     translate: 0 -2px;
     box-shadow: 0 18px 30px -12px rgba(10, 107, 124, 0.9);
   }
-  .sec-h {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 24px;
-  }
-  .more {
-    font: 600 15px var(--body);
-    color: var(--accent);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .more:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
 
   @media (prefers-reduced-motion: reduce) {
+    .way,
+    .mail .layer,
+    .mail .layer .tick {
+      transition: none;
+    }
     .path::after,
     .path li i,
     .visit li span::after,
@@ -598,9 +786,6 @@
     .mail .tick,
     .orb {
       animation: none;
-    }
-    .mail .tick {
-      scale: 1;
     }
     .path::after {
       width: calc(75% - 16px);
@@ -615,8 +800,38 @@
     .touch {
       grid-template-columns: 1fr;
     }
-    .touch {
-      gap: 32px;
+    /* no column for the message here: every way is shown in full, with its own list and button */
+    .way {
+      min-height: 0;
+      padding-bottom: 64px;
+      opacity: 1;
+    }
+    .way + .way {
+      padding-top: 64px;
+    }
+    .send {
+      display: block;
+      margin-top: 32px;
+      padding: 22px 22px 24px;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(17, 33, 43, 0.09);
+    }
+    .send .lbl {
+      margin: 0;
+      font: 700 13px var(--body);
+      color: var(--muted);
+    }
+    .touch .prose .send ul {
+      margin: 10px 0 20px;
+      padding-left: 1.2em;
+      list-style: disc;
+      font-size: 16.5px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .touch .stage {
+      display: none;
     }
   }
 }

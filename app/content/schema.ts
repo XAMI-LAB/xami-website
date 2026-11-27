@@ -1,9 +1,18 @@
 // The shape every content file must have. Used only while the site is built.
 import { z } from "zod";
-import { DESCRIBED_PAGES, GROUPS, LINK_KINDS, NEWS_KINDS, SCENE_IDS } from "./model";
+import { DESCRIBED_PAGES, GROUPS, JOIN_SCENE_IDS, LINK_KINDS, NEWS_KINDS, SCENE_IDS } from "./model";
 
 const text = z.string().trim().min(1);
 const id = text.regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "use lower-case words joined by hyphens");
+
+/** A link with its words: to a page of this site (an address starting with /) or to another site. */
+const link = z.strictObject({
+  label: text,
+  url: text.refine(
+    (value) => value.startsWith("/") || URL.canParse(value),
+    "give a full address, or a page of this site starting with /",
+  ),
+});
 
 export const personSchema = z.strictObject({
   id,
@@ -12,7 +21,8 @@ export const personSchema = z.strictObject({
   groups: z.array(z.enum(GROUPS)).min(1),
   position: text.optional(),
   affiliations: z.array(text).max(2).default([]),
-  graduated: z.strictObject({ degree: text, year: z.number().int() }).optional(),
+  /** the degree a person earned in the lab; the year can be added when it is known */
+  graduated: z.strictObject({ degree: text, year: z.number().int().optional() }).optional(),
   photo: text.optional(),
   links: z.partialRecord(z.enum(LINK_KINDS), text).default({}),
   aliases: z.array(text).default([]),
@@ -66,11 +76,20 @@ export const siteSchema = z.strictObject({
   join: z.strictObject({
     welcome: text,
     welcomeHighlight: text,
-    ways: z.array(z.strictObject({ title: text, text })),
-    contact: z.strictObject({
-      text: z.array(text),
-      include: z.array(z.strictObject({ item: text, for: text.optional() })),
-    }),
+    paths: z.array(
+      z.strictObject({
+        id,
+        title: text,
+        scene: z.enum(JOIN_SCENE_IDS),
+        summary: text,
+        intro: z.array(text).default([]),
+        steps: z.array(z.strictObject({ title: text, text, links: z.array(link).default([]) })).default([]),
+        note: z.strictObject({ text, links: z.array(link).default([]) }).optional(),
+        send: z.array(text).min(1),
+        subject: text,
+        graduates: z.boolean().default(false),
+      }),
+    ),
   }),
   licences: z.strictObject({ intro: text }),
   acknowledgements: z.strictObject({

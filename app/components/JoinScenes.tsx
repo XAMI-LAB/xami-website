@@ -1,4 +1,5 @@
-import type { CSSProperties } from "react";
+import type { ComponentType, CSSProperties } from "react";
+import type { JoinSceneId } from "~/content/model";
 
 /** The custom property that staggers one part of an animated scene. */
 const order = (i: number) => ({ "--i": i }) as CSSProperties;
@@ -67,5 +68,9 @@ function JointProjectScene() {
   );
 }
 
-/** The illustrations above the ways to join, in the order of the ways. */
-export const JOIN_SCENES = [DegreePathScene, VisitorsScene, JointProjectScene];
+/** The illustrations on the cards of the ways to join, by the name the content file gives them. */
+export const JOIN_SCENES: Record<JoinSceneId, ComponentType<{ lab: LabName }>> = {
+  "degree-path": DegreePathScene,
+  visitors: VisitorsScene,
+  "joint-project": JointProjectScene,
+};

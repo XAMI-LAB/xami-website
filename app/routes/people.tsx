@@ -44,7 +44,7 @@ function PersonDetails({ person, group }: { person: Details; group: Group }) {
     const { graduated, affiliations } = person;
     return (
       <span className="info">
-        {graduated && <b>{`${graduated.degree} Graduate, ${graduated.year}`}</b>}
+        {graduated && <b>{[`${graduated.degree} Graduate`, graduated.year].filter(Boolean).join(", ")}</b>}
         {affiliations.length > 0 && <small>{`Now at ${affiliations.join(", ")}`}</small>}
       </span>
     );
@@ -61,7 +61,7 @@ function PersonDetails({ person, group }: { person: Details; group: Group }) {
 }
 
 /** The people of one group, in the order of the content file; alumni by graduation year, newest first. */
-function listed<P extends { groups: Group[]; graduated?: { year: number } }>(people: P[], group: Group): P[] {
+function listed<P extends { groups: Group[]; graduated?: { year?: number } }>(people: P[], group: Group): P[] {
   const members = people.filter((person) => person.groups.includes(group));
   if (group === "alumni") members.sort((a, b) => (b.graduated?.year ?? 0) - (a.graduated?.year ?? 0));
   return members;

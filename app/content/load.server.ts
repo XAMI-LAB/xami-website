@@ -7,6 +7,7 @@ import { initSync, parse as parseBibtex } from "@retorquere/bibtex-parser";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 import type { NewsItem, Person, Publication, PublicationKind, Site, Theme } from "./model";
+import { SITE_PAGES } from "./pages";
 import { newsSchema, personSchema, siteSchema, themeSchema } from "./schema";
 
 const CONTENT = path.resolve("content");
@@ -266,6 +267,13 @@ function read(): Content {
     ...(site.join.welcome.includes(site.join.welcomeHighlight)
       ? []
       : ["join > welcomeHighlight is not part of the welcome"]),
+    ...unique(site.join.paths.map((p) => p.id)).map((problem) => `join > paths: ${problem}`),
+    // A link to a page of this site must name a page that exists.
+    ...site.join.paths.flatMap((p) =>
+      [...p.steps.flatMap((step) => step.links), ...(p.note?.links ?? [])]
+        .filter((l) => l.url.startsWith("/") && !SITE_PAGES.some((page) => page.path === l.url))
+        .map((l) => `join > "${p.id}": "${l.url}" is not a page of this site`),
+    ),
     ...site.acknowledgements.institutions
       .flatMap((group) => group.row)
       .filter((o) => o.logo && !fileExists("logos", o.logo))
