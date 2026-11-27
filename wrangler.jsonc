@@ -1,9 +1,13 @@
 {
   "name": "xami-website",
   "compatibility_date": "2026-09-27",
-  // The site is reached at www.xami-lab.org only. Without this line every deploy switches the workers.dev
-  // address back on, even after it is turned off in the dashboard. Branch previews are not affected.
+  // The site is reached at www.xami-lab.org only, so both workers.dev addresses are off: the Worker's
+  // Domains tab shows them as two switches, Production ("workers_dev") and Preview ("preview_urls").
+  // Both are written here so that neither depends on a default; without "workers_dev" a deploy turns
+  // Production back on. Branch previews are served from the lab's own preview domain
+  // (<branch>.preview.xami-lab.org), which is attached to the Worker in the dashboard.
   "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     // the pages, as built by "pnpm build"
     "directory": "./build/client",
