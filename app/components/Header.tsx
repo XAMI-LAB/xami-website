@@ -12,6 +12,8 @@ export function Header({ name, university, sites }: { name: string; university: 
   const [open, setOpen] = useState(false);
   // On wide screens the category of other websites opens a short list under its name.
   const [listed, setListed] = useState(false);
+  // Whether the list is open only because the pointer is over it; a click then keeps it open.
+  const previewing = useRef(false);
   const category = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
 
@@ -19,6 +21,7 @@ export function Header({ name, university, sites }: { name: string; university: 
   useEffect(() => {
     setOpen(false);
     setListed(false);
+    previewing.current = false;
   }, [pathname]);
   useEffect(() => {
     if (!open && !listed) return;
@@ -26,10 +29,13 @@ export function Header({ name, university, sites }: { name: string; university: 
       if (event.key !== "Escape") return;
       setOpen(false);
       setListed(false);
+      previewing.current = false;
     };
     // A click anywhere else closes the list.
     const onPointer = (event: PointerEvent) => {
-      if (!category.current?.contains(event.target as Node)) setListed(false);
+      if (category.current?.contains(event.target as Node)) return;
+      previewing.current = false;
+      setListed(false);
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("pointerdown", onPointer);
@@ -40,6 +46,35 @@ export function Header({ name, university, sites }: { name: string; university: 
   }, [open, listed]);
 
   const hasSites = sites.items.length > 0;
+
+  // With a mouse, resting on the category shows its list; touch and keyboard open it by pressing the button.
+  const canHover = (event: React.PointerEvent) =>
+    event.pointerType !== "touch" && window.matchMedia("(hover: hover)").matches;
+  const preview = (event: React.PointerEvent) => {
+    if (!canHover(event) || listed) return;
+    previewing.current = true;
+    setListed(true);
+  };
+  const endPreview = () => {
+    if (!previewing.current) return;
+    previewing.current = false;
+    setListed(false);
+  };
+  const toggle = () => {
+    // A click while the pointer is only resting on the list keeps it open, so it stays when the pointer leaves.
+    if (previewing.current) {
+      previewing.current = false;
+      return;
+    }
+    setListed(!listed);
+  };
+  // Tabbing out of the category closes its list.
+  const closeOnLeave = (event: React.FocusEvent) => {
+    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget as Node)) {
+      previewing.current = false;
+      setListed(false);
+    }
+  };
 
   return (
     <header className="head">
@@ -58,8 +93,14 @@ export function Header({ name, university, sites }: { name: string; university: 
             </NavLink>
           ))}
           {hasSites && (
-            <div className="nav-more" ref={category}>
-              <button type="button" aria-expanded={listed} aria-controls="nav-sites" onClick={() => setListed(!listed)}>
+            <div
+              className="nav-more"
+              ref={category}
+              onPointerEnter={preview}
+              onPointerLeave={endPreview}
+              onBlur={closeOnLeave}
+            >
+              <button type="button" aria-expanded={listed} aria-controls="nav-sites" onClick={toggle}>
                 {sites.label}
                 <i aria-hidden="true" />
               </button>
