@@ -28,6 +28,7 @@ export async function loader() {
     descriptions,
     universityShort: site.lab.universityShort,
     founded: site.lab.founded,
+    sites: site.sites,
     contactEmail: contact?.links.email,
   };
 }
@@ -57,12 +58,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <>
-      <Header name={loaderData.name} university={loaderData.university} />
+      <Header name={loaderData.name} university={loaderData.university} sites={loaderData.sites} />
       <Outlet />
       <Footer
         name={loaderData.name}
         universityShort={loaderData.universityShort}
         founded={loaderData.founded}
+        sites={loaderData.sites}
         contactEmail={loaderData.contactEmail}
       />
     </>

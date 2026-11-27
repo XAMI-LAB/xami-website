@@ -1,15 +1,17 @@
 import { Link } from "react-router";
-import { SITE_PAGES } from "~/content/pages";
 
 export function Footer({
   name,
   universityShort,
   founded,
+  sites,
   contactEmail,
 }: {
   name: string;
   universityShort: string;
   founded: number;
+  /** the lab's other websites, under the name the menu gives them */
+  sites: { label: string; items: { name: string; url: string }[] };
   contactEmail?: string;
 }) {
   return (
@@ -19,16 +21,21 @@ export function Footer({
           <div>
             <img className="logo" src="/brand/xami-long-white.png" alt={name} />
           </div>
-          <div>
-            <h3>Explore</h3>
-            <ul>
-              {SITE_PAGES.filter((page) => page.menu || page.key === "join").map((page) => (
-                <li key={page.path}>
-                  <Link to={page.path}>{page.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* The site's own pages are in the menu above; this column leads to the lab's other websites. */}
+          {sites.items.length > 0 && (
+            <div>
+              <h3>{sites.label}</h3>
+              <ul>
+                {sites.items.map((site) => (
+                  <li key={site.url}>
+                    <a className="out" href={site.url} target="_blank" rel="noopener">
+                      {site.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div>
             <h3>About</h3>
             <ul>

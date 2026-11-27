@@ -12,6 +12,14 @@ lab:
   founded: 2021
   contact: chun-ouyang # id in people.yaml; "Contact us" and the Join us page write to this person
 
+# The lab's other websites. They appear as one category in the menu, which opens a list, and in the footer.
+# label is the category's name; add a site by adding a name and url under items.
+sites:
+  label: Initiatives
+  items:
+    - name: Enerovix
+      url: https://enerovix.xami-lab.org/
+
 # What search engines and link previews say about each page. A page left out here is described by the
 # lab's own words: the vision for Mission, the welcome for Join us, and the intro above for the rest.
 # Pages: home, mission, people, research, publications, news, join, acknowledgements.

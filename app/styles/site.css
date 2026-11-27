@@ -148,6 +148,89 @@ ol {
   filter: brightness(1.08);
 }
 
+/* A category of the menu that opens a short list: the lab's other websites. */
+.nav-more {
+  position: relative;
+}
+.nav-more button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  color: #33434e;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+.nav-more button:hover,
+.nav-more button[aria-expanded="true"] {
+  color: var(--ink);
+  background: rgba(10, 107, 124, 0.08);
+}
+.nav-more button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+/* a small chevron that turns over while the list is open */
+.nav-more button i {
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+.nav-more button[aria-expanded="true"] i {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+.nav-list {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 200px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(17, 33, 43, 0.1),
+    0 18px 40px -18px rgba(17, 33, 43, 0.45);
+}
+.nav-list[hidden] {
+  display: none;
+}
+.nav-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+}
+.nav-list a:hover {
+  background: rgba(10, 107, 124, 0.08);
+}
+/* a link that leaves the site */
+a.out::after {
+  content: "\2197";
+  margin-left: 6px;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
 /* On narrow screens the menu is a button that opens a sheet under the bar. */
 .menu-toggle {
   all: unset;
@@ -240,6 +323,26 @@ ol {
 }
 .menu-sheet li a[aria-current="page"] i {
   background: var(--accent);
+}
+/* the lab's other websites, under the pages */
+.sheet-more {
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(17, 33, 43, 0.1);
+}
+.sheet-more p {
+  margin: 0 0 4px;
+  font: 700 13px var(--body);
+  color: var(--muted);
+}
+.sheet-more a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  text-decoration: none;
+  font: 700 20px/1.2 var(--display);
+  letter-spacing: -0.01em;
+  color: var(--soft);
 }
 .menu-sheet .cta {
   display: block;
@@ -366,6 +469,9 @@ ol {
   display: grid;
   grid-template-columns: 2.4fr 1fr 1fr;
   gap: 40px;
+}
+.site-foot a.out::after {
+  color: #86a3ba;
 }
 .site-foot .logo {
   width: 240px;

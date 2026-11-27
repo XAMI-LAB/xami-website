@@ -52,6 +52,10 @@ export const siteSchema = z.strictObject({
     founded: z.number().int(),
     contact: id,
   }),
+  sites: z.strictObject({
+    label: text,
+    items: z.array(z.strictObject({ name: text, url: z.url() })),
+  }),
   descriptions: z.partialRecord(z.enum(DESCRIBED_PAGES), text).default({}),
   mission: z.strictObject({
     vision: text,
