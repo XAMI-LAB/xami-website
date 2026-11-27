@@ -1,6 +1,6 @@
 import "~/styles/home.css";
 
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/home";
 import { HeroNetwork } from "~/components/HeroNetwork";
@@ -27,7 +27,6 @@ export async function loader() {
     name: displayName(p),
     photo: p.photo,
     detail,
-    href: p.links.website ?? p.links.linkedin,
   });
   return {
     lab: site.lab,
@@ -50,7 +49,7 @@ export async function loader() {
       year: p.year,
       title: p.title,
       href: p.href,
-      authors: p.authors.map((a) => a.name),
+      authors: p.authors,
       venue: p.venue,
     })),
     welcome: site.join.welcome,
@@ -72,19 +71,29 @@ function PersonCard({ person, large }: { person: Card; large?: boolean }) {
       </span>
     </>
   );
-  return person.href ? (
-    <a className={className} href={person.href}>
+  // Each card leads to that person's row on the People page, where their links are.
+  return (
+    <Link className={className} to={`/people#${person.id}`}>
       {inner}
-    </a>
-  ) : (
-    <span className={className}>{inner}</span>
+    </Link>
   );
 }
 
-/** The first four authors, then how many more there are. */
-function authorLine(authors: string[]): string {
-  if (authors.length <= 5) return authors.join(", ") + ".";
-  return `${authors.slice(0, 4).join(", ")} and ${authors.length - 4} more.`;
+/** The first four authors, then how many more there are; lab people stand out. */
+function AuthorLine({ authors }: { authors: { name: string; lab: boolean }[] }) {
+  const shown = authors.length <= 5 ? authors : authors.slice(0, 4);
+  const more = authors.length - shown.length;
+  return (
+    <>
+      {shown.map((author, i) => (
+        <Fragment key={author.name}>
+          {i > 0 && ", "}
+          {author.lab ? <b>{author.name}</b> : author.name}
+        </Fragment>
+      ))}
+      {more > 0 && ` and ${more} more`}.
+    </>
+  );
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -115,29 +124,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </HeroNetwork>
 
       <ThemeRail themes={themes} current={theme} auto={auto} onChoose={choose} onAdvance={advance} />
-
-      <section className="sec" id="people" aria-label="People">
-        <div className="wrap">
-          <div className="sec-h">
-            <h2>People</h2>
-            <Link className="more" to="/people">
-              All people
-            </Link>
-          </div>
-          <p className="grp">Leaders</p>
-          <div className="lead2">
-            {leaders.map((person) => (
-              <PersonCard key={person.id} person={person} large />
-            ))}
-          </div>
-          <p className="grp">Members</p>
-          <div className="roster">
-            {members.map((person) => (
-              <PersonCard key={person.id} person={person} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="sec" id="news" aria-label="News and publications">
         <div className="wrap">
@@ -181,13 +167,36 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         <span className="t">{publication.title}</span>
                       )}
                       <p>
-                        {authorLine(publication.authors)} <i>{publication.venue}</i>
+                        <AuthorLine authors={publication.authors} /> <i>{publication.venue}</i>
                       </p>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="people" aria-label="People">
+        <div className="wrap">
+          <div className="sec-h">
+            <h2>People</h2>
+            <Link className="more" to="/people">
+              All people
+            </Link>
+          </div>
+          <p className="grp">Leaders</p>
+          <div className="lead2">
+            {leaders.map((person) => (
+              <PersonCard key={person.id} person={person} large />
+            ))}
+          </div>
+          <p className="grp">Members</p>
+          <div className="roster">
+            {members.map((person) => (
+              <PersonCard key={person.id} person={person} />
+            ))}
           </div>
         </div>
       </section>

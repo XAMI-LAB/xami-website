@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import type { Person, SceneId } from "~/content/model";
 import { Scene, sceneDuration } from "~/scenes/Scene";
 import { PersonPhoto } from "./PersonPhoto";
@@ -90,10 +91,10 @@ export function ThemeRail({
               {theme.summary && <p>{theme.summary}</p>}
               <div className="ppl">
                 {theme.people.map((person) => (
-                  <span key={person.id}>
+                  <Link key={person.id} to={`/people#${person.id}`}>
                     <PersonPhoto person={person} />
                     {person.name}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
