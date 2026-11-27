@@ -450,18 +450,19 @@ ul,ol{list-style:none}
       },
       click: function (s) { var c = a.$(".cursor"); if (c) { c.classList.remove("click"); void c.offsetWidth; c.classList.add("click"); } if (s) { a.on(s, "press"); a.after(170, function () { a.off(s, "press"); }); } }
     };
+    function emit(name) { stage.dispatchEvent(new CustomEvent("scenestep", { detail: name })); }
     function reset() { timers.forEach(function (t) { clearInterval(t); clearTimeout(t); }); timers = []; a.d = {}; scene.innerHTML = html; scene.className = base + (manual ? " manual" : ""); }
     function wait(ms) { var mine = run; return new Promise(function (ok) { setTimeout(function () { if (mine === run) ok(); }, ms); }); }
     async function play() {
       var mine = ++run;
       while (mine === run) {
         reset(); await wait(450);
-        for (var i = 0; i < tl.length; i++) { if (mine !== run) return; tl[i][2](a); await wait(tl[i][1]); }
+        for (var i = 0; i < tl.length; i++) { if (mine !== run) return; tl[i][2](a); emit(tl[i][0]); await wait(tl[i][1]); }
         if (mine !== run) return;
         scene.classList.add("fade"); await wait(700);
       }
     }
-    function show(name) { run++; reset(); for (var i = 0; i < tl.length; i++) { tl[i][2](a); if (tl[i][0] === name) break; } }
+    function show(name) { run++; reset(); for (var i = 0; i < tl.length; i++) { tl[i][2](a); if (tl[i][0] === name) break; } emit(name); }
     stage.addEventListener("pointermove", function (e) {
       var r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
       manual = true; scene.classList.add("manual"); scene.style.transform = "rotateX(" + (-y * 7).toFixed(2) + "deg) rotateY(" + (x * 9).toFixed(2) + "deg)";
