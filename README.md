@@ -114,7 +114,6 @@ Most updates are content edits; no React knowledge is needed. Every file in `con
 | --------------------------------------------- | -------------------------------------------------- |
 | Add or update a lab member                    | `content/people.yaml` (photo in `public/photos/`)  |
 | Add a publication                             | `content/publications.bib`                         |
-| Add a news item                               | `content/news.yaml`                                |
 | Edit a research theme                         | `content/themes.yaml`                              |
 | Edit the mission, join us or acknowledgements | `content/site.yaml`                                |
 | Add an institution logo                       | `content/site.yaml` (logo file in `public/logos/`) |
@@ -131,7 +130,7 @@ The site checks the content every time it is built. A mistake (a person id that 
 Add an entry to `content/people.yaml`. People appear in the order they are written.
 
 ```yaml
-- id: jane-doe # lower-case words joined by hyphens; themes and news refer to people by this
+- id: jane-doe # lower-case words joined by hyphens; themes refer to people by this
   name: "Jane Doe (JD)" # as shown on the site; a nickname goes in brackets
   title: Dr. # optional
   groups: [member] # leader, member, collaborator or alumni; more than one is allowed
@@ -171,19 +170,6 @@ Append a BibTeX entry to `content/publications.bib`.
 - The kind shown beside the venue comes from the entry: `inproceedings` is a conference paper, a venue starting with "arXiv" is a preprint, one starting with "PhysioNet" is a dataset, anything else is a journal article.
 - Write a percent sign as `\%`. Titles and venues appear exactly as written, so write them in the capitals you want.
 
-### Add a news item
-
-Add an entry to `content/news.yaml`. Years are shown newest first; within a year, items appear in the order written.
-
-```yaml
-- date: "2026-09" # YYYY-MM, or YYYY when the month is not known
-  kind: people # people, graduation or publication
-  title: "Jane Doe joins the lab"
-  text: "One or two sentences."
-  people: [jane-doe] # optional; ids from people.yaml
-  publication: doe2026example # optional; a key from publications.bib, adds a link to the paper
-```
-
 ### Edit a research theme
 
 Each theme is an entry in `content/themes.yaml`: its `title`, a short `summary` for the home page, the full `description` (a list of paragraphs) for the Research themes page, its `people` (ids from `people.yaml`) and its selected `publications` (keys from `publications.bib`). `scene` names the animated example shown with the theme; the five examples are components in `app/scenes/`.
@@ -195,7 +181,6 @@ Each theme is an entry in `content/themes.yaml`: its `title`, a short `summary` 
 ├── content/                # Everything the site says
 │   ├── people.yaml
 │   ├── themes.yaml
-│   ├── news.yaml
 │   ├── site.yaml           # Lab name, mission, join us, acknowledgements, page descriptions
 │   ├── publications.bib
 │   └── privacy-policy.md
@@ -249,7 +234,7 @@ pnpm check
 - `master` is production: every push to it deploys the live site.
 - `preview` deploys to preview.xami-lab.org for review before merging into `master`.
 - Work on a branch and open a pull request into `master`.
-- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), for example `feat: add news page` or `fix(people): correct photo link`.
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), for example `feat: add a page` or `fix(people): correct photo link`.
 
 ## Deployment
 
@@ -286,7 +271,7 @@ These apply to human contributors too, but they are the mistakes agents make mos
 - Only packages whose code reaches visitors go in `dependencies`; build tools go in `devDependencies`. The Third-party licences page is generated from `dependencies`.
 - Content belongs in `content/`, never hard-coded in components. If a page needs something the content files lack, add a field to the file and to `app/content/schema.ts`.
 - `app/content/*.server.ts` runs only while the site is built. Pages import types and helpers from `app/content/model.ts`, never from `schema.ts`, so the checking code is not sent to visitors.
-- Each page's styles are nested under one class on its `<main>` (for example `.p-news`), because visitors move between pages without a reload.
+- Each page's styles are nested under one class on its `<main>` (for example `.p-people`), because visitors move between pages without a reload.
 - Keep page addresses stable. A new page goes in both `app/routes.ts` and `app/content/pages.ts`; a removed or renamed one needs a line in `public/_redirects`.
 - Verify with `pnpm check`. Do not edit generated folders (`build/`, `.react-router/`, `node_modules/`).
 

@@ -11,16 +11,8 @@ import { loadContent } from "~/content/load.server";
 import { type Person, displayName } from "~/content/model";
 import { pageHead } from "~/content/head";
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/** "2026-09" reads as "Sep 2026"; a year alone stays as it is. */
-function shortDate(date: string): string {
-  const [year, month] = date.split("-");
-  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year;
-}
-
 export async function loader() {
-  const { site, people, themes, news, publications } = loadContent();
+  const { site, people, themes, publications } = loadContent();
   const inGroup = (group: Person["groups"][number]) => people.filter((p) => p.groups.includes(group));
   const card = (p: Person, detail: string | undefined) => ({
     id: p.id,
@@ -43,7 +35,6 @@ export async function loader() {
     })),
     leaders: inGroup("leader").map((p) => card(p, p.affiliations.join(", "))),
     members: inGroup("member").map((p) => card(p, p.position)),
-    news: news.slice(0, 4).map((n) => ({ date: n.date, title: n.title, text: n.text })),
     publications: publications.slice(0, 5).map((p) => ({
       key: p.key,
       year: p.year,
@@ -97,7 +88,7 @@ function AuthorLine({ authors }: { authors: { name: string; lab: boolean }[] }) 
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { lab, themes, leaders, members, news, publications, welcome } = loaderData;
+  const { lab, themes, leaders, members, publications, welcome } = loaderData;
   // The theme shown in the research themes section, and whether the themes still advance by themselves.
   const [theme, setTheme] = useState(0);
   const [auto, setAuto] = useState(true);
@@ -126,56 +117,33 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       <ThemeRail themes={themes} current={theme} auto={auto} onChoose={choose} onAdvance={advance} />
 
-      <section className="sec" id="news" aria-label="News and publications">
+      <section className="sec" id="publications" aria-label="Publications">
         <div className="wrap">
-          <div className="two">
-            <div>
-              <div className="sec-h">
-                <h2>News</h2>
-                <Link className="more" to="/news">
-                  All news
-                </Link>
-              </div>
-              <ul className="rows2">
-                {news.map((item) => (
-                  <li key={item.title}>
-                    <time>{shortDate(item.date)}</time>
-                    <div>
-                      <b>{item.title}</b>
-                      <p>{item.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="sec-h">
-                <h2>Publications</h2>
-                <Link className="more" to="/publications">
-                  All publications
-                </Link>
-              </div>
-              <ul className="rows2">
-                {publications.map((publication) => (
-                  <li key={publication.key}>
-                    <time>{publication.year}</time>
-                    <div>
-                      {publication.href ? (
-                        <a className="t" href={publication.href}>
-                          {publication.title}
-                        </a>
-                      ) : (
-                        <span className="t">{publication.title}</span>
-                      )}
-                      <p>
-                        <AuthorLine authors={publication.authors} /> <i>{publication.venue}</i>
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="sec-h">
+            <h2>Publications</h2>
+            <Link className="more" to="/publications">
+              All publications
+            </Link>
           </div>
+          <ul className="rows2">
+            {publications.map((publication) => (
+              <li key={publication.key}>
+                <time>{publication.year}</time>
+                <div>
+                  {publication.href ? (
+                    <a className="t" href={publication.href}>
+                      {publication.title}
+                    </a>
+                  ) : (
+                    <span className="t">{publication.title}</span>
+                  )}
+                  <p>
+                    <AuthorLine authors={publication.authors} /> <i>{publication.venue}</i>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

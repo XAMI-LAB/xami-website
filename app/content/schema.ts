@@ -1,6 +1,6 @@
 // The shape every content file must have. Used only while the site is built.
 import { z } from "zod";
-import { DESCRIBED_PAGES, GROUPS, JOIN_SCENE_IDS, LINK_KINDS, NEWS_KINDS, SCENE_IDS } from "./model";
+import { DESCRIBED_PAGES, GROUPS, JOIN_SCENE_IDS, LINK_KINDS, SCENE_IDS } from "./model";
 
 const text = z.string().trim().min(1);
 const id = text.regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "use lower-case words joined by hyphens");
@@ -44,15 +44,6 @@ export const themeSchema = z.strictObject({
   description: z.array(text).default([]),
   people: z.array(id).default([]),
   publications: z.array(text).default([]),
-});
-
-export const newsSchema = z.strictObject({
-  date: text.regex(/^\d{4}(-\d{2})?$/, "write the date as YYYY-MM or YYYY"),
-  kind: z.enum(NEWS_KINDS),
-  title: text,
-  text: text,
-  people: z.array(id).default([]),
-  publication: text.optional(),
 });
 
 export const siteSchema = z.strictObject({

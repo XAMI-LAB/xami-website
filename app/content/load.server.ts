@@ -6,9 +6,9 @@ import { fileURLToPath } from "node:url";
 import { initSync, parse as parseBibtex } from "@retorquere/bibtex-parser";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
-import type { NewsItem, Person, Publication, PublicationKind, Site, Theme } from "./model";
+import type { Person, Publication, PublicationKind, Site, Theme } from "./model";
 import { SITE_PAGES } from "./pages";
-import { newsSchema, personSchema, siteSchema, themeSchema } from "./schema";
+import { personSchema, siteSchema, themeSchema } from "./schema";
 
 const CONTENT = path.resolve("content");
 const PUBLIC = path.resolve("public");
@@ -17,7 +17,6 @@ export type Content = {
   site: Site;
   people: Person[];
   themes: Theme[];
-  news: NewsItem[];
   publications: Publication[];
 };
 
@@ -220,7 +219,6 @@ function read(): Content {
   const site = readYaml("site.yaml", siteSchema);
   const people = readYaml("people.yaml", z.array(personSchema), named("id"));
   const themes = readYaml("themes.yaml", z.array(themeSchema), named("id"));
-  const news = readYaml("news.yaml", z.array(newsSchema), named("title"));
   const publications = readPublications(people);
 
   // Every reference from one file to another must lead somewhere.
@@ -247,15 +245,6 @@ function read(): Content {
         .map((k) => `"${t.id}": publication "${k}" is not in publications.bib`),
     ]),
   ]);
-  check(
-    "news.yaml",
-    news.flatMap((n) => [
-      ...n.people.filter((p) => !personIds.has(p)).map((p) => `"${n.title}": person "${p}" is not in people.yaml`),
-      ...(n.publication && !publicationKeys.has(n.publication)
-        ? [`"${n.title}": publication "${n.publication}" is not in publications.bib`]
-        : []),
-    ]),
-  );
   check("site.yaml", [
     ...(personIds.has(site.lab.contact) ? [] : [`lab > contact: person "${site.lab.contact}" is not in people.yaml`]),
     ...(site.lab.heading.includes(site.lab.headingHighlight)
@@ -280,12 +269,10 @@ function read(): Content {
       .map((o) => `acknowledgements > "${o.name}": logo "${o.logo}" is not in public/logos`),
   ]);
 
-  // Newest year first. Within a year the file's own order is kept, since some items give no month.
-  news.sort((a, b) => Number(b.date.slice(0, 4)) - Number(a.date.slice(0, 4)));
   // A theme shows its people in the order of the People page, however the theme lists them.
   const placeOf = new Map(people.map((p, i) => [p.id, i]));
   for (const theme of themes) theme.people.sort((a, b) => placeOf.get(a)! - placeOf.get(b)!);
-  return { site, people, themes, news, publications };
+  return { site, people, themes, publications };
 }
 
 let cached: Content | undefined;

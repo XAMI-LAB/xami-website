@@ -6,7 +6,6 @@ export default [
   route("people", "routes/people.tsx"),
   route("research", "routes/research.tsx"),
   route("publications", "routes/publications.tsx"),
-  route("news", "routes/news.tsx"),
   route("join", "routes/join.tsx"),
   route("acknowledgements", "routes/acknowledgements.tsx"),
   route("privacy-policy", "routes/privacy-policy.tsx"),

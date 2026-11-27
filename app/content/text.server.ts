@@ -69,7 +69,7 @@ function personLine(person: Person, group: (typeof GROUP_HEADINGS)[number][0]): 
 
 /** Everything the site says, as one Markdown file. */
 export function llmsFullTxt(): string {
-  const { site, people, themes, news, publications } = loadContent();
+  const { site, people, themes, publications } = loadContent();
   const { lab, mission, join, acknowledgements } = site;
   const byId = new Map(people.map((person) => [person.id, person]));
   const byKey = new Map(publications.map((publication) => [publication.key, publication]));
@@ -119,7 +119,6 @@ export function llmsFullTxt(): string {
           .map((p) => cite(p.key))
           .join("\n")}`,
     ),
-    `## News\n\n${news.map((item) => `- ${item.date}: ${item.title}. ${item.text}`).join("\n")}`,
     `## Join us`,
     join.welcome,
     ...join.paths.map((p) => {

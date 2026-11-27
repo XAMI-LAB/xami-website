@@ -1,4 +1,4 @@
-# Text used across the site that is not a person, a theme, a news item or a paper.
+# Text used across the site that is not a person, a theme or a paper.
 # A "highlight" is the part of the sentence above it that is shown in the logo colours; it must match that sentence exactly.
 
 lab:
@@ -22,7 +22,7 @@ sites:
 
 # What search engines and link previews say about each page. A page left out here is described by the
 # lab's own words: the vision for Mission, the welcome for Join us, and the intro above for the rest.
-# Pages: home, mission, people, research, publications, news, join, acknowledgements.
+# Pages: home, mission, people, research, publications, join, acknowledgements.
 descriptions: {}
 
 mission:

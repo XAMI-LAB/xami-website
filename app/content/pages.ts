@@ -3,7 +3,7 @@
 
 export type SitePage = {
   /** the name the content files use for the page, where its description can be set */
-  key?: "home" | "mission" | "people" | "research" | "publications" | "news" | "join" | "acknowledgements";
+  key?: "home" | "mission" | "people" | "research" | "publications" | "join" | "acknowledgements";
   path: string;
   /** the page's name in titles and lists */
   name: string;
@@ -17,7 +17,6 @@ export const SITE_PAGES: SitePage[] = [
   { key: "people", path: "/people", name: "People", menu: "People" },
   { key: "research", path: "/research", name: "Research themes", menu: "Research" },
   { key: "publications", path: "/publications", name: "Publications", menu: "Publications" },
-  { key: "news", path: "/news", name: "News", menu: "News" },
   { key: "join", path: "/join", name: "Join us" },
   { key: "acknowledgements", path: "/acknowledgements", name: "Acknowledgements" },
   { path: "/privacy-policy", name: "Privacy policy" },
