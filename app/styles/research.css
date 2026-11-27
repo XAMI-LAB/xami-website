@@ -1,0 +1,388 @@
+.p-research {
+  .ph {
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e3eaee;
+  }
+  .ini {
+    display: grid;
+    place-items: center;
+    font: 700 12px var(--body);
+    color: var(--soft);
+  }
+
+  /* the themes stay in reach while reading: a rail fixed under the menu */
+  .subnav {
+    position: sticky;
+    top: var(--head);
+    z-index: 40;
+    background: rgba(246, 248, 249, 0.88);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(17, 33, 43, 0.1);
+
+    ol {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(var(--n), 1fr);
+      gap: 18px;
+      padding: 16px 0 14px;
+    }
+    /* the line runs from the first ring to the last */
+    ol::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      right: calc((100% - (var(--n) - 1) * 18px) / var(--n) - 6px);
+      top: 22px;
+      height: 1.2px;
+      background: rgba(10, 107, 124, 0.3);
+    }
+    a {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      text-decoration: none;
+      font: 600 13.5px/1.3 var(--display);
+      color: #5b6a75;
+      transition: color 0.2s;
+    }
+    a i {
+      position: relative;
+      z-index: 1;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--ground);
+      border: 2px solid var(--accent);
+      transition:
+        background 0.2s,
+        box-shadow 0.2s;
+    }
+    a:hover {
+      color: var(--ink);
+    }
+    a.cur {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    a.cur i {
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(10, 107, 124, 0.14);
+    }
+  }
+
+  /* one theme */
+  .chap {
+    padding: 104px 0 112px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    scroll-margin-top: calc(var(--head) + 76px);
+  }
+  .chap:last-of-type {
+    border-bottom: 0;
+  }
+  .chap-h {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 32px;
+    align-items: end;
+  }
+  .chap-no {
+    font: 900 clamp(84px, 10vw, 148px) / 0.76 var(--display);
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(10, 107, 124, 0.38);
+  }
+  .chap h2 {
+    font-size: clamp(30px, 3.7vw, 52px);
+    font-weight: 900;
+    letter-spacing: -0.028em;
+    line-height: 1.05;
+    max-width: 19ch;
+    text-wrap: balance;
+  }
+  .chap-top {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 72px;
+    margin-top: 52px;
+    align-items: start;
+  }
+  .desc p {
+    font-size: 19px;
+    line-height: 1.68;
+    color: var(--soft);
+  }
+  .desc p + p {
+    margin-top: 16px;
+  }
+  /* the small headings of a theme, but not the labels drawn inside a scene */
+  .lbl:not(.scene-stage .lbl) {
+    font: 700 13px var(--body);
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .wgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+  }
+  .w {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+  }
+  .w .ph {
+    width: 38px;
+    height: 38px;
+  }
+  .w b {
+    font: 700 14.5px/1.3 var(--display);
+    transition: color 0.2s;
+  }
+  /* each person leads to their row on the People page */
+  a.w {
+    text-decoration: none;
+    color: inherit;
+  }
+  a.w:hover b {
+    color: var(--accent);
+  }
+
+  /* the example: a scene beside the few lines that tell its story */
+  .ex {
+    margin-top: 72px;
+  }
+  .ex-row {
+    display: grid;
+    grid-template-columns: 650px minmax(0, 1fr);
+    gap: 44px;
+    align-items: center;
+  }
+  .walk {
+    display: grid;
+    gap: 10px;
+  }
+  .walk button {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    width: 100%;
+    padding: 15px 18px;
+    border-radius: 16px;
+    font: 600 16px/1.42 var(--body);
+    color: #56656f;
+    transition:
+      background 0.3s,
+      box-shadow 0.3s,
+      color 0.3s;
+  }
+  .walk button em {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font: 800 12.5px var(--display);
+    font-style: normal;
+    color: var(--accent);
+    box-shadow: inset 0 0 0 2px rgba(10, 107, 124, 0.35);
+    transition:
+      background 0.3s,
+      color 0.3s,
+      box-shadow 0.3s;
+  }
+  .walk button:hover {
+    color: var(--ink);
+  }
+  .walk button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .walk button.done em {
+    background: rgba(10, 107, 124, 0.12);
+    box-shadow: none;
+  }
+  .walk button.on {
+    background: #fff;
+    color: var(--ink);
+    box-shadow:
+      0 0 0 1px rgba(10, 107, 124, 0.22),
+      0 16px 28px -18px rgba(10, 107, 124, 0.45);
+  }
+  .walk button.on em {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 5px rgba(10, 107, 124, 0.13);
+  }
+  .walk .replay {
+    display: block;
+    width: auto;
+    justify-self: start;
+    white-space: nowrap;
+    padding: 8px 0;
+    margin: 0 0 -8px 18px;
+    border-radius: 4px;
+    font: 600 14.5px var(--body);
+    color: var(--accent);
+
+    @media (pointer: coarse) {
+      padding: 12px 0;
+      margin: -4px 0 -12px 18px;
+    }
+  }
+  .walk .replay:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .pubs {
+    margin-top: 72px;
+  }
+  .pubs-h {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .more {
+    font: 600 15px var(--body);
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    /* a taller target than the line of text, without moving anything around it */
+    padding-block: 8px;
+    margin-block: -8px;
+
+    @media (pointer: coarse) {
+      padding-block: 12px;
+      margin-block: -12px;
+    }
+  }
+  .more:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .plist li {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 18px;
+    padding: 17px 0;
+    border-top: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .plist li:last-child {
+    border-bottom: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .plist time {
+    font: 600 13.5px/1.6 var(--body);
+    color: var(--muted);
+  }
+  .plist .t {
+    display: block;
+    font: 700 16.5px/1.35 var(--display);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .plist a.t:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .plist p {
+    margin-top: 4px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--soft);
+  }
+  /* lab members stand out among the authors */
+  .plist p b {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .plist i {
+    color: var(--muted);
+  }
+
+  @media (max-width: 1180px) {
+    /* one column that may get narrower than the scene, which then shrinks to fit */
+    .ex-row,
+    .chap-top {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+  }
+  /*
+   * Where the five names do not fit side by side, the rail keeps its rings, numbered as the themes are
+   * numbered down the page, and names only the theme being read.
+   */
+  @media (max-width: 1020px) {
+    .subnav ol {
+      counter-reset: theme;
+      gap: 0;
+      padding: 0 0 34px;
+    }
+    .subnav ol::before {
+      left: 10%;
+      right: 10%;
+      top: 23px;
+    }
+    .subnav li {
+      counter-increment: theme;
+    }
+    .subnav a {
+      justify-items: center;
+      padding: 10px 0 6px;
+    }
+    .subnav a i {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      font: 700 12.5px var(--display);
+      font-style: normal;
+      color: var(--accent);
+    }
+    .subnav a i::before {
+      content: counter(theme);
+    }
+    .subnav a.cur i {
+      color: #fff;
+    }
+    .subnav a span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 48px;
+      text-align: center;
+      white-space: nowrap;
+      visibility: hidden;
+    }
+    .subnav a.cur span {
+      visibility: visible;
+    }
+    .chap-h {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+  /* On a phone a name can be wider than the screen, so the rail is the numbered rings alone. */
+  @media (max-width: 560px) {
+    .subnav ol {
+      padding-bottom: 0;
+    }
+    .subnav a.cur span {
+      visibility: hidden;
+    }
+    /* two names side by side break over three lines here, so a theme's people go one under another */
+    .wgrid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

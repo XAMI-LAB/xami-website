@@ -1,0 +1,867 @@
+@keyframes join-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes join-pathflow {
+  0%,
+  6% {
+    width: 0;
+  }
+  58%,
+  90% {
+    width: calc(75% - 16px);
+  }
+  96%,
+  100% {
+    width: 0;
+  }
+}
+@keyframes join-pathstep {
+  0%,
+  5% {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(17, 33, 43, 0.16);
+  }
+  9% {
+    background: #0a6b7c;
+    box-shadow:
+      0 0 0 2px #0a6b7c,
+      0 0 0 8px rgba(10, 107, 124, 0.16);
+  }
+  14%,
+  100% {
+    background: #0a6b7c;
+    box-shadow: 0 0 0 2px #0a6b7c;
+  }
+}
+@keyframes join-travel {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 7px);
+    opacity: 0;
+  }
+}
+@keyframes join-glow {
+  0%,
+  4% {
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.09),
+      0 10px 20px -12px rgba(17, 33, 43, 0.25);
+    color: #3b4b56;
+  }
+  10%,
+  26% {
+    box-shadow:
+      0 0 0 2px #0a6b7c,
+      0 14px 24px -12px rgba(10, 107, 124, 0.5);
+    color: #11212b;
+  }
+  34%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.09),
+      0 10px 20px -12px rgba(17, 33, 43, 0.25);
+    color: #3b4b56;
+  }
+}
+
+.p-join {
+  .grad {
+    background: linear-gradient(95deg, #1767c2 0%, #0b7c95 52%, #0a8466 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* the opening: who the lab welcomes */
+  .mh {
+    padding: 72px 0 88px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+
+    .vision {
+      font: 900 clamp(30px, 3.9vw, 54px) / 1.12 var(--display);
+      letter-spacing: -0.03em;
+      max-width: 24ch;
+      text-wrap: balance;
+    }
+  }
+  .sec {
+    padding: 96px 0;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+  }
+  .sec:last-of-type {
+    border-bottom: 0;
+  }
+  .sec h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  /* three ways to join, each with a small scene */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .pt {
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.08),
+      0 30px 60px -36px rgba(17, 33, 43, 0.35);
+    transition:
+      translate 0.3s,
+      box-shadow 0.3s;
+  }
+  .pt:hover {
+    translate: 0 -4px;
+    box-shadow:
+      0 0 0 1px rgba(10, 107, 124, 0.22),
+      0 36px 64px -34px rgba(10, 107, 124, 0.4);
+  }
+  .viz {
+    position: relative;
+    height: 216px;
+    display: grid;
+    place-items: center;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.07);
+    background:
+      radial-gradient(110% 85% at 88% -5%, rgba(53, 174, 251, 0.2), transparent 58%),
+      radial-gradient(90% 80% at -5% 105%, rgba(31, 221, 174, 0.18), transparent 58%),
+      linear-gradient(180deg, #ffffff, #f3f7f9);
+  }
+  .viz::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(17, 33, 43, 0.11) 1px, transparent 1.3px);
+    background-size: 18px 18px;
+    -webkit-mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 100%);
+    mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 100%);
+  }
+  .mini {
+    position: relative;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.08),
+      0 14px 30px -12px rgba(17, 33, 43, 0.2),
+      0 30px 50px -28px rgba(10, 107, 124, 0.3);
+  }
+  .txt {
+    padding: 26px 28px 32px;
+
+    h3 {
+      font: 800 21px/1.25 var(--display);
+      letter-spacing: -0.012em;
+      margin: 0 0 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.62;
+      color: var(--soft);
+    }
+  }
+  .tick {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+  }
+  .tick::after {
+    content: "";
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    rotate: 45deg;
+    translate: 0 -1px;
+  }
+  .orb {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #4db8ff, #2fd3d0, #1fe0a8, #4db8ff);
+    box-shadow: 0 0 12px rgba(47, 211, 208, 0.7);
+    animation: join-spin 5s linear infinite;
+  }
+  .orb::after {
+    content: "";
+    display: block;
+    width: 42%;
+    height: 42%;
+    margin: 29%;
+    border-radius: 50%;
+    background: #0b1d27;
+  }
+
+  /* 1: the path of a research degree, step by step */
+  .path {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 312px;
+    padding: 20px 8px 16px;
+  }
+  .path::before {
+    content: "";
+    position: absolute;
+    left: calc(12.5% + 8px);
+    right: calc(12.5% + 8px);
+    top: 30px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(17, 33, 43, 0.1);
+  }
+  .path::after {
+    content: "";
+    position: absolute;
+    left: calc(12.5% + 8px);
+    top: 30px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #2fd3d0, #0a6b7c);
+    width: 0;
+    animation: join-pathflow 8s linear infinite;
+  }
+  .path li {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+    font: 600 12px var(--body);
+    color: var(--soft);
+  }
+  .path li i {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(17, 33, 43, 0.16);
+    display: grid;
+    place-items: center;
+    animation: join-pathstep 8s linear infinite;
+    animation-delay: calc(var(--i) * 1.4s);
+  }
+  .path li i::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    rotate: 45deg;
+    translate: 0 -1px;
+  }
+
+  /* 2: visitors of every career stage, each with a line to the lab */
+  .visit {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    width: 312px;
+  }
+  .visit ul {
+    display: grid;
+    gap: 10px;
+  }
+  .visit li {
+    display: flex;
+    align-items: center;
+  }
+  .visit li b {
+    flex: none;
+    width: 112px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.09),
+      0 10px 20px -12px rgba(17, 33, 43, 0.25);
+    font: 600 13px var(--body);
+    color: var(--soft);
+  }
+  .visit li span {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    background: rgba(10, 107, 124, 0.25);
+  }
+  .visit li span::after {
+    content: "";
+    position: absolute;
+    top: -2.5px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: join-travel 3.2s linear infinite;
+    animation-delay: calc(var(--i) * 0.9s);
+  }
+  .visit .lab {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 8px;
+    width: 104px;
+    border-radius: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, #16313f, #0b1d27);
+    box-shadow: 0 14px 26px -12px rgba(17, 33, 43, 0.7);
+    font: 700 13px/1.3 var(--display);
+    text-align: center;
+  }
+
+  /* 3: a partner's problem and the lab's methods meet in a joint project */
+  .joint {
+    display: grid;
+    justify-items: center;
+    width: 300px;
+  }
+  .joint .two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+  .joint .chipb {
+    display: grid;
+    place-items: center;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.09),
+      0 10px 20px -12px rgba(17, 33, 43, 0.25);
+    font: 600 13px var(--body);
+    color: var(--soft);
+    animation: join-glow 8s ease infinite;
+    animation-delay: calc(var(--i) * 1.2s);
+  }
+  .joint .fork {
+    position: relative;
+    width: 50%;
+    height: 18px;
+    border: 2px solid rgba(47, 211, 208, 0.7);
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+  }
+  .joint .fork::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 1px);
+    top: 100%;
+    width: 2px;
+    height: 14px;
+    background: rgba(47, 211, 208, 0.7);
+  }
+  .joint .core {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 36px;
+    padding: 0 15px 0 8px;
+    border-radius: 999px;
+    font: 700 13.5px var(--display);
+    color: #fff;
+    background: linear-gradient(135deg, #16313f, #0b1d27);
+    box-shadow: 0 12px 24px -12px rgba(17, 33, 43, 0.7);
+  }
+
+  /* a card leads to its way of joining, further down the page */
+  .pt > a {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+  }
+  /* the cards' last lines sit level, however long each summary is */
+  .pt .txt {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .pt .go {
+    margin-top: auto;
+    padding-top: 16px;
+    font: 600 15px var(--body);
+    color: var(--accent);
+  }
+  .pt .go::after {
+    content: "\2193";
+    margin-left: 6px;
+  }
+
+  /* the ways, one under another on the left; the message beside them is written for the one it is level with */
+  .way {
+    scroll-margin-top: calc(var(--head) + 40px);
+    /* room for the message to sit beside each way in turn */
+    min-height: 640px;
+    padding-bottom: 96px;
+    opacity: 0.4;
+    transition: opacity 0.45s ease;
+  }
+  .way.on {
+    opacity: 1;
+  }
+  .way + .way {
+    padding-top: 88px;
+    border-top: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .way:last-child {
+    padding-bottom: 0;
+  }
+  /* the plain list of what to send is for narrow screens, where the message has no column of its own */
+  .send {
+    display: none;
+  }
+  .touch {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    gap: 64px;
+    align-items: start;
+  }
+  /* the message stays in view while the ways scroll past beside it */
+  .touch .stage {
+    position: sticky;
+    top: calc(var(--head) + 24px);
+  }
+  /* the steps, as ring nodes on a line */
+  .steps {
+    position: relative;
+    margin: 36px 0 0;
+    padding: 0 0 0 40px;
+    list-style: none;
+    max-width: 50ch;
+  }
+  /* the line runs from each step to the next and stops at the last one */
+  .steps li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: -33px;
+    top: 12px;
+    bottom: -12px;
+    width: 1.2px;
+    background: rgba(10, 107, 124, 0.3);
+  }
+  .steps li {
+    position: relative;
+    padding-bottom: 28px;
+  }
+  .steps li:last-child {
+    padding-bottom: 0;
+  }
+  .steps li > i {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--ground);
+    border: 2px solid var(--accent);
+  }
+  .steps h3 {
+    font: 800 19px/1.3 var(--display);
+    letter-spacing: -0.01em;
+  }
+  .touch .prose .steps p {
+    margin-top: 6px;
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+  /* links under a step or a note */
+  .touch .prose .lks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 22px;
+    margin-top: 0;
+    font-size: 15.5px;
+  }
+  .lks a {
+    /* tall enough to tap */
+    padding: 9px 0;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .lks a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .lks a.out::after {
+    color: var(--accent);
+  }
+  .note {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(17, 33, 43, 0.1);
+    max-width: 50ch;
+  }
+  .touch .prose .note p:first-child {
+    margin-top: 0;
+    font-size: 16.5px;
+  }
+  /* each way's subject and checklist are laid one over another; the current one rises into place */
+  .mail .layers {
+    display: grid;
+  }
+  .mail .layer {
+    grid-area: 1 / 1;
+    opacity: 0;
+    translate: 0 14px;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      translate 0.45s cubic-bezier(0.2, 0.9, 0.25, 1),
+      visibility 0s 0.3s;
+  }
+  .mail .layer.on {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition-delay: 0.12s, 0.12s, 0s;
+  }
+  /* the checklist is ticked off, one line after another, each time its way comes up */
+  .mail .layer .tick {
+    scale: 0;
+    transition: scale 0.2s ease;
+  }
+  .mail .layer.on .tick {
+    scale: 1;
+    transition: scale 0.4s cubic-bezier(0.2, 0.9, 0.25, 1);
+    transition-delay: calc(0.35s + var(--i) * 0.12s);
+  }
+  /* the subject line the message starts with */
+  .mail .subj {
+    display: flex;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    font: 600 15px var(--body);
+    color: var(--ink);
+  }
+  .mail .subj span {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  /* graduates of the lab and where they are now */
+  .grads {
+    margin-top: 40px;
+    max-width: 50ch;
+  }
+  .grads .lbl {
+    font: 700 13px var(--body);
+    color: var(--muted);
+  }
+  .grads ul {
+    display: grid;
+    gap: 14px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .grads a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .grads .ph {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e3eaee;
+    display: grid;
+    place-items: center;
+    font: 700 13px var(--body);
+    color: #3b4b56;
+  }
+  .grads b {
+    display: block;
+    font: 700 15px/1.3 var(--display);
+    transition: color 0.2s;
+  }
+  .grads small {
+    display: block;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .grads a:hover b {
+    color: var(--accent);
+  }
+  .touch .prose p {
+    margin-top: 18px;
+    font-size: 18px;
+    line-height: 1.68;
+    color: var(--soft);
+    max-width: 46ch;
+  }
+  .stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 56px 40px;
+    border-radius: 28px;
+    overflow: hidden;
+    background:
+      radial-gradient(110% 85% at 88% -5%, rgba(53, 174, 251, 0.2), transparent 58%),
+      radial-gradient(90% 80% at -5% 105%, rgba(31, 221, 174, 0.18), transparent 58%),
+      linear-gradient(180deg, #ffffff, #f3f7f9);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.09),
+      0 1px 0 #fff inset,
+      0 40px 90px -50px rgba(17, 33, 43, 0.35);
+  }
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(17, 33, 43, 0.11) 1px, transparent 1.3px);
+    background-size: 18px 18px;
+    -webkit-mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 100%);
+    mask-image: radial-gradient(75% 70% at 50% 45%, #000 20%, transparent 100%);
+  }
+  .mail {
+    width: min(100%, 460px);
+    border-radius: 20px;
+  }
+  .mail header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+  }
+  .mail header i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(17, 33, 43, 0.14);
+  }
+  .mail header b {
+    margin-left: 8px;
+    font: 700 13.5px var(--display);
+    color: var(--muted);
+  }
+  .mail .to {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .mail .to .ph {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  /* initials stand in when the contact person has no photo */
+  .mail .to .ini {
+    display: grid;
+    place-items: center;
+    background: #e3eaee;
+    font: 700 13px var(--body);
+    color: #3b4b56;
+  }
+  .mail .to b {
+    display: block;
+    font: 700 15px/1.3 var(--display);
+    color: var(--ink);
+  }
+  .mail .to small {
+    display: block;
+    font-size: 13px;
+  }
+  .mail ul {
+    padding: 8px 18px 6px;
+  }
+  .mail li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px dashed rgba(17, 33, 43, 0.1);
+    font: 500 15px var(--body);
+    color: var(--ink);
+  }
+  .mail li:last-child {
+    border-bottom: 0;
+  }
+  .mail li small {
+    margin-left: auto;
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .mail .box {
+    flex: none;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .mail .box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px rgba(17, 33, 43, 0.18);
+  }
+  .mail .box .tick {
+    position: absolute;
+    inset: 0;
+  }
+  .mail footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 18px 18px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font: 700 15.5px var(--display);
+    color: #fff;
+    background: var(--accent);
+    padding: 13px 20px;
+    border-radius: 13px;
+    text-decoration: none;
+    box-shadow: 0 14px 26px -12px rgba(10, 107, 124, 0.8);
+    transition:
+      translate 0.2s,
+      box-shadow 0.2s;
+  }
+  .btn::after {
+    content: "\2197";
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .btn:hover {
+    translate: 0 -2px;
+    box-shadow: 0 18px 30px -12px rgba(10, 107, 124, 0.9);
+  }
+  /* the button on its own, for screens with no room for the message */
+  .write {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .way,
+    .mail .layer,
+    .mail .layer .tick {
+      transition: none;
+    }
+    .path::after,
+    .path li i,
+    .visit li span::after,
+    .joint .chipb,
+    .mail .tick,
+    .orb {
+      animation: none;
+    }
+    .path::after {
+      width: calc(75% - 16px);
+    }
+    .path li i {
+      background: #0a6b7c;
+      box-shadow: 0 0 0 2px #0a6b7c;
+    }
+  }
+  @media (max-width: 1020px) {
+    .trio,
+    .touch {
+      grid-template-columns: 1fr;
+    }
+    /* no column for the message here: every way is shown in full, with its own list and button */
+    .way {
+      min-height: 0;
+      padding-bottom: 64px;
+      opacity: 1;
+    }
+    .way + .way {
+      padding-top: 64px;
+    }
+    .send {
+      display: block;
+      margin-top: 32px;
+      padding: 22px 22px 24px;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(17, 33, 43, 0.09);
+    }
+    .send .lbl {
+      margin: 0;
+      font: 700 13px var(--body);
+      color: var(--muted);
+    }
+    .touch .prose .send ul {
+      margin: 10px 0 0;
+      padding-left: 1.2em;
+      list-style: disc;
+      font-size: 16.5px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .touch .stage {
+      display: none;
+    }
+    .write {
+      position: sticky;
+      bottom: 0;
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      padding: 12px 28px;
+      background: rgba(246, 248, 249, 0.9);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      border-top: 1px solid rgba(17, 33, 43, 0.1);
+    }
+    .write .btn {
+      width: 100%;
+      max-width: 420px;
+      justify-content: center;
+    }
+  }
+  /*
+   * On a phone the three ways follow one under another right below, each under its own name, so the cards
+   * that introduce them on a wider screen would only say the same names twice.
+   */
+  @media (max-width: 760px) {
+    .ways {
+      display: none;
+    }
+  }
+}

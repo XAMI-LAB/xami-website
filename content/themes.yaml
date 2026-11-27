@@ -1,0 +1,140 @@
+# The five research themes, in order. people and publications refer to ids in people.yaml and keys in publications.bib.
+# summary is one short paragraph for the home page; description is the full text for the Research themes page.
+# publications lists every paper of the theme, in any order; the Research themes page shows the newest five.
+# people are those working on the theme now. Alumni and collaborators the lab no longer works with are left out;
+# a recent graduate stays while their work in the theme is still recent. The pages show them in the order of
+# people.yaml, whatever order they are written in here.
+# scene is the animated example: loan-decision, chest-xray, chilled-shipment, invoice-handoff or battery-plan.
+
+- id: explainable-and-trustworthy-intelligent-systems
+  title: "Explainable and Trustworthy Intelligent Systems"
+  scene: loan-decision
+  summary: "We develop explainable, robust and trustworthy intelligent systems through advances in interpretable machine learning, counterfactual explanations, adversarial robustness and rigorous evaluation, making AI more transparent, reliable and accountable."
+  description:
+    - "We advance the development of explainable, interpretable and trustworthy intelligent systems through innovative approaches to understanding, evaluating and improving machine intelligence."
+    - "Our research spans explainable AI, counterfactual explanations, model transparency, adversarial robustness and systematic evaluation, with a focus on making intelligent systems more transparent, reliable, robust and accountable in real-world applications."
+  people:
+    - chun-ouyang
+    - catarina-moreira
+    - mythreyi-velmurugan
+    - zhipeng-he
+    - yue-xu
+    - laith-alzubaidi
+    - bemali-wickramanayake
+    - alistair-barros
+    - cong-liu
+    - johannes-de-smedt
+    - alexander-stevens
+  publications:
+    - he2026tabattackbench
+    - he2026crafting
+    - stevens2025generating
+    - moreira2025benchmarking
+    - velmurugan2025developing
+    - he2025investigating
+    - velmurugan2025through
+    - guo2024explainable
+    - alzubaidi2023towards
+    - wickramanayake2023generating
+    - wickramanayake2022building
+    - wickramanayake2022generating
+    - chou2022counterfactuals
+    - velmurugan2021evaluatingb
+    - ouyang2021explainable
+    - velmurugan2021developing
+    - velmurugan2021evaluating
+    - moreira2021linda
+    - hsieh2021dice4el
+    - sindhgatta2020exploring
+    - velmurugan2020evaluating
+    - sindhgatta2020exploringb
+    - moreira2020investigation
+
+- id: human-centric-explainable-medical-diagnostic-systems
+  title: "Human-centric Explainable Medical Diagnostic Systems"
+  scene: chest-xray
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We build explainable medical diagnostic systems around the way clinicians work, combining medical images with eye-tracking, clinical data and language models so that AI findings can be understood, checked and trusted."
+  description:
+    - "We develop human-centric, explainable AI for medical diagnosis, designing systems that reflect how clinicians read images and reach decisions."
+    - "Our research spans multimodal learning that fuses chest X-rays with radiologists' eye gaze and patients' clinical data, clinical data augmentation with large language models, open multimodal datasets, and trustworthy deep learning for radiology and orthopaedics, with a focus on diagnostic support that clinicians can interpret and verify."
+  people:
+    - chun-ouyang
+    - catarina-moreira
+    - laith-alzubaidi
+    - joaquim-jorge
+    - chihcheng-hsieh
+  publications:
+    - hsieh2025dallm
+    - alzubaidi2024comprehensive
+    - hsieh2024eyexnet
+    - alzubaidi2024trustworthy
+    - neves2024shedding
+    - hsieh2023mdf
+    - moreira2023comparing
+    - hsieh2023mimic
+    - albahri2023systematic
+    - moreira2022improving
+    - tan2020multimodal
+    - chouhan2020novel
+
+- id: iot-enabled-process-monitoring-and-intelligence
+  title: "IoT-enabled Process Monitoring and Intelligence"
+  scene: chilled-shipment
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We bring Internet of Things data into business process analysis, deriving IoT-enriched and object-centric event logs so that processes can be monitored and understood in their physical context."
+  description:
+    - "We connect data from the Internet of Things with business process management, so that what sensors and devices observe can inform how processes are monitored, analysed and improved."
+    - "Our research spans methods and tools for deriving IoT-enriched and object-centric event logs, the classification of IoT context in business processes, and applications in real-life logistics, with a focus on turning low-level sensor data into process-level insight."
+  people:
+    - chun-ouyang
+    - jia-wei
+  publications:
+    - wei2026iotel
+    - wei2025incorporating
+    - wei2025dirigo
+    - wei2024from
+    - wei2022amoretto
+
+- id: agentic-automation-and-workforce-intelligence
+  title: "Agentic Automation and Workforce Intelligence"
+  scene: invoice-handoff
+  # Placeholder summary and description, written from the theme's papers; awaiting the team's review.
+  summary: "We study how software robots, AI agents and people share work, combining robotic process automation with process mining of the workforce to design automation that fits how organisations operate."
+  description:
+    - "We investigate how work is divided between people, software robots and AI agents, and how event data can guide that division."
+    - "Our research spans robotic process automation, from bot design patterns to its integration with business process management systems, and workforce analytics through process mining, including resource grouping, work specialisation and the capabilities of new employees, with a focus on automation and work assignment decisions grounded in how work is done."
+  people:
+    - chun-ouyang
+    - jing-yang
+    - zeping-wang
+  publications:
+    - yang2026mining
+    - wang2026developing
+    - yang2026discovering
+    - zhang2025rpabpms
+    - yang2025predicting
+    - zhang2024conceptualizing
+    - yang2023learning
+    - yang2022no
+    - yang2022ordinor
+    - yang2021seeing
+    - syed2020robotic
+
+- id: ai-driven-energy-forecasting-and-optimisation
+  title: "AI-Driven Energy Forecasting and Optimisation"
+  scene: battery-plan
+  # From the energy group's site (https://energy.xami-lab.org/research/). The second description paragraph is
+  # put together from that page's two project descriptions; awaiting the team's review.
+  summary: "We develop data-driven methods for forecasting and optimisation in electricity markets, with a particular focus on Australia's National Electricity Market. Our research addresses the challenges the energy transition brings to market operation, including price volatility, uncertainty, and the growing role of renewable and distributed energy resources, with an emphasis on methods that remain reliable under real-world conditions."
+  description:
+    - "We develop data-driven methods for forecasting and optimisation in electricity markets, with a particular focus on Australia's National Electricity Market. Our research addresses the challenges the energy transition brings to market operation, including price volatility, uncertainty, and the growing role of renewable and distributed energy resources, with an emphasis on methods that remain reliable under real-world conditions."
+    - "Our research spans wholesale electricity price forecasting in the National Electricity Market under extreme volatility and renewable-driven structural shifts, including multi-horizon and multi-region forecasting, spike-aware modelling and regime-adaptive methods, and AI-driven coordination of household and community batteries with multi-agent reinforcement learning, balancing household value with community objectives such as peak reduction, renewable utilisation, market participation and battery longevity."
+  people:
+    - chun-ouyang
+    - zhipeng-he
+    - mohammed-osman-gani
+    - cao-tram-anh-hoang
+    - sara-khalifa
+  publications:
+    - gani2026deep

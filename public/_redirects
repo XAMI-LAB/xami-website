@@ -1,0 +1,17 @@
+# Addresses the site used to have, sent to where that content lives now.
+
+# the site before this one
+/bibliography /publications 301
+/xami-tube / 301
+/research/category/research-themes /research 301
+/research/themes/* /research 301
+
+# the site before 2026
+/members /people 301
+/our-mission /mission 301
+/research-projects /research 301
+/videos / 301
+/Explainable-Predictive-Process-Analytics /research 301
+/Causal-Models /research 301
+/Persuasive-Models /research 301
+/Explainable-Medical /research 301

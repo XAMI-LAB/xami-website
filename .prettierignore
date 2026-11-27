@@ -1,0 +1,6 @@
+build
+.react-router
+node_modules
+pnpm-lock.yaml
+content/publications.bib
+static

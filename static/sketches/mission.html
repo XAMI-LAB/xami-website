@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sketch: Mission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.grad{background:linear-gradient(95deg,#1767C2 0%,#0B7C95 52%,#0A8466 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* the opening: the vision is the page's statement */
+.mh{padding:72px 0 88px;border-bottom:1px solid rgba(17,33,43,.08)}
+.mh h2{font:700 15px var(--body);letter-spacing:0;color:var(--muted)}
+.mh .vision{margin-top:12px;font:900 clamp(32px,4.2vw,58px)/1.1 var(--display);letter-spacing:-.03em;max-width:22ch;text-wrap:balance}
+/* the mission: three points, each with a small scene */
+.ms{padding:96px 0 104px}
+.ms > .wrap > h2,.vs h2{font-size:clamp(28px,3vw,40px);font-weight:900;letter-spacing:-.02em}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:40px}
+.pt{display:flex;flex-direction:column;border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 0 0 1px rgba(17,33,43,.08),0 30px 60px -36px rgba(17,33,43,.35);transition:translate .3s,box-shadow .3s}
+.pt:hover{translate:0 -4px;box-shadow:0 0 0 1px rgba(10,107,124,.22),0 36px 64px -34px rgba(10,107,124,.4)}
+.viz{position:relative;height:216px;display:grid;place-items:center;border-bottom:1px solid rgba(17,33,43,.07);
+  background:radial-gradient(110% 85% at 88% -5%,rgba(53,174,251,.20),transparent 58%),radial-gradient(90% 80% at -5% 105%,rgba(31,221,174,.18),transparent 58%),linear-gradient(180deg,#FFFFFF,#F3F7F9)}
+.viz::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(17,33,43,.11) 1px,transparent 1.3px);background-size:18px 18px;-webkit-mask-image:radial-gradient(75% 70% at 50% 45%,#000 20%,transparent 100%);mask-image:radial-gradient(75% 70% at 50% 45%,#000 20%,transparent 100%)}
+.mini{position:relative;width:268px;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.92);box-shadow:0 0 0 1px rgba(17,33,43,.08),0 14px 30px -12px rgba(17,33,43,.2),0 30px 50px -28px rgba(10,107,124,.3)}
+.txt{padding:26px 28px 32px}
+.txt .no{font:800 14px var(--display);color:var(--accent)}
+.txt h3{font:800 21px/1.25 var(--display);letter-spacing:-.012em;margin:8px 0 10px}
+.txt p{font-size:16px;line-height:1.62;color:var(--soft)}
+/* 1: four demands settle into a balance */
+.bal li{display:grid;grid-template-columns:104px 1fr;align-items:center;gap:10px;height:30px;font:500 13px var(--body);color:var(--soft)}
+.bal .track{height:7px;border-radius:99px;background:rgba(17,33,43,.07);overflow:hidden}
+.bal .track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2FD3D0,#0A6B7C);width:var(--a);animation:bal 8s cubic-bezier(.6,0,.2,1) infinite}
+@keyframes bal{0%,22%{width:var(--a)}40%,82%{width:var(--b)}100%{width:var(--a)}}
+.bal .ok{position:absolute;right:14px;top:-13px;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px 0 8px;border-radius:99px;font:700 12px var(--display);color:#fff;background:linear-gradient(135deg,#2FD3D0,#0A6B7C);box-shadow:0 8px 16px -8px rgba(10,107,124,.8);animation:okin 8s ease infinite}
+@keyframes okin{0%,40%{opacity:0;scale:.8}48%,80%{opacity:1;scale:1}88%,100%{opacity:0;scale:.8}}
+.tick{flex:none;width:14px;height:14px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.tick::after{content:"";width:3px;height:6px;border:solid #0A6B7C;border-width:0 1.8px 1.8px 0;rotate:45deg;translate:0 -.5px}
+/* 2: every step of the pipeline, one after another */
+.pipe{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding-top:6px}
+.pipe::before{content:"";position:absolute;left:10%;right:10%;top:16px;height:2px;border-radius:2px;background:rgba(17,33,43,.1)}
+.pipe::after{content:"";position:absolute;left:10%;top:16px;height:2px;border-radius:2px;background:linear-gradient(90deg,#2FD3D0,#0A6B7C);width:0;animation:flow 8s linear infinite}
+@keyframes flow{0%,6%{width:0}66%,90%{width:80%}100%{width:0}}
+.pipe li{position:relative;z-index:1;display:grid;justify-items:center;gap:9px;font:600 11.5px var(--body);color:var(--soft)}
+.pipe li i{width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(17,33,43,.16);display:grid;place-items:center;animation:step 8s linear infinite;animation-delay:calc(var(--i)*1.2s)}
+.pipe li i::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;rotate:45deg;translate:0 -1px}
+@keyframes step{0%,5%{background:#fff;box-shadow:0 0 0 2px rgba(17,33,43,.16)}9%{background:#0A6B7C;box-shadow:0 0 0 2px #0A6B7C,0 0 0 8px rgba(10,107,124,.16)}14%,100%{background:#0A6B7C;box-shadow:0 0 0 2px #0A6B7C}}
+.pipe li:nth-child(n) i{animation-name:step}
+.pipewrap{width:336px;padding:18px 10px 16px;animation:pipereset 8s linear infinite}
+@keyframes pipereset{0%,90%{opacity:1}96%{opacity:0}100%{opacity:1}}
+/* 3: one explainable core, several domains */
+.dom{display:grid;justify-items:center;gap:0}
+.core{display:inline-flex;align-items:center;gap:9px;height:34px;padding:0 15px 0 7px;border-radius:999px;font:700 13px var(--display);color:#fff;background:linear-gradient(135deg,#16313F,#0B1D27);box-shadow:0 12px 24px -12px rgba(17,33,43,.7)}
+.orb{flex:none;width:20px;height:20px;border-radius:50%;background:conic-gradient(from 0deg,#4DB8FF,#2FD3D0,#1FE0A8,#4DB8FF);box-shadow:0 0 12px rgba(47,211,208,.7);animation:spin 5s linear infinite}
+.orb::after{content:"";display:block;width:42%;height:42%;margin:29%;border-radius:50%;background:#0B1D27}
+@keyframes spin{to{rotate:360deg}}
+.dom .wire{width:2px;height:16px;background:linear-gradient(180deg,rgba(47,211,208,.9),rgba(47,211,208,.2))}
+.dom ul{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:268px}
+.dom li{display:flex;align-items:center;gap:9px;height:42px;padding:0 12px;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 0 0 1px rgba(17,33,43,.09),0 10px 20px -12px rgba(17,33,43,.25);font:600 13.5px var(--body);color:var(--soft);animation:lit 8s ease infinite;animation-delay:calc(var(--i)*1.6s)}
+.dom li i{flex:none;width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(17,33,43,.25);animation:dot 8s ease infinite;animation-delay:calc(var(--i)*1.6s)}
+@keyframes lit{0%,4%{box-shadow:0 0 0 1px rgba(17,33,43,.09),0 10px 20px -12px rgba(17,33,43,.25);color:#3B4B56}10%,22%{box-shadow:0 0 0 2px #0A6B7C,0 14px 24px -12px rgba(10,107,124,.5);color:#11212B}30%,100%{box-shadow:0 0 0 1px rgba(17,33,43,.09),0 10px 20px -12px rgba(17,33,43,.25);color:#3B4B56}}
+@keyframes dot{0%,4%{background:transparent;box-shadow:inset 0 0 0 2px rgba(17,33,43,.25)}10%,100%{background:#0A6B7C;box-shadow:inset 0 0 0 2px #0A6B7C}}
+/* values */
+.vs{padding:0 0 112px}
+.vals{position:relative;display:grid;grid-template-columns:3fr 9fr;gap:48px;align-items:center;padding:56px;border-radius:28px;overflow:hidden;
+  background:radial-gradient(110% 85% at 88% -5%,rgba(53,174,251,.20),transparent 58%),radial-gradient(90% 80% at -5% 105%,rgba(31,221,174,.18),transparent 58%),linear-gradient(180deg,#FFFFFF,#F3F7F9);
+  box-shadow:0 0 0 1px rgba(17,33,43,.09),0 1px 0 #fff inset,0 40px 90px -50px rgba(17,33,43,.35)}
+.vals ul{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vals li{display:flex;align-items:center;gap:14px;padding:20px 22px;border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 0 0 1px rgba(17,33,43,.08),0 12px 24px -16px rgba(17,33,43,.25);font:800 19px/1.25 var(--display);letter-spacing:-.01em;transition:translate .25s,box-shadow .25s}
+.vals li:hover{translate:0 -2px;box-shadow:0 0 0 1px rgba(10,107,124,.3),0 16px 28px -16px rgba(10,107,124,.4)}
+.vals li i{flex:none;width:15px;height:15px;border-radius:50%;border:2px solid var(--accent);background:var(--ground);transition:background .25s}
+.vals li:hover i{background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.bal .track i,.bal .ok,.pipe::after,.pipe li i,.pipewrap,.dom li,.dom li i,.orb{animation:none}.bal .track i{width:var(--b)}.pipe::after{width:80%}}
+@media (max-width:1020px){.trio,.vals,.vals ul{grid-template-columns:1fr}.vals{padding:32px}}
+</style>
+</head>
+<body>
+<header class="head">
+  <div class="wrap">
+    <a class="brand" href="home.html"><img src="assets/xami-mark.png" alt=""><span>XAMI Lab<small>Queensland University of Technology</small></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="mission.html" aria-current="page">Mission</a><a href="people.html">People</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="news.html">News</a><a class="cta" href="join.html">Join us</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <canvas data-net data-clear=".5" aria-hidden="true"></canvas>
+    <div class="wrap ttl"><i></i><h1>Mission</h1><span class="ln"><b></b></span></div>
+  </section>
+  <section class="mh">
+    <div class="wrap">
+      <h2>Our Vision</h2>
+      <p class="vision">To support human-machine collaboration and co-evolution by making machine intelligence <span class="grad">explainable, transparent, fair and understandable</span> to human decision-makers.</p>
+    </div>
+  </section>
+
+  <section class="ms" aria-labelledby="mission-h">
+    <div class="wrap">
+      <h2 id="mission-h">Our Mission</h2>
+      <ol class="trio">
+        <li class="pt"><div class="viz" aria-hidden="true"><div class="mini bal"><span class="ok"><span class="tick"></span>Balanced</span><ul>
+            <li>Accuracy<span class="track"><i style="--a:96%;--b:74%"></i></span></li>
+            <li>Efficiency<span class="track"><i style="--a:38%;--b:68%"></i></span></li>
+            <li>Complexity<span class="track"><i style="--a:88%;--b:62%"></i></span></li>
+            <li>Interpretability<span class="track"><i style="--a:18%;--b:72%"></i></span></li></ul></div></div>
+          <div class="txt"><span class="no">01</span><h3>Design fit-for-purpose machine intelligence</h3><p>that is driven by real-world problems, grounded in domain principles, and optimised to achieve the best balance among accuracy, efficiency, complexity, interpretability, and other task-specific requirements.</p></div></li>
+        <li class="pt"><div class="viz" aria-hidden="true"><div class="mini pipewrap"><ol class="pipe">
+            <li style="--i:0"><i></i>Data</li><li style="--i:1"><i></i>Features</li><li style="--i:2"><i></i>Model</li><li style="--i:3"><i></i>Prediction</li><li style="--i:4"><i></i>Decision</li></ol></div></div>
+          <div class="txt"><span class="no">02</span><h3>Embed explainability and interpretability by design</h3><p>throughout the machine intelligence pipeline, from data and feature representation, model development, prediction and decision-making, to develop transparent, accountable and trustworthy AI systems.</p></div></li>
+        <li class="pt"><div class="viz" aria-hidden="true"><div class="dom"><span class="core"><span class="orb"></span>Explainable AI</span><span class="wire"></span><ul>
+            <li style="--i:0"><i></i>Healthcare</li><li style="--i:1"><i></i>Logistics</li><li style="--i:2"><i></i>Workforce</li><li style="--i:3"><i></i>Energy</li></ul></div></div>
+          <div class="txt"><span class="no">03</span><h3>Deliver explainable machine intelligence across domains</h3><p>translating methodological advances into practical, innovative and sustainable solutions for real-world challenges.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="vs" aria-labelledby="values-h">
+    <div class="wrap">
+      <div class="vals"><h2 id="values-h">Our Values</h2><ul><li><i></i>Pursuit of Excellence</li><li><i></i>Creativity and Critical Thinking</li><li><i></i>Diversity and Inclusiveness</li><li><i></i>Positivity and Passion</li></ul></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="cols">
+      <div><img class="logo" src="assets/xami-long-white.png" alt="XAMI Lab"></div>
+      <div><h3>Explore</h3><ul><li><a href="mission.html">Mission</a></li><li><a href="people.html">People</a></li><li><a href="research.html">Research themes</a></li><li><a href="publications.html">Publications</a></li><li><a href="news.html">News</a></li><li><a href="join.html">Join us</a></li></ul></div>
+      <div><h3>About</h3><ul><li><a href="mailto:hello@xami-lab.example">Contact us</a></li><li><a href="acknowledgements.html">Acknowledgements</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Third-party licences</a></li></ul></div>
+    </div>
+    <p class="legal">Copyright © 2021 - 2026 XAMI Lab @QUT</p>
+  </div>
+</footer>
+<script src="assets/net.js"></script>
+</body>
+</html>

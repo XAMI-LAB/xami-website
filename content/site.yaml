@@ -1,0 +1,188 @@
+# Text used across the site that is not a person, a theme or a paper.
+# A "highlight" is the part of the sentence above it that is shown in the logo colours; it must match that sentence exactly.
+
+lab:
+  name: XAMI Lab
+  university: Queensland University of Technology
+  universityShort: QUT
+  url: https://www.xami-lab.org # the address of the live site, without a slash at the end
+  heading: Explainable analytics for machine intelligence
+  headingHighlight: machine intelligence
+  intro: The Explainable Analytics for Machine Intelligence (XAMI) Lab develops methods to make machine intelligence explainable, transparent, fair and understandable to human decision-makers.
+  founded: 2021
+  contact: chun-ouyang # id in people.yaml; "Contact us" and the Join us page write to this person
+
+# The lab's other websites. They appear as one category in the menu, which opens a list, and in the footer.
+# label is the category's name; add a site by adding a name and url under items.
+sites:
+  label: Initiatives
+  items:
+    - name: Enerovix
+      url: https://enerovix.xami-lab.org/
+
+# What search engines and link previews say about each page. A page left out here is described by the
+# lab's own words: the vision for Mission, the welcome for Join us, and the intro above for the rest.
+# Pages: home, mission, people, research, publications, join, acknowledgements.
+descriptions: {}
+
+mission:
+  vision: To support human-machine collaboration and co-evolution by making machine intelligence explainable, transparent, fair and understandable to human decision-makers.
+  visionHighlight: explainable, transparent, fair and understandable
+  points:
+    - lead: Design fit-for-purpose machine intelligence
+      text: that is driven by real-world problems, grounded in domain principles, and optimised to achieve the best balance among accuracy, efficiency, complexity, interpretability, and other task-specific requirements.
+    - lead: Embed explainability and interpretability by design
+      text: throughout the machine intelligence pipeline, from data and feature representation, model development, prediction and decision-making, to develop transparent, accountable and trustworthy AI systems.
+    - lead: Deliver explainable machine intelligence across domains
+      text: translating methodological advances into practical, innovative and sustainable solutions for real-world challenges.
+  values:
+    - Pursuit of Excellence
+    - Creativity and Critical Thinking
+    - Diversity and Inclusiveness
+    - Positivity and Passion
+
+# The Join us page. Each path is one way of joining: a card at the top of the page. Choosing a card shows that
+# way's steps below the cards, beside the one message, which changes to match.
+#   summary  the line on the card
+#   intro    paragraphs opening the section
+#   steps    what to do, in order; a step may carry links (an address starting with / is a page of this site)
+#   note     a remark after the steps, with its own links
+#   send     what the enquiry should include, shown as the checklist of the message
+#   subject  the subject line the "Write to" button starts the email with
+#   scene    the small illustration on the card: degree-path, visitors or joint-project
+#   graduates: true lists the lab's graduates and where they are now, from people.yaml
+# Every enquiry goes to the person named under lab > contact.
+join:
+  welcome: We welcome PhD, MPhil and Honours students, visiting researchers and industry partners who want machine intelligence that is explainable, transparent, fair and understandable.
+  welcomeHighlight: explainable, transparent, fair and understandable
+  paths:
+    - id: research-degrees
+      title: Research degrees
+      scene: degree-path
+      summary: PhD, MPhil and Honours projects at QUT.
+      intro:
+        - QUT asks every PhD and MPhil applicant to have a supervisor in place before they apply, so the first step is to write to us.
+      steps:
+        - title: Choose a research theme
+          text: Read the lab's research themes and find the one closest to what you want to study.
+          links:
+            - label: Research themes
+              url: /research
+        - title: Write to us
+          text: Tell us about yourself and the theme you are interested in.
+        - title: Apply through QUT
+          text: Once a supervisor has agreed, QUT takes your application and runs the scholarship round.
+          links:
+            - label: How to apply at QUT
+              url: https://www.qut.edu.au/research/study-with-us/how-to-apply
+            - label: Research scholarships
+              url: https://www.qut.edu.au/research/study-with-us/scholarships/applying-for-scholarships
+            - label: Scholarships held by the lab's students
+              url: /acknowledgements
+      note:
+        text: Honours students do their research project with the lab. Write to us about a project, and apply for the course through QUT.
+        links:
+          - label: Honours at QUT
+            url: https://www.qut.edu.au/study/options/honours-and-undergraduate-research
+      send:
+        - Your CV
+        - Your academic transcripts
+        - The research theme you are interested in
+        - A one page research idea
+      subject: Research degree enquiry
+      graduates: true
+    - id: visiting-researchers
+      title: Visiting researchers
+      scene: visitors
+      summary: Short and long research visits to the lab.
+      intro:
+        - The lab hosts PhD students, postdocs and academics from other institutions, for short and long visits.
+      steps:
+        - title: Choose a research theme
+          text: Find the theme and the people you would like to work with.
+          links:
+            - label: Research themes
+              url: /research
+            - label: People
+              url: /people
+        - title: Write to us
+          text: Tell us about your work, and when you would like to visit.
+      send:
+        - Your CV
+        - Your home institution
+        - The research theme you would like to work on
+        - When you would like to visit, and for how long
+        - How the visit would be funded
+      subject: Research visit enquiry
+    - id: partners
+      title: Industry and clinical partners
+      scene: joint-project
+      summary: Joint projects across the lab's research themes.
+      intro:
+        - We are happy to talk with industry and clinical partners at any stage, from a first question to a joint project.
+      steps:
+        - title: Find the closest research theme
+          text: The lab's themes show the kinds of problem we work on.
+          links:
+            - label: Research themes
+              url: /research
+        - title: Write to us
+          text: Tell us about your organisation and the problem you have in mind.
+      note:
+        text: For electricity markets and energy storage, the lab's energy work has its own site.
+        links:
+          - label: Enerovix
+            url: https://enerovix.xami-lab.org/
+      send:
+        - Your organisation
+        - The problem or question you have in mind
+        - The research theme it relates to
+      subject: Partnership enquiry
+
+licences:
+  intro: This website is built using various open source packages. Below is a list of all packages and their licenses.
+
+acknowledgements:
+  traditionalOwners: QUT acknowledges the Turrbal and Yugara as the First Nations owners of the lands where QUT now stands. We pay respect to their Elders, lores, customs and creation spirits. We recognise that these lands have always been places of teaching, research and learning. QUT acknowledges the important role Aboriginal and Torres Strait Islander people play within the QUT community.
+  # Each group below is shown as one row of logos.
+  # logo is a file in public/logos (logoHeight is how tall to show it, in pixels); leave it out to show the name as text.
+  institutions:
+    - row:
+        - name: Queensland University of Technology
+          logo: qut.svg
+          logoHeight: 64
+          url: https://www.qut.edu.au/
+        - name: QUT Centre for Data Science
+          logo: qut-cds.png
+          logoHeight: 64
+        - name: QUT Energy Transition Centre
+          logo: qut-etc.png
+          logoHeight: 64
+    - row:
+        - name: University of Technology Sydney
+          logo: uts.svg
+          logoHeight: 40
+          whiteOnly: true # the file is white, so it is shown in black
+          url: https://www.uts.edu.au/
+        - name: Instituto Superior Técnico, ULisboa
+          logo: ist.png
+          logoHeight: 56
+          whiteOnly: true
+          url: https://tecnico.ulisboa.pt/en/
+        - name: KU Leuven
+          logo: kuleuven.svg
+          logoHeight: 44
+          url: https://www.kuleuven.be/english/kuleuven
+  schemes:
+    - QUT Women in Research Grant Scheme
+    - QUT Center for Data Science First Byte Funding Program
+    - Australian Government Research Training Program (International) Scholarship
+    - Australian Government Research Training Program (Domestic) Scholarship
+    - QUT Science and Engineering Faculty Diversity Scholarship
+    - QUT Postgraduate Research Award (International) Scholarship
+    - QUT Science and Engineering Faculty Scholarship
+    - QUT Centre for Data Science Higher Degree Research Scholarship
+    - QUT Center for Data Science Top Up Scholarship
+    - QUT Vacation Research Experience Scheme Scholarship
+    - QUT International Merit Scholarship
+    - QUT Higher Degree Research Internship Industry Scholarship

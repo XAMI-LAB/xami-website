@@ -1,11 +1,19 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
+  "include": ["app", ".react-router/types/**/*", "*.ts"],
   "compilerOptions": {
-    "baseUrl": null,
-    "paths": {
-      "@site/*": ["./*"]
-    }
-  },
-  "exclude": [".docusaurus", "build"]
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "types": ["node", "vite/client"],
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+    "paths": { "~/*": ["./app/*"] },
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
 }

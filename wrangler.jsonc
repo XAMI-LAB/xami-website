@@ -1,11 +1,13 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "xami-website",
   "compatibility_date": "2026-09-27",
   "assets": {
-    "directory": "./build",
-    "not_found_handling": "404-page"
+    // the pages, as built by "pnpm build"
+    "directory": "./build/client",
+    // An unknown address gets build/client/404.html. Branch previews answer with a bare "Not found" instead;
+    // that is how Cloudflare's previews behave, not a fault in the site.
+    "not_found_handling": "404-page",
   },
   // Branch Previews (built by "wrangler preview" on non-production branches)
-  "previews": {}
+  "previews": {},
 }
