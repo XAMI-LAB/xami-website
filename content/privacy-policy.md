@@ -18,8 +18,8 @@ Links to external websites (such as university profiles, LinkedIn, or GitHub) ar
 
 If you email us, your email address is used only to reply to you.
 
-For questions about this policy, email [xami.initiaive@gmail.com](mailto:xami.initiaive@gmail.com).
+For questions about this policy, email [admin@xami-lab.org](mailto:admin@xami-lab.org).
 
 ## Changes to This Policy
 
-This policy is effective as of 27 November 2026. Any changes will be posted on this page.
+This policy is effective as of 28 November 2026. Any changes will be posted on this page.
