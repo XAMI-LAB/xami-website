@@ -36,19 +36,22 @@ export const meta: Route.MetaFunction = ({ matches }) => pageHead("/people", mat
 
 type Details = Pick<Person, "position" | "affiliations" | "graduated">;
 
-/** What is said about a person beside their name: alumni by what they graduated with, everyone else by where they work. */
+/** What is said about a person beside their name: alumni by what they graduated with and where they are now, everyone else by where they work. */
 function PersonDetails({ person, group }: { person: Details; group: Group }) {
   if (group === "alumni") {
-    const { graduated } = person;
+    const { graduated, affiliations } = person;
     return (
-      <span className="info">{graduated && <small>{`${graduated.degree} Graduate, ${graduated.year}`}</small>}</span>
+      <span className="info">
+        {graduated && <b>{`${graduated.degree} Graduate, ${graduated.year}`}</b>}
+        {affiliations.length > 0 && <small>{`Now at ${affiliations.join(", ")}`}</small>}
+      </span>
     );
   }
   const { position, affiliations } = person;
   return (
     <span className="info">
       {position && <b>{position}</b>}
-      {(position ? affiliations.slice(0, 1) : affiliations).map((affiliation) => (
+      {affiliations.map((affiliation) => (
         <small key={affiliation}>{affiliation}</small>
       ))}
     </span>

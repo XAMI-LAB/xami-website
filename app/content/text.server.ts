@@ -57,7 +57,10 @@ function personLine(person: Person, group: (typeof GROUP_HEADINGS)[number][0]): 
   const details =
     group === "alumni"
       ? person.graduated
-        ? [`${person.graduated.degree} Graduate, ${person.graduated.year}`]
+        ? [
+            `${person.graduated.degree} Graduate, ${person.graduated.year}`,
+            ...person.affiliations.map((a) => `now at ${a}`),
+          ]
         : []
       : [person.position, ...person.affiliations].filter(Boolean);
   const links = Object.entries(person.links)

@@ -34,11 +34,11 @@ mission:
     - Positivity and Passion
 
 join:
-  welcome: We welcome PhD and Master by research students, visiting researchers and industry partners who want AI that people can understand.
+  welcome: We welcome PhD, MPhil and Honours students, visiting researchers and industry partners who want AI that people can understand.
   welcomeHighlight: AI that people can understand.
   ways:
     - title: Research degrees
-      text: PhD and Master by research projects at QUT.
+      text: PhD, MPhil and Honours projects at QUT.
     - title: Visiting researchers
       text: Short and long research visits to the lab.
     - title: Industry and clinical partners
