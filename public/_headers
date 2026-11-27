@@ -1,0 +1,13 @@
+# Headers Cloudflare adds to the files it serves. Rules that match the same address are combined.
+
+# Every page and file: the browser must not guess a file's type, other sites cannot show this site inside
+# a frame, and a link to another site passes on only this site's address, not the page the visitor was on.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# The scripts, styles and fonts the build writes. Each carries a fingerprint of its content in its name, so a
+# changed file always has a new address and the old one can be kept by the browser for a year without asking.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
