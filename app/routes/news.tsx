@@ -123,7 +123,7 @@ export default function News({ loaderData }: Route.ComponentProps) {
                   {(item.people.length > 0 || item.paper) && (
                     <div className="foot">
                       {item.people.map((person) => (
-                        <Link key={person.id} className="who" to="/people">
+                        <Link key={person.id} className="who" to={`/people#${person.id}`}>
                           <PersonPhoto person={person} />
                           {person.name}
                         </Link>

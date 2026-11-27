@@ -67,6 +67,14 @@
   .r:hover {
     background: rgba(255, 255, 255, 0.7);
   }
+  /* a row reached through a link to that person: it stops clear of the menu and is marked */
+  .r[id] {
+    scroll-margin-top: calc(var(--head) + 24px);
+  }
+  .r.linked {
+    background: rgba(10, 107, 124, 0.07);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
   .r .ph {
     width: 52px;
     height: 52px;

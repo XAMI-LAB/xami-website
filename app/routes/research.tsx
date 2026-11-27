@@ -97,10 +97,10 @@ export default function Research({ loaderData }: Route.ComponentProps) {
                 <p className="lbl">People</p>
                 <div className="wgrid">
                   {theme.people.map((person) => (
-                    <span className="w" key={person.id}>
+                    <Link className="w" key={person.id} to={`/people#${person.id}`}>
                       <PersonPhoto person={person} />
                       <b>{displayName(person)}</b>
-                    </span>
+                    </Link>
                   ))}
                 </div>
               </div>

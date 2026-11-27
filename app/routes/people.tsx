@@ -1,5 +1,7 @@
 import "~/styles/people.css";
 
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import type { Route } from "./+types/people";
 import { PageTitle } from "~/components/PageTitle";
 import { PersonLinks } from "~/components/PersonLinks";
@@ -67,6 +69,13 @@ function listed<P extends { groups: Group[]; graduated?: { year: number } }>(peo
 
 export default function People({ loaderData }: Route.ComponentProps) {
   const { people } = loaderData;
+  // A link such as /people#jia-wei leads to that person's row, which is marked while the address names it.
+  // The page is built without knowing the address, so the mark is applied once it is running in the browser.
+  const { hash } = useLocation();
+  const [linked, setLinked] = useState("");
+  useEffect(() => setLinked(hash.slice(1)), [hash]);
+  // A person in two groups has two rows; the address leads to the first.
+  const anchored = new Set<string>();
   return (
     <main className="p-people">
       <PageTitle clear={0.4}>People</PageTitle>
@@ -75,16 +84,24 @@ export default function People({ loaderData }: Route.ComponentProps) {
           <div className="wrap reg">
             <h2>{heading}</h2>
             <div className="list">
-              {listed(people, group).map((person) => (
-                <div key={person.id} className="p r">
-                  <PersonPhoto person={person} />
-                  <span className="nm">
-                    <b>{displayName(person)}</b>
-                    <PersonLinks links={person.links} />
-                  </span>
-                  <PersonDetails person={person} group={group} />
-                </div>
-              ))}
+              {listed(people, group).map((person) => {
+                const first = !anchored.has(person.id);
+                anchored.add(person.id);
+                return (
+                  <div
+                    key={person.id}
+                    id={first ? person.id : undefined}
+                    className={first && linked === person.id ? "p r linked" : "p r"}
+                  >
+                    <PersonPhoto person={person} />
+                    <span className="nm">
+                      <b>{displayName(person)}</b>
+                      <PersonLinks links={person.links} />
+                    </span>
+                    <PersonDetails person={person} group={group} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
