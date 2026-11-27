@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sketch: News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* kind and year stay in reach under the menu (the same bar as on the publications page) */
+.tools{position:sticky;top:var(--head);z-index:40;background:rgba(246,248,249,.9);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(17,33,43,.1)}
+.tools .wrap{display:flex;align-items:center;gap:20px;height:68px}
+.seg{display:flex;gap:2px;padding:4px;border-radius:12px;background:rgba(17,33,43,.05)}
+.seg button{all:unset;cursor:pointer;padding:7px 13px;border-radius:9px;font:600 14px var(--body);color:#4A5A65;white-space:nowrap;transition:background .2s,color .2s,box-shadow .2s}
+.seg button:hover{color:var(--ink)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 0 0 1px rgba(17,33,43,.08),0 4px 10px -6px rgba(17,33,43,.4)}
+.years{margin-left:auto;display:flex;gap:2px}
+.years a{padding:7px 9px;border-radius:8px;text-decoration:none;font:600 14px var(--body);color:#6A7882;font-variant-numeric:tabular-nums;transition:color .2s,background .2s}
+.years a:hover{color:var(--ink)}
+.years a.cur{color:var(--accent);background:rgba(10,107,124,.1)}
+.years a.off{opacity:.3;pointer-events:none}
+/* one year: the year on the left, its news on a line on the right */
+.reg{display:grid;grid-template-columns:3fr 9fr;gap:48px;padding-top:64px;padding-bottom:64px;align-items:start}
+.yr{border-bottom:1px solid rgba(17,33,43,.08);scroll-margin-top:calc(var(--head) + 68px)}
+.yr:last-of-type{border-bottom:0}
+.year{position:sticky;top:calc(var(--head) + 68px + 36px);font:900 clamp(60px,6.6vw,96px)/.9 var(--display);letter-spacing:-.045em;color:transparent;-webkit-text-stroke:1.5px rgba(10,107,124,.42)}
+.tl{position:relative;padding-left:44px}
+.tl::before{content:"";position:absolute;left:7px;top:10px;bottom:10px;width:1.2px;background:rgba(10,107,124,.3)}
+.tl::after{content:"";position:absolute;left:4.6px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:down 7s linear infinite}
+@keyframes down{from{top:10px;opacity:0}8%{opacity:.8}92%{opacity:.8}to{top:calc(100% - 16px);opacity:0}}
+.item{position:relative;padding:0 0 44px}
+.item:last-child{padding-bottom:0}
+.node{position:absolute;left:-44px;top:3px;z-index:1;width:15px;height:15px;border-radius:50%;background:var(--ground);border:2px solid var(--accent);transition:background .25s,box-shadow .25s}
+.item:hover .node{background:var(--accent);box-shadow:0 0 0 5px rgba(10,107,124,.14)}
+.meta{display:flex;align-items:center;gap:12px;min-height:22px}
+.meta time{font:700 14px var(--body);color:var(--accent)}
+.ty{font:700 12px/22px var(--body);height:22px;padding:0 9px;border-radius:99px;color:var(--accent);background:rgba(10,107,124,.09)}
+.item h3{margin-top:10px;font:800 clamp(21px,1.9vw,26px)/1.25 var(--display);letter-spacing:-.012em;text-wrap:balance}
+.tx{margin-top:8px;font-size:16.5px;line-height:1.62;color:var(--soft);max-width:68ch}
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:16px}
+.who{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:600 14.5px var(--body);color:var(--soft);transition:color .2s}
+.who img{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#E3EAEE}
+.who:hover{color:var(--accent)}
+.ext{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;margin-left:-10px;border-radius:8px;text-decoration:none;font:600 13.5px var(--body);color:var(--accent);transition:background .2s}
+.who + .ext,.who ~ .ext{margin-left:0}
+.ext::after{content:"\2197";font-size:12.5px;line-height:1;opacity:.75}
+.ext:hover{background:rgba(10,107,124,.09)}
+.none{display:none;padding:96px 0;text-align:center;color:var(--muted);font-size:17px}
+.none.show{display:block}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.tl::after{display:none}}
+@media (max-width:1020px){.reg{grid-template-columns:1fr;gap:20px}.year{position:static}.years{display:none}}
+</style>
+</head>
+<body>
+<header class="head">
+  <div class="wrap">
+    <a class="brand" href="home.html"><img src="assets/xami-mark.png" alt=""><span>XAMI Lab<small>Queensland University of Technology</small></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="mission.html">Mission</a><a href="people.html">People</a><a href="research.html">Research</a><a href="publications.html">Publications</a><a href="news.html" aria-current="page">News</a><a class="cta" href="home.html#join">Join us</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="page-head">
+    <canvas data-net data-clear=".5" aria-hidden="true"></canvas>
+    <div class="wrap"><h1>News</h1></div>
+  </section>
+  <div class="tools"><div class="wrap">
+    <div class="seg" role="group" aria-label="Kind of news"><button type="button" aria-pressed="true" data-type="">All</button><button type="button" aria-pressed="false" data-type="people">People</button><button type="button" aria-pressed="false" data-type="graduation">Graduations</button><button type="button" aria-pressed="false" data-type="paper">Publications</button></div>
+    <nav class="years" aria-label="Jump to a year"><a href="#y2026">2026</a><a href="#y2025">2025</a><a href="#y2024">2024</a></nav>
+  </div></div>
+  <section class="yr" id="y2026"><div class="wrap reg">
+      <h2 class="year">2026</h2>
+      <ol class="tl">
+        <li class="item" data-type="people"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><time>September</time><span class="ty">People</span></p>
+          <h3>Adalie Hoang joins the lab</h3>
+          <p class="tx">Cao Tram Anh (Adalie) Hoang starts a Master by research in the School of Information Systems at QUT.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Adalie.jpg" alt="" loading="lazy">Cao Tram Anh Hoang</a></div>
+        </li>
+        <li class="item" data-type="people"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><time>June</time><span class="ty">People</span></p>
+          <h3>Zhipeng He starts a postdoctoral fellowship</h3>
+          <p class="tx">Zhipeng joins the QUT School of Mechanical, Medical and Process Engineering as a Post-doc Research Fellow.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Zippo.jpg" alt="" loading="lazy">Zhipeng He</a></div>
+        </li>
+        <li class="item" data-type="graduation"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><span class="ty">Graduation</span></p>
+          <h3>Chihcheng Hsieh (Richard) completes a PhD</h3>
+          <p class="tx">Richard&#x27;s research combined eye tracking and chest X-ray images to explain medical diagnosis models.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Richard.jpg" alt="" loading="lazy">Chihcheng Hsieh</a></div>
+        </li>
+      </ol>
+  </div></section>
+  <section class="yr" id="y2025"><div class="wrap reg">
+      <h2 class="year">2025</h2>
+      <ol class="tl">
+        <li class="item" data-type="graduation"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><span class="ty">Graduation</span></p>
+          <h3>Bemali Wickramanayake completes a PhD</h3>
+          <p class="tx">Bemali&#x27;s research built interpretable models for predictive process analytics.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Bemali.png" alt="" loading="lazy">Bemali Wickramanayake</a></div>
+        </li>
+        <li class="item" data-type="paper"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><time>January</time><span class="ty">Publication</span></p>
+          <h3>New paper in Neurocomputing</h3>
+          <p class="tx">RPN: a region-to-pixel-mask-based convolutional network for lesion segmentation of fundus images.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/ChunOuyang.jpg" alt="" loading="lazy">Chun Ouyang</a><a class="ext" href="https://doi.org/10.1016/j.neucom.2025.129456">Paper</a></div>
+        </li>
+      </ol>
+  </div></section>
+  <section class="yr" id="y2024"><div class="wrap reg">
+      <h2 class="year">2024</h2>
+      <ol class="tl">
+        <li class="item" data-type="paper"><i class="node" aria-hidden="true"></i>
+          <p class="meta"><time>December</time><span class="ty">Publication</span></p>
+          <h3>Guidelines for evaluating explainable AI on tabular data</h3>
+          <p class="tx">Published in Engineering Applications of Artificial Intelligence.</p>
+          <div class="foot"><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/Mythreyi.jpg" alt="" loading="lazy">Mythreyi Velmurugan</a><a class="who" href="people.html"><img src="https://cdn.jsdelivr.net/gh/ZhipengHe/ImgRepo@master/img/ChunOuyang.jpg" alt="" loading="lazy">Chun Ouyang</a><a class="ext" href="https://doi.org/10.1016/j.engappai.2024.109772">Paper</a></div>
+        </li>
+      </ol>
+  </div></section>
+  <p class="none">No news of this kind yet.</p>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="cols">
+      <div><img class="logo" src="assets/xami-long-white.png" alt="XAMI Lab"></div>
+      <div><h3>Explore</h3><ul><li><a href="mission.html">Mission</a></li><li><a href="people.html">People</a></li><li><a href="research.html">Research themes</a></li><li><a href="publications.html">Publications</a></li><li><a href="news.html">News</a></li><li><a href="home.html#join">Join us</a></li></ul></div>
+      <div><h3>Universities</h3><ul><li><a href="https://www.qut.edu.au/">Queensland University of Technology</a></li><li><a href="https://www.uts.edu.au/">University of Technology Sydney</a></li><li><a href="https://tecnico.ulisboa.pt/en/">Instituto Superior Técnico, ULisboa</a></li><li><a href="https://www.kuleuven.be/english/kuleuven">KU Leuven</a></li></ul></div>
+      <div><h3>About</h3><ul><li><a href="mailto:hello@xami-lab.example">Contact us</a></li><li><a href="#">Acknowledgements</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Third-party licences</a></li></ul></div>
+    </div>
+    <p class="legal">Copyright © 2021 - 2026 XAMI Lab @QUT</p>
+  </div>
+</footer>
+<script src="assets/net.js"></script>
+<script>
+(function () {
+  var items = Array.prototype.slice.call(document.querySelectorAll(".item")), secs = Array.prototype.slice.call(document.querySelectorAll(".yr"));
+  var segs = Array.prototype.slice.call(document.querySelectorAll(".seg button")), yearLinks = Array.prototype.slice.call(document.querySelectorAll(".years a")), none = document.querySelector(".none");
+  segs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var type = b.dataset.type, shown = 0;
+      segs.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      items.forEach(function (it) { var ok = !type || it.dataset.type === type; it.hidden = !ok; if (ok) shown++; });
+      secs.forEach(function (s, i) { s.hidden = !s.querySelector(".item:not([hidden])"); yearLinks[i].classList.toggle("off", s.hidden); });
+      none.classList.toggle("show", !shown);
+    });
+  });
+  var spy = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) yearLinks.forEach(function (a) { a.classList.toggle("cur", a.getAttribute("href") === "#" + e.target.id); }); });
+  }, { rootMargin: "-30% 0px -65% 0px" });
+  secs.forEach(function (s) { spy.observe(s); });
+})();
+</script>
+</body>
+</html>
