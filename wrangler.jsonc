@@ -1,6 +1,9 @@
 {
   "name": "xami-website",
   "compatibility_date": "2026-09-27",
+  // The site is reached at www.xami-lab.org only. Without this line every deploy switches the workers.dev
+  // address back on, even after it is turned off in the dashboard. Branch previews are not affected.
+  "workers_dev": false,
   "assets": {
     // the pages, as built by "pnpm build"
     "directory": "./build/client",
