@@ -1,0 +1,281 @@
+# Everyone shown on the site, in the order they appear within their group.
+# groups: leader, member, collaborator, alumni (a person can be in more than one).
+# Alumni are listed by the year they graduated, newest first.
+# name is written as on the site; papers are matched by the name without the part in brackets, plus any aliases.
+
+- id: chun-ouyang
+  name: "Chun Ouyang"
+  title: A/Prof.
+  groups: [leader]
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: chun-ouyang.jpg
+  links:
+    email: c.ouyang@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/c.ouyang
+    linkedin: https://www.linkedin.com/in/chunouyang
+    scholar: https://scholar.google.com.au/citations?user=aQqD_CQAAAAJ
+
+- id: catarina-moreira
+  name: "Catarina Moreira"
+  title: A/Prof.
+  groups: [leader]
+  affiliations:
+    - "Data Science Institute, UTS"
+    - "UNESCO Co-Chair on AI&XR"
+  photo: catarina-moreira.png
+  links:
+    email: Catarina.PintoMoreira@uts.edu.au
+    website: https://profiles.uts.edu.au/Catarina.PintoMoreira
+    linkedin: https://www.linkedin.com/in/catarinapmoreira
+    scholar: https://scholar.google.com/citations?user=nThsEsMAAAAJ
+    github: https://github.com/catarina-moreira
+
+- id: jia-wei
+  name: "Jia Wei (Jenny)"
+  title: Dr.
+  groups: [member]
+  position: "Lecturer"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: jia-wei.jpg
+  links:
+    email: j26.wei@qut.edu.au
+    linkedin: https://www.linkedin.com/in/jia-jenny-wei-203795132/
+
+- id: mythreyi-velmurugan
+  name: "Mythreyi Velmurugan"
+  title: Dr.
+  groups: [member]
+  position: "Associate Lecturer"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: mythreyi-velmurugan.jpg
+  links:
+    email: mythreyi.velmurugan@hdr.qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/m.velmurugan
+    linkedin: https://www.linkedin.com/in/mythreyivelmurugan
+    scholar: https://scholar.google.com/citations?user=MfkWJ84AAAAJ
+
+- id: jing-yang
+  name: "Jing Yang (Roy)"
+  title: Dr.
+  groups: [member]
+  position: "Post-doc Research Fellow"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: jing-yang.jpg
+  links:
+    email: roy.j.yang@qut.edu.au
+    website: https://royjy.me/
+    linkedin: https://www.linkedin.com/in/roy-jingyang
+    scholar: https://scholar.google.com/citations?user=Ms1FNhsAAAAJ
+    github: https://github.com/roy-jingyang
+
+- id: zhipeng-he
+  name: "Zhipeng He (Zippo)"
+  title: Dr.
+  groups: [member]
+  position: "Post-doc Research Fellow"
+  affiliations:
+    - "School of Mech., Medical & Process Engineering, QUT"
+  photo: zhipeng-he.jpg
+  links:
+    email: zippo.he@qut.edu.au
+    website: https://zhipenghe.me
+    linkedin: https://www.linkedin.com/in/zhipenghe
+    github: https://github.com/ZhipengHe
+
+- id: zeping-wang
+  name: "Zeping Wang (Chester)"
+  groups: [member]
+  position: "PhD Student"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: zeping-wang.jpg
+  links:
+    email: zeping.wang@hdr.qut.edu.au
+    linkedin: https://www.linkedin.com/in/zeping-wang/
+
+- id: mohammed-osman-gani
+  name: "Mohammed Osman Gani"
+  groups: [member]
+  position: "PhD Student"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: mohammed-osman-gani.jpg
+  links:
+    email: mohammedosman.gani@hdr.qut.edu.au
+    linkedin: https://www.linkedin.com/in/mohammed-osman-gani-3b75a0185/
+
+- id: cao-tram-anh-hoang
+  name: "Cao Tram Anh (Adalie) Hoang"
+  groups: [member]
+  position: "Master Student"
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: cao-tram-anh-hoang.jpg
+  links:
+    linkedin: https://www.linkedin.com/in/cao-tram-anh-hoang/
+
+- id: caleb-quao
+  name: "Caleb Quao"
+  groups: [member]
+  position: "Master Student"
+  affiliations:
+    - "School of Chemistry and Physics, QUT"
+
+- id: laith-alzubaidi
+  name: "Laith Alzubaidi"
+  groups: [collaborator]
+  affiliations:
+    - "Queensland University of Technology"
+  photo: laith-alzubaidi.jpg
+  links:
+    email: l.alzubaidi@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/l.alzubaidi
+    scholar: https://scholar.google.com/citations?user=TqoZSacAAAAJ&hl=en
+
+- id: yue-xu
+  name: "Yue Xu"
+  title: A/Prof.
+  groups: [collaborator]
+  affiliations:
+    - "School of Computer Science, QUT"
+  photo: yue-xu.jpg
+  links:
+    email: yue.xu@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/yue.xu
+    linkedin: https://www.linkedin.com/in/yue-xu-7368b133
+    scholar: https://scholar.google.com/citations?user=dGr7W1kAAAAJ
+
+- id: sara-khalifa
+  name: "Sara Khalifa"
+  groups: [collaborator]
+
+- id: hongxia-wang
+  name: "Hongxia Wang"
+  groups: [collaborator]
+  affiliations:
+    - "Queensland University of Technology"
+  links:
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/hx.wang
+
+- id: alistair-barros
+  name: "Alistair Barros"
+  title: Prof.
+  groups: [collaborator]
+  affiliations:
+    - "School of Information Systems, QUT"
+  photo: alistair-barros.jpg
+  links:
+    email: alistair.barros@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/alistair.barros
+    linkedin: https://www.linkedin.com/in/alistairbarros/
+
+- id: joaquim-jorge
+  name: "Joaquim Jorge"
+  title: Prof.
+  groups: [collaborator]
+  affiliations:
+    - "Instituto Superior Técnico, ULisboa"
+  photo: joaquim-jorge.jpg
+  links:
+    email: jorgej@tecnico.ulisboa.pt
+    website: https://web.ist.utl.pt/jorgej/
+    linkedin: https://www.linkedin.com/in/jorgej
+    scholar: https://scholar.google.com/citations?user=RgiMdpAAAAAJ
+
+- id: jian-cao
+  name: "Jian Cao"
+  title: Prof.
+  groups: [collaborator]
+  affiliations:
+    - "Shanghai Jiao Tong University"
+  links:
+    website: https://www.cs.sjtu.edu.cn/en/jiaoshiml/caojian.html
+
+- id: cong-liu
+  name: "Cong Liu"
+  title: Prof.
+  groups: [collaborator]
+  affiliations:
+    - "NOVA University Lisbon"
+  links:
+    website: https://novaresearch.unl.pt/en/persons/cong-liu/
+
+- id: bemali-wickramanayake
+  name: "Bemali Wickramanayake"
+  title: Dr.
+  groups: [collaborator, alumni]
+  graduated:
+    degree: PhD
+    year: 2025
+  photo: bemali-wickramanayake.png
+  links:
+    linkedin: https://www.linkedin.com/in/bemali-wickramanayake-b2627261
+
+- id: renuka-sindhgatta
+  name: "Renuka Sindhgatta"
+  title: Dr.
+  groups: [collaborator]
+  affiliations:
+    - "IBM Research - AI, Bangalore, India"
+  photo: renuka-sindhgatta.jpg
+  links:
+    email: renuka.sr@ibm.com
+    website: https://research.ibm.com/people/renuka-sindhgatta
+    linkedin: https://www.linkedin.com/in/renuka-sindhgatta-9042242
+    scholar: https://scholar.google.com/citations?user=P-YUol0AAAAJ
+
+- id: margot-brereton
+  name: "Margot Brereton"
+  title: Prof.
+  groups: [collaborator]
+  position: "Emeritus Professor"
+  affiliations:
+    - "Queensland University of Technology"
+  photo: margot-brereton.jpg
+  links:
+    email: m.brereton@qut.edu.au
+    website: https://www.qut.edu.au/about/our-people/academic-profiles/m.brereton
+    linkedin: https://www.linkedin.com/in/margot-brereton-130015a
+
+- id: alexander-stevens
+  name: "Alexander Stevens"
+  groups: [collaborator]
+  affiliations:
+    - "Visiting PhD Student, QUT"
+    - "PhD Researcher, KU Leuven"
+  photo: alexander-stevens.jpg
+  links:
+    email: alexander.stevens@kuleuven.be
+    website: https://alexanderpaulstevens.github.io/portfolio/
+    linkedin: https://www.linkedin.com/in/alexander-stevens-354b41183/
+    scholar: https://scholar.google.com/citations?user=fNeFT5EAAAAJ
+
+- id: johannes
+  name: "Johannes"
+  groups: [collaborator]
+
+- id: chihcheng-hsieh
+  name: "Chihcheng Hsieh (Richard)"
+  title: Dr.
+  groups: [alumni]
+  graduated:
+    degree: PhD
+    year: 2026
+  photo: chihcheng-hsieh.jpg
+  links:
+    linkedin: https://www.linkedin.com/in/chihcheng-hsieh-04623989
+    github: https://github.com/ChihchengHsieh
+
+- id: yu-liang-chou
+  name: "Yu-Liang Chou (Leon)"
+  groups: [alumni]
+  graduated:
+    degree: MPhil
+    year: 2024
+  photo: yu-liang-chou.jpg
+  links:
+    linkedin: https://www.linkedin.com/in/leon-chou-3b56ba175

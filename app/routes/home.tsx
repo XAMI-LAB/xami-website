@@ -1,0 +1,210 @@
+import "~/styles/home.css";
+
+import { useCallback, useState } from "react";
+import { Link } from "react-router";
+import type { Route } from "./+types/home";
+import { HeroNetwork } from "~/components/HeroNetwork";
+import { Highlighted } from "~/components/Highlighted";
+import { PersonPhoto } from "~/components/PersonPhoto";
+import { ThemeRail } from "~/components/ThemeRail";
+import { loadContent } from "~/content/load.server";
+import { type Person, displayName } from "~/content/model";
+import { pageHead } from "~/content/head";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "2026-09" reads as "Sep 2026"; a year alone stays as it is. */
+function shortDate(date: string): string {
+  const [year, month] = date.split("-");
+  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year;
+}
+
+export async function loader() {
+  const { site, people, themes, news, publications } = loadContent();
+  const inGroup = (group: Person["groups"][number]) => people.filter((p) => p.groups.includes(group));
+  const card = (p: Person, detail: string | undefined) => ({
+    id: p.id,
+    name: displayName(p),
+    photo: p.photo,
+    detail,
+    href: p.links.website ?? p.links.linkedin,
+  });
+  return {
+    lab: site.lab,
+    themes: themes.map((t) => ({
+      id: t.id,
+      title: t.title,
+      summary: t.summary,
+      scene: t.scene,
+      // Names here are plain, without titles or nicknames in brackets.
+      people: t.people.flatMap((id) => {
+        const person = people.find((p) => p.id === id);
+        return person ? [{ id, name: person.name.replace(/\s*\([^)]*\)/g, ""), photo: person.photo }] : [];
+      }),
+    })),
+    leaders: inGroup("leader").map((p) => card(p, p.affiliations.join(", "))),
+    members: inGroup("member").map((p) => card(p, p.position)),
+    news: news.slice(0, 4).map((n) => ({ date: n.date, title: n.title, text: n.text })),
+    publications: publications.slice(0, 5).map((p) => ({
+      key: p.key,
+      year: p.year,
+      title: p.title,
+      href: p.href,
+      authors: p.authors.map((a) => a.name),
+      venue: p.venue,
+    })),
+    welcome: site.join.welcome,
+  };
+}
+
+export const meta: Route.MetaFunction = ({ matches }) => pageHead("/", matches);
+
+type Card = Route.ComponentProps["loaderData"]["leaders"][number];
+
+function PersonCard({ person, large }: { person: Card; large?: boolean }) {
+  const className = large ? "pp lg" : "pp";
+  const inner = (
+    <>
+      <PersonPhoto person={person} />
+      <span>
+        <b>{person.name}</b>
+        {person.detail && <small>{person.detail}</small>}
+      </span>
+    </>
+  );
+  return person.href ? (
+    <a className={className} href={person.href}>
+      {inner}
+    </a>
+  ) : (
+    <span className={className}>{inner}</span>
+  );
+}
+
+/** The first four authors, then how many more there are. */
+function authorLine(authors: string[]): string {
+  if (authors.length <= 5) return authors.join(", ") + ".";
+  return `${authors.slice(0, 4).join(", ")} and ${authors.length - 4} more.`;
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { lab, themes, leaders, members, news, publications, welcome } = loaderData;
+  // The theme shown in the research themes section, and whether the themes still advance by themselves.
+  const [theme, setTheme] = useState(0);
+  const [auto, setAuto] = useState(true);
+  const choose = (index: number) => {
+    setAuto(false);
+    setTheme(index);
+  };
+  const advance = useCallback(() => setTheme((index) => (index + 1) % themes.length), [themes.length]);
+
+  return (
+    <main className="p-home">
+      <HeroNetwork
+        themes={themes}
+        onSelect={(index) => {
+          choose(index);
+          document.getElementById("research")?.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
+        <img className="word" src="/brand/xami-long-navy.png" alt={lab.name} />
+        <h1>
+          <Highlighted text={lab.heading} highlight={lab.headingHighlight} />
+        </h1>
+        <p className="lead">{lab.intro}</p>
+      </HeroNetwork>
+
+      <ThemeRail themes={themes} current={theme} auto={auto} onChoose={choose} onAdvance={advance} />
+
+      <section className="sec" id="people" aria-label="People">
+        <div className="wrap">
+          <div className="sec-h">
+            <h2>People</h2>
+            <Link className="more" to="/people">
+              All people
+            </Link>
+          </div>
+          <p className="grp">Leaders</p>
+          <div className="lead2">
+            {leaders.map((person) => (
+              <PersonCard key={person.id} person={person} large />
+            ))}
+          </div>
+          <p className="grp">Members</p>
+          <div className="roster">
+            {members.map((person) => (
+              <PersonCard key={person.id} person={person} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="news" aria-label="News and publications">
+        <div className="wrap">
+          <div className="two">
+            <div>
+              <div className="sec-h">
+                <h2>News</h2>
+                <Link className="more" to="/news">
+                  All news
+                </Link>
+              </div>
+              <ul className="rows2">
+                {news.map((item) => (
+                  <li key={item.title}>
+                    <time>{shortDate(item.date)}</time>
+                    <div>
+                      <b>{item.title}</b>
+                      <p>{item.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="sec-h">
+                <h2>Publications</h2>
+                <Link className="more" to="/publications">
+                  All publications
+                </Link>
+              </div>
+              <ul className="rows2">
+                {publications.map((publication) => (
+                  <li key={publication.key}>
+                    <time>{publication.year}</time>
+                    <div>
+                      {publication.href ? (
+                        <a className="t" href={publication.href}>
+                          {publication.title}
+                        </a>
+                      ) : (
+                        <span className="t">{publication.title}</span>
+                      )}
+                      <p>
+                        {authorLine(publication.authors)} <i>{publication.venue}</i>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="join" aria-label="Join us">
+        <div className="wrap">
+          <div className="join">
+            <div>
+              <h2>Join us</h2>
+              <p className="lead">{welcome}</p>
+            </div>
+            <Link className="cta" to="/join">
+              How to join
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

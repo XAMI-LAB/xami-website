@@ -1,0 +1,292 @@
+@keyframes news-down {
+  from {
+    top: 10px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.8;
+  }
+  92% {
+    opacity: 0.8;
+  }
+  to {
+    top: calc(100% - 16px);
+    opacity: 0;
+  }
+}
+
+.p-news {
+  /* kind and year stay in reach under the menu (the same bar as on the publications page) */
+  .tools {
+    position: sticky;
+    top: var(--head);
+    z-index: 40;
+    background: rgba(246, 248, 249, 0.9);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .tools .wrap {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 68px;
+  }
+  .seg {
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(17, 33, 43, 0.05);
+  }
+  .seg button {
+    all: unset;
+    cursor: pointer;
+    padding: 7px 13px;
+    border-radius: 9px;
+    font: 600 14px var(--body);
+    color: #4a5a65;
+    white-space: nowrap;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      box-shadow 0.2s;
+  }
+  .seg button:hover {
+    color: var(--ink);
+  }
+  .seg button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .seg button[aria-pressed="true"] {
+    background: #fff;
+    color: var(--ink);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.08),
+      0 4px 10px -6px rgba(17, 33, 43, 0.4);
+  }
+  .years {
+    margin-left: auto;
+    display: flex;
+    gap: 2px;
+  }
+  .years a {
+    padding: 7px 9px;
+    border-radius: 8px;
+    text-decoration: none;
+    font: 600 14px var(--body);
+    color: #6a7882;
+    font-variant-numeric: tabular-nums;
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+  .years a:hover {
+    color: var(--ink);
+  }
+  .years a.cur {
+    color: var(--accent);
+    background: rgba(10, 107, 124, 0.1);
+  }
+  .years a.off {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* one year: the year on the left, its news on a line on the right */
+  .reg {
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    gap: 48px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    align-items: start;
+  }
+  .yr {
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    scroll-margin-top: calc(var(--head) + 68px);
+  }
+  .yr:last-of-type {
+    border-bottom: 0;
+  }
+  .year {
+    position: sticky;
+    top: calc(var(--head) + 68px + 36px);
+    font: 900 clamp(60px, 6.6vw, 96px) / 0.9 var(--display);
+    letter-spacing: -0.045em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(10, 107, 124, 0.42);
+  }
+  .tl {
+    position: relative;
+    padding-left: 44px;
+  }
+  .tl::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 1.2px;
+    background: rgba(10, 107, 124, 0.3);
+  }
+  .tl::after {
+    content: "";
+    position: absolute;
+    left: 4.6px;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: news-down 7s linear infinite;
+  }
+  .item {
+    position: relative;
+    padding: 0 0 44px;
+  }
+  .item:last-child {
+    padding-bottom: 0;
+  }
+  .node {
+    position: absolute;
+    left: -44px;
+    top: 3px;
+    z-index: 1;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--ground);
+    border: 2px solid var(--accent);
+    transition:
+      background 0.25s,
+      box-shadow 0.25s;
+  }
+  .item:hover .node {
+    background: var(--accent);
+    box-shadow: 0 0 0 5px rgba(10, 107, 124, 0.14);
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 22px;
+  }
+  .meta time {
+    font: 700 14px var(--body);
+    color: var(--accent);
+  }
+  .ty {
+    font: 700 12px/22px var(--body);
+    height: 22px;
+    padding: 0 9px;
+    border-radius: 99px;
+    color: var(--accent);
+    background: rgba(10, 107, 124, 0.09);
+  }
+  .item h3 {
+    margin-top: 10px;
+    font: 800 clamp(21px, 1.9vw, 26px) / 1.25 var(--display);
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+  .tx {
+    margin-top: 8px;
+    font-size: 16.5px;
+    line-height: 1.62;
+    color: var(--soft);
+    max-width: 68ch;
+  }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    margin-top: 16px;
+  }
+  .who {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font: 600 14.5px var(--body);
+    color: var(--soft);
+    transition: color 0.2s;
+  }
+  .who .ph {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e3eaee;
+  }
+  /* someone without a photo is shown by their initials */
+  .who .ini {
+    display: grid;
+    place-items: center;
+    font: 700 10.5px var(--body);
+    color: var(--soft);
+  }
+  .who:hover {
+    color: var(--accent);
+  }
+  .ext {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 10px;
+    margin-left: -10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font: 600 13.5px var(--body);
+    color: var(--accent);
+    transition: background 0.2s;
+  }
+  .who + .ext,
+  .who ~ .ext {
+    margin-left: 0;
+  }
+  .ext::after {
+    content: "\2197";
+    font-size: 12.5px;
+    line-height: 1;
+    opacity: 0.75;
+  }
+  .ext:hover {
+    background: rgba(10, 107, 124, 0.09);
+  }
+  .none {
+    display: none;
+    padding: 96px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .none.show {
+    display: block;
+  }
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tl::after {
+      display: none;
+    }
+  }
+  @media (max-width: 1020px) {
+    .reg {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .year {
+      position: static;
+    }
+    .years {
+      display: none;
+    }
+  }
+}

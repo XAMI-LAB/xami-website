@@ -1,0 +1,104 @@
+# Text used across the site that is not a person, a theme, a news item or a paper.
+# A "highlight" is the part of the sentence above it that is shown in the logo colours; it must match that sentence exactly.
+
+lab:
+  name: XAMI Lab
+  university: Queensland University of Technology
+  universityShort: QUT
+  url: https://www.xami-lab.org # the address of the live site, without a slash at the end
+  heading: Explainable analytics for machine intelligence
+  headingHighlight: machine intelligence
+  intro: The Explainable Analytics for Machine Intelligence (XAMI) Lab develops methods to make machine intelligence explainable, transparent, fair and understandable to human decision-makers.
+  founded: 2021
+  contact: chun-ouyang # id in people.yaml; "Contact us" and the Join us page write to this person
+
+# What search engines and link previews say about each page. A page left out here is described by the
+# lab's own words: the vision for Mission, the welcome for Join us, and the intro above for the rest.
+# Pages: home, mission, people, research, publications, news, join, acknowledgements.
+descriptions: {}
+
+mission:
+  vision: To support human-machine collaboration and co-evolution by making machine intelligence explainable, transparent, fair and understandable to human decision-makers.
+  visionHighlight: explainable, transparent, fair and understandable
+  points:
+    - lead: Design fit-for-purpose machine intelligence
+      text: that is driven by real-world problems, grounded in domain principles, and optimised to achieve the best balance among accuracy, efficiency, complexity, interpretability, and other task-specific requirements.
+    - lead: Embed explainability and interpretability by design
+      text: throughout the machine intelligence pipeline, from data and feature representation, model development, prediction and decision-making, to develop transparent, accountable and trustworthy AI systems.
+    - lead: Deliver explainable machine intelligence across domains
+      text: translating methodological advances into practical, innovative and sustainable solutions for real-world challenges.
+  values:
+    - Pursuit of Excellence
+    - Creativity and Critical Thinking
+    - Diversity and Inclusiveness
+    - Positivity and Passion
+
+join:
+  welcome: We welcome PhD and Master by research students, visiting researchers and industry partners who want AI that people can understand.
+  welcomeHighlight: AI that people can understand.
+  ways:
+    - title: Research degrees
+      text: PhD and Master by research projects at QUT.
+    - title: Visiting researchers
+      text: Short and long research visits to the lab.
+    - title: Industry and clinical partners
+      text: Joint projects in healthcare, process analytics and responsible AI.
+  contact:
+    text:
+      - Write to the lab leader with a short note about your background and the research theme you are interested in. If you are applying for a research degree, include your academic record and a one page idea of what you would like to study.
+      - We are happy to talk with industry and clinical partners at any stage, from a first question to a joint project.
+    include:
+      - item: Your background
+      - item: The research theme you are interested in
+      - item: Your academic record
+        for: Research degrees
+      - item: A one page research idea
+        for: Research degrees
+
+licences:
+  intro: This website is built using various open source packages. Below is a list of all packages and their licenses.
+
+acknowledgements:
+  traditionalOwners: QUT acknowledges the Turrbal and Yugara as the First Nations owners of the lands where QUT now stands. We pay respect to their Elders, lores, customs and creation spirits. We recognise that these lands have always been places of teaching, research and learning. QUT acknowledges the important role Aboriginal and Torres Strait Islander people play within the QUT community.
+  # Each group below is shown as one row of logos.
+  # logo is a file in public/logos (logoHeight is how tall to show it, in pixels); leave it out to show the name as text.
+  institutions:
+    - row:
+        - name: Queensland University of Technology
+          logo: qut.svg
+          logoHeight: 64
+          url: https://www.qut.edu.au/
+        - name: QUT Centre for Data Science
+          logo: qut-cds.png
+          logoHeight: 64
+        - name: QUT Energy Transition Centre
+          logo: qut-etc.png
+          logoHeight: 64
+    - row:
+        - name: University of Technology Sydney
+          logo: uts.svg
+          logoHeight: 40
+          whiteOnly: true # the file is white, so it is shown in black
+          url: https://www.uts.edu.au/
+        - name: Instituto Superior Técnico, ULisboa
+          logo: ist.png
+          logoHeight: 56
+          whiteOnly: true
+          url: https://tecnico.ulisboa.pt/en/
+        - name: KU Leuven
+          logo: kuleuven.svg
+          logoHeight: 44
+          url: https://www.kuleuven.be/english/kuleuven
+  schemes:
+    - QUT Women in Research Grant Scheme
+    - QUT Center for Data Science First Byte Funding Program
+    - Australian Government Research Training Program (International) Scholarship
+    - Australian Government Research Training Program (Domestic) Scholarship
+    - QUT Science and Engineering Faculty Diversity Scholarship
+    - QUT Postgraduate Research Award (International) Scholarship
+    - QUT Science and Engineering Faculty Scholarship
+    - QUT Centre for Data Science Higher Degree Research Scholarship
+    - QUT Center for Data Science Top Up Scholarship
+    - QUT Vacation Research Experience Scheme Scholarship
+    - QUT International Merit Scholarship
+    - QUT Higher Degree Research Internship Industry Scholarship

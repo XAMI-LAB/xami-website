@@ -2,7 +2,7 @@
 
 Website of the XAMI Lab (Explainable Analytics for Machine Intelligence) at QUT, live at [www.xami-lab.org](https://www.xami-lab.org).
 
-Built with [Docusaurus](https://docusaurus.io/) 3 (React, TypeScript), managed with pnpm, and hosted on Cloudflare Workers.
+Built with React and Vite (React Router writes every page out as a real HTML file at build time), written in TypeScript, managed with pnpm, and hosted on Cloudflare Workers. Everything the site says lives in the `content/` folder; the code only decides how it looks.
 
 ## Prerequisites
 
@@ -99,52 +99,58 @@ Open a new terminal and run the three commands from step 1 again. You should see
 git clone git@github.com:XAMI-LAB/xami-website.git
 cd xami-website
 pnpm install
-pnpm start
+pnpm dev
 ```
 
-`pnpm start` opens the site at http://localhost:3000 and reloads as you edit.
+`pnpm dev` opens the site at http://localhost:5173 and reloads as you edit.
 
 Use **pnpm** for every command. `npm` and `npx` refuse to run in this repo because the project pins pnpm.
 
 ## Common Tasks
 
-Most updates are content edits; no React knowledge is needed.
+Most updates are content edits; no React knowledge is needed. Every file in `content/` starts with a short comment explaining its fields.
 
-| I want to...                    | Edit this                                                          |
-| ------------------------------- | ------------------------------------------------------------------ |
-| Add or update a lab member      | `src/data/members.ts`                                              |
-| Add a publication               | `static/bibtex/publications.bib`                                   |
-| Add a video                     | `src/pages/xami-tube.mdx`                                          |
-| Edit a research theme           | `docs/themes/<theme>.md`                                           |
-| Edit the mission page           | `src/pages/mission.md`                                             |
-| Edit the homepage               | `src/pages/index.tsx`, `src/components/HomepageFeatures/index.tsx` |
-| Change the navbar or footer     | `docusaurus.config.ts` (`themeConfig`)                             |
-| Change colours or global styles | `src/css/custom.css`                                               |
+| I want to...                                  | Edit this                                          |
+| --------------------------------------------- | -------------------------------------------------- |
+| Add or update a lab member                    | `content/people.yaml` (photo in `public/photos/`)  |
+| Add a publication                             | `content/publications.bib`                         |
+| Add a news item                               | `content/news.yaml`                                |
+| Edit a research theme                         | `content/themes.yaml`                              |
+| Edit the mission, join us or acknowledgements | `content/site.yaml`                                |
+| Add an institution logo                       | `content/site.yaml` (logo file in `public/logos/`) |
+| Edit the privacy policy                       | `content/privacy-policy.md`                        |
+| Describe a page for search engines            | `content/site.yaml` (`descriptions`)               |
+| Redirect an old address                       | `public/_redirects`                                |
+| Change the menu or the list of pages          | `app/content/pages.ts`                             |
+| Change colours or shared styles               | `app/styles/site.css`                              |
+
+The site checks the content every time it is built. A mistake (a person id that does not exist, a missing photo file, a misspelt field) stops the build with a message naming the file and the entry, so a broken link never reaches the live site.
 
 ### Add or update a lab member
 
-Add an entry to the `authors` object in `src/data/members.ts`. The key (for example `chunouyang`) is the member's ID and must be unique; videos refer to members by this key.
+Add an entry to `content/people.yaml`. People appear in the order they are written.
 
-```ts
-janedoe: {
-  name: "Dr. Jane Doe",
-  title: "School of Information Systems @QUT", // shown under the name
-  occupation: OccupationSection.Researchers,
-  selected: true,          // false hides the member from the People page
-  url: "https://...",      // profile link on the name; "" for none
-  image_url: "https://...",
-  idx: 3,                  // order within the section, lowest first
-  email: "jane.doe@qut.edu.au",
-  scholar: "https://scholar.google.com/citations?user=...",
-  linkedin: "https://www.linkedin.com/in/...",
-},
+```yaml
+- id: jane-doe # lower-case words joined by hyphens; themes and news refer to people by this
+  name: "Jane Doe (JD)" # as shown on the site; a nickname goes in brackets
+  title: Dr. # optional
+  groups: [member] # leader, member, collaborator or alumni; more than one is allowed
+  position: "PhD Student" # optional
+  affiliations: # up to two lines
+    - "School of Information Systems, QUT"
+  photo: jane-doe.jpg # optional; a file in public/photos/
+  links: # all optional: email, website, linkedin, scholar, github
+    email: jane.doe@qut.edu.au
+    scholar: https://scholar.google.com/citations?user=...
 ```
 
-The People page shows these sections: `Leader`, `Collaborators`, `Researchers`, `ExternalResearchers`, `Alumni`. Members in `Presenters` or `Deprecated` are not shown there but can still be credited on videos. All social fields are optional; see the `Author` interface at the top of the file for the full list.
+- Alumni also take `graduated`, with a `degree` (for example `PhD`) and a `year`. They are listed newest first.
+- Lab people are shown darker in author lists. Papers are matched by the name without the part in brackets; add `aliases` (a list of other spellings) when a paper spells the name differently.
+- Photos work best square and around 600 pixels wide.
 
 ### Add a publication
 
-Append a BibTeX entry to `static/bibtex/publications.bib`. The Publications page reads this file directly.
+Append a BibTeX entry to `content/publications.bib`.
 
 ```bibtex
 @article{doe2026example,
@@ -156,91 +162,87 @@ Append a BibTeX entry to `static/bibtex/publications.bib`. The Publications page
   year    = {2026},
   date    = {2026-03-15},
   doi     = {10.1000/example},
+  code    = {https://github.com/...},
 }
 ```
 
-- Include `date` (`YYYY-MM-DD`): the page sorts by it by default.
-- `doi` or `url` adds a link to the paper.
-- The type filter recognises `article`, `inproceedings`/`conference`, `phdthesis`/`mastersthesis` and `misc`.
+- Include `date` (`YYYY-MM-DD`): papers of the same year are ordered by it.
+- `doi` or `url` links the title; `arxiv`, `code`, `code2` and `demo` add further links; `abstract` adds the Abstract panel.
+- The kind shown beside the venue comes from the entry: `inproceedings` is a conference paper, a venue starting with "arXiv" is a preprint, one starting with "PhysioNet" is a dataset, anything else is a journal article.
+- Write a percent sign as `\%`. Titles and venues appear exactly as written, so write them in the capitals you want.
 
-### Add a video
+### Add a news item
 
-Add a `VideoEmbed` block under the right heading in `src/pages/xami-tube.mdx`:
+Add an entry to `content/news.yaml`. Years are shown newest first; within a year, items appear in the order written.
 
-```mdx
-### _Conference Name 2026_
-
-<VideoEmbed
-  id="YouTubeVideoId"
-  venue="Conference Name 2026"
-  title="Talk Title"
-  contributors={["chunouyang", "janedoe"]}
-/>
+```yaml
+- date: "2026-09" # YYYY-MM, or YYYY when the month is not known
+  kind: people # people, graduation or publication
+  title: "Jane Doe joins the lab"
+  text: "One or two sentences."
+  people: [jane-doe] # optional; ids from people.yaml
+  publication: doe2026example # optional; a key from publications.bib, adds a link to the paper
 ```
-
-`id` is the part after `watch?v=` in the YouTube link. `contributors` are member keys from `src/data/members.ts`.
 
 ### Edit a research theme
 
-Each theme is a Markdown file in `docs/themes/`, served under `/research/themes/<slug>`. Its images live in `docs/themes/img/`. To add a theme, copy an existing file and change its front matter (`slug`, `title`, `sidebar_position`, `description`, `image`).
+Each theme is an entry in `content/themes.yaml`: its `title`, a short `summary` for the home page, the full `description` (a list of paragraphs) for the Research themes page, its `people` (ids from `people.yaml`) and its selected `publications` (keys from `publications.bib`). `scene` names the animated example shown with the theme; the five examples are components in `app/scenes/`.
 
 ## Project Structure
 
 ```
 .
-├── docs/                   # Research pages (/research)
-│   ├── index.md            # Research overview
-│   └── themes/             # One Markdown file per research theme
-├── src/
-│   ├── components/
-│   │   ├── bibliodocus/    # BibTeX loading, formatting and filters (Publications page)
-│   │   ├── HomepageFeatures/
-│   │   └── PeopleFeatures/ # People page, member cards, video embeds
-│   ├── css/                # Global styles (custom.css imports the rest)
-│   ├── data/members.ts     # All lab members
-│   ├── pages/              # Standalone pages: home, mission, people, publications, XAMI-Tube, legal
-│   ├── theme/              # Overrides of Docusaurus theme components
-│   └── types/              # Type declarations for untyped packages
-├── static/                 # Copied as-is to the site root
-│   ├── bibtex/publications.bib
-│   └── img/
-├── docusaurus.config.ts    # Site config: URL, navbar, footer, plugins
-├── sidebars.ts             # Research sidebar
+├── content/                # Everything the site says
+│   ├── people.yaml
+│   ├── themes.yaml
+│   ├── news.yaml
+│   ├── site.yaml           # Lab name, mission, join us, acknowledgements, page descriptions
+│   ├── publications.bib
+│   └── privacy-policy.md
+├── public/                 # Copied as-is to the site root
+│   ├── photos/  logos/  brand/
+│   ├── share.png           # The picture shown when a link to the site is shared
+│   └── _redirects          # Old addresses sent to their new pages
+├── app/
+│   ├── content/            # Reads, checks and links the content; the list of pages; page metadata
+│   ├── components/         # Menu, footer, page title, network background and other shared pieces
+│   ├── scenes/             # The five animated examples of the research themes
+│   ├── routes/             # One file per page, plus the generated files (sitemap, robots, llms)
+│   ├── styles/             # site.css is shared; each page has its own file
+│   ├── root.tsx            # The page shell
+│   └── routes.ts           # Which address shows which page
+├── scripts/finish-build.mjs
+├── static/sketches/        # The approved static design sketches (reference only, not part of the site)
+├── react-router.config.ts  # Every page is pre-built to HTML; no server at runtime
 ├── wrangler.jsonc          # Cloudflare Workers deployment
-├── pnpm-workspace.yaml     # pnpm settings: allowed install scripts, security overrides
+├── pnpm-workspace.yaml     # pnpm settings: the 3-day rule for new package versions
 └── package.json
 ```
 
-Generated folders (`build/`, `.docusaurus/`, `node_modules/`) are not committed; never edit them.
+Generated folders (`build/`, `.react-router/`, `node_modules/`) are not committed; never edit them.
+
+Besides the pages, the build writes `sitemap.xml`, `robots.txt`, `llms.txt` (a short guide for AI readers) and `llms-full.txt` (the whole site as one Markdown file) from the same content.
 
 ## Scripts
 
 | Command           | What it does                                                      |
 | ----------------- | ----------------------------------------------------------------- |
-| `pnpm start`      | Dev server with live reload at http://localhost:3000              |
-| `pnpm build`      | Production build into `build/`                                    |
-| `pnpm serve`      | Serve the production build locally                                |
+| `pnpm dev`        | Dev server with live reload at http://localhost:5173              |
+| `pnpm build`      | Production build into `build/client/`                             |
 | `pnpm typecheck`  | TypeScript check                                                  |
-| `pnpm lint:all`   | ESLint over `src/`, fixing what it can                            |
-| `pnpm format:all` | Prettier over the whole repo                                      |
-| `pnpm clear`      | Clear the Docusaurus cache (try this if the dev server acts up)   |
+| `pnpm check`      | TypeScript check, then the production build                       |
+| `pnpm format`     | Prettier over the whole repo                                      |
+| `pnpm preview`    | Build, then serve the result locally the way Cloudflare will      |
 | `pnpm run deploy` | Build and deploy to Cloudflare from your machine (see Deployment) |
-
-`generate-publications` and `update-publications` are left over from an earlier setup and do not currently work.
 
 ## Before You Push
 
-Run these three checks; all must pass:
-
 ```bash
-pnpm typecheck
-pnpm exec eslint 'src/**/*.{js,jsx,ts,tsx}'
-pnpm build
+pnpm format
+pnpm check
 ```
 
-`pnpm build` fails on broken internal links, so it also catches wrong page paths.
-
-A pre-commit hook (husky + lint-staged) runs ESLint and Prettier on the files you stage, so formatting is fixed automatically when you commit.
+`pnpm check` is the definitive test: it type-checks the code, reads and checks all content, and builds every page.
 
 ## Git Workflow
 
@@ -251,7 +253,7 @@ A pre-commit hook (husky + lint-staged) runs ESLint and Prettier on the files yo
 
 ## Deployment
 
-Cloudflare Workers Builds deploys one Worker, `xami-website`, from this repository. It serves the static `build/` folder as configured in `wrangler.jsonc`.
+Cloudflare Workers Builds deploys one Worker, `xami-website`, from this repository. It serves the static `build/client/` folder as configured in `wrangler.jsonc`.
 
 | Branch    | Deployed as                                 | Address                                              |
 | --------- | ------------------------------------------- | ---------------------------------------------------- |
@@ -270,9 +272,9 @@ Build settings in the Cloudflare dashboard:
 
 `wrangler preview` requires the `previews` block in `wrangler.jsonc` (it can stay empty).
 
-Old-site URLs (for example `/members`) redirect to current pages through `static/_redirects`.
+Pages are served without a trailing slash (`/people`; `/people/` is sent there), unknown addresses get the site's own not-found page, and old addresses (for example `/members` or `/bibliography`) redirect to current pages through `public/_redirects`.
 
-To deploy by hand, run `pnpm wrangler login` once, then `pnpm run deploy`.
+To deploy by hand, run `pnpm dlx wrangler login` once, then `pnpm run deploy`.
 
 ## Notes for AI Coding Agents
 
@@ -280,17 +282,20 @@ These apply to human contributors too, but they are the mistakes agents make mos
 
 - Use `pnpm` only. `npm` and `npx` fail because `package.json` pins pnpm through `devEngines`.
 - Run pnpm from the repository root. The repo has its own `pnpm-workspace.yaml`, which keeps pnpm from treating a parent folder as the project.
-- A new dependency with an install script must be listed under `allowBuilds` in `pnpm-workspace.yaml` (`true` to run it, `false` to skip it). Otherwise `pnpm install` exits with `ERR_PNPM_IGNORED_BUILDS` and the Cloudflare build fails.
-- Keep page URLs stable. The site uses `trailingSlash: false`, so pages are served at `/people`, not `/people/`.
-- Content belongs in the data and Markdown files listed under Common Tasks, not hard-coded in components.
-- Verify with the three commands in Before You Push. `pnpm build` is the definitive check.
-- Do not edit generated folders (`build/`, `.docusaurus/`, `node_modules/`).
+- New package versions must be at least 3 days old (`minimumReleaseAge` in `pnpm-workspace.yaml`). Do not bypass it; an urgent security fix gets a one-off entry under `minimumReleaseAgeExclude`.
+- Only packages whose code reaches visitors go in `dependencies`; build tools go in `devDependencies`. The Third-party licences page is generated from `dependencies`.
+- Content belongs in `content/`, never hard-coded in components. If a page needs something the content files lack, add a field to the file and to `app/content/schema.ts`.
+- `app/content/*.server.ts` runs only while the site is built. Pages import types and helpers from `app/content/model.ts`, never from `schema.ts`, so the checking code is not sent to visitors.
+- Each page's styles are nested under one class on its `<main>` (for example `.p-news`), because visitors move between pages without a reload.
+- Keep page addresses stable. A new page goes in both `app/routes.ts` and `app/content/pages.ts`; a removed or renamed one needs a line in `public/_redirects`.
+- Verify with `pnpm check`. Do not edit generated folders (`build/`, `.react-router/`, `node_modules/`).
 
 ## Troubleshooting
 
-| Problem                                                    | Fix                                                             |
-| ---------------------------------------------------------- | --------------------------------------------------------------- |
-| `npm error EBADDEVENGINES ... "pnpm" does not match "npm"` | Use `pnpm` instead of `npm` or `npx`                            |
-| `ERR_PNPM_IGNORED_BUILDS`                                  | Add the named package to `allowBuilds` in `pnpm-workspace.yaml` |
-| Engine error about the Node.js version                     | Install Node.js 22.22.1 or newer                                |
-| Dev server shows stale content                             | `pnpm clear`, then `pnpm start`                                 |
+| Problem                                                    | Fix                                                       |
+| ---------------------------------------------------------- | --------------------------------------------------------- |
+| `npm error EBADDEVENGINES ... "pnpm" does not match "npm"` | Use `pnpm` instead of `npm` or `npx`                      |
+| The build stops with `ContentError: content/...`           | Fix the entry it names in that content file               |
+| pnpm refuses a package version as too new                  | Wait until it is 3 days old, or pick the previous version |
+| Engine error about the Node.js version                     | Install Node.js 22.22.1 or newer                          |
+| `Command "dev" not found`                                  | Run the command from the repository root                  |

@@ -1,11 +1,14 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "xami-website",
   "compatibility_date": "2026-09-27",
   "assets": {
-    "directory": "./build",
-    "not_found_handling": "404-page"
+    // the pages, as built by "pnpm build"
+    "directory": "./build/client",
+    // an unknown address gets build/client/404.html
+    "not_found_handling": "404-page",
+    // pages are served at /people, and /people/ is sent there
+    "html_handling": "drop-trailing-slash",
   },
   // Branch Previews (built by "wrangler preview" on non-production branches)
-  "previews": {}
+  "previews": {},
 }

@@ -1,0 +1,59 @@
+/* A plain page: three parts under small headings. */
+.ack {
+  padding: 72px 0 104px;
+
+  section + section {
+    margin-top: 72px;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  p,
+  ul {
+    margin-top: 18px;
+    max-width: 68ch;
+    font-size: 17.5px;
+    line-height: 1.7;
+    color: var(--soft);
+  }
+  ul {
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+  li + li {
+    margin-top: 6px;
+  }
+
+  /* the logos, side by side on the page itself */
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 36px 64px;
+    margin-top: 32px;
+
+    & + .logos {
+      margin-top: 36px;
+    }
+
+    a {
+      display: block;
+      line-height: 0;
+    }
+    img {
+      width: auto;
+      height: 48px;
+      display: block;
+    }
+    img.white-only {
+      filter: brightness(0);
+    }
+    .name {
+      font: 800 19px/1.2 var(--display);
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+  }
+}

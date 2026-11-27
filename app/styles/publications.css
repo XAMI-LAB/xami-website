@@ -1,0 +1,373 @@
+.p-publications {
+  /* search, kind and year stay in reach under the menu */
+  .tools {
+    position: sticky;
+    top: var(--head);
+    z-index: 40;
+    background: rgba(246, 248, 249, 0.9);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(17, 33, 43, 0.1);
+  }
+  .tools .wrap {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 68px;
+  }
+  .search {
+    position: relative;
+    flex: 0 1 300px;
+  }
+  .search svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    translate: 0 -50%;
+    fill: none;
+    stroke: #7c8a94;
+    stroke-width: 2;
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+  .search input {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px 0 40px;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(17, 33, 43, 0.12);
+    font: 500 15px var(--body);
+    color: var(--ink);
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+  .search input::placeholder {
+    color: #8a98a2;
+  }
+  .search input:focus {
+    box-shadow:
+      0 0 0 2px var(--accent),
+      0 8px 18px -10px rgba(10, 107, 124, 0.5);
+  }
+  .seg {
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(17, 33, 43, 0.05);
+  }
+  .seg button {
+    all: unset;
+    cursor: pointer;
+    padding: 7px 13px;
+    border-radius: 9px;
+    font: 600 14px var(--body);
+    color: #4a5a65;
+    white-space: nowrap;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      box-shadow 0.2s;
+  }
+  .seg button:hover {
+    color: var(--ink);
+  }
+  .seg button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .seg button[aria-pressed="true"] {
+    background: #fff;
+    color: var(--ink);
+    box-shadow:
+      0 0 0 1px rgba(17, 33, 43, 0.08),
+      0 4px 10px -6px rgba(17, 33, 43, 0.4);
+  }
+  .years {
+    margin-left: auto;
+    display: flex;
+    gap: 2px;
+  }
+  .years a {
+    padding: 7px 9px;
+    border-radius: 8px;
+    text-decoration: none;
+    font: 600 14px var(--body);
+    color: #6a7882;
+    font-variant-numeric: tabular-nums;
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+  .years a:hover {
+    color: var(--ink);
+  }
+  .years a.cur {
+    color: var(--accent);
+    background: rgba(10, 107, 124, 0.1);
+  }
+  .years a.off {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* one year: the year on the left, its publications on the right */
+  .reg {
+    display: grid;
+    grid-template-columns: 3fr 9fr;
+    gap: 48px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    align-items: start;
+  }
+  .yr {
+    border-bottom: 1px solid rgba(17, 33, 43, 0.08);
+    scroll-margin-top: calc(var(--head) + 68px);
+  }
+  .yr:last-of-type {
+    border-bottom: 0;
+  }
+  .year {
+    position: sticky;
+    top: calc(var(--head) + 68px + 36px);
+    font: 900 clamp(60px, 6.6vw, 96px) / 0.9 var(--display);
+    letter-spacing: -0.045em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(10, 107, 124, 0.42);
+  }
+  .plist {
+    border-top: 1px solid rgba(17, 33, 43, 0.12);
+  }
+  .pub {
+    padding: 24px 0 22px;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.12);
+  }
+  .pub h3 {
+    font: 800 19px/1.34 var(--display);
+    letter-spacing: -0.008em;
+    text-wrap: pretty;
+  }
+  .pub h3 a {
+    text-decoration: none;
+    background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1.5px no-repeat;
+    transition:
+      background-size 0.35s,
+      color 0.2s;
+  }
+  .pub h3 a:hover {
+    color: var(--accent);
+    background-size: 100% 1.5px;
+  }
+  .au {
+    margin-top: 8px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #6a7882;
+  }
+  .au b {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ve {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--soft);
+  }
+  .ty {
+    font: 700 12px/22px var(--body);
+    height: 22px;
+    padding: 0 9px;
+    border-radius: 99px;
+    color: var(--accent);
+    background: rgba(10, 107, 124, 0.09);
+  }
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 12px 0 0 -10px;
+  }
+  .acts a,
+  .acts button {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font: 600 13.5px var(--body);
+    color: var(--accent);
+    transition:
+      background 0.2s,
+      color 0.2s;
+  }
+  .acts a::after {
+    content: "\2197";
+    font-size: 12.5px;
+    line-height: 1;
+    opacity: 0.75;
+  }
+  .acts button {
+    color: #4a5a65;
+  }
+  .acts button::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border: solid currentColor;
+    border-width: 0 1.6px 1.6px 0;
+    rotate: 45deg;
+    translate: 0 -2px;
+    transition:
+      rotate 0.3s,
+      translate 0.3s;
+  }
+  .acts a:hover,
+  .acts button:hover {
+    background: rgba(10, 107, 124, 0.09);
+    color: var(--accent);
+  }
+  .acts a:focus-visible,
+  .acts button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .acts button[aria-expanded="true"] {
+    background: rgba(10, 107, 124, 0.12);
+    color: var(--accent);
+  }
+  .acts button[aria-expanded="true"]::after {
+    rotate: -135deg;
+    translate: 0 2px;
+  }
+
+  /* the abstract and the citation fold open under their row */
+  .fold {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.9, 0.25, 1);
+  }
+  .fold > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .fold.open {
+    grid-template-rows: 1fr;
+  }
+  .abs {
+    margin: 16px 0 4px;
+    padding-left: 18px;
+    border-left: 2px solid rgba(10, 107, 124, 0.45);
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: var(--soft);
+    max-width: 78ch;
+  }
+  .bib {
+    position: relative;
+    margin: 16px 0 4px;
+    border-radius: 16px;
+    background: #0b1d27;
+    box-shadow: 0 18px 34px -22px rgba(11, 29, 39, 0.8);
+  }
+  .bib::before {
+    content: "BibTeX";
+    position: absolute;
+    left: 22px;
+    top: 17px;
+    font: 700 12px var(--body);
+    color: #86a3ba;
+  }
+  .bib pre {
+    margin: 0;
+    padding: 48px 22px 20px;
+    overflow-x: auto;
+    font:
+      500 13px/1.65 ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Consolas,
+      monospace;
+    color: #d7e6ee;
+    white-space: pre;
+  }
+  .copy {
+    all: unset;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font: 700 12.5px var(--body);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    transition: background 0.2s;
+  }
+  .copy:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .copy.done {
+    background: #0a8466;
+  }
+  .none {
+    display: none;
+    padding: 96px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .none.show {
+    display: block;
+  }
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 1180px) {
+    .years {
+      display: none;
+    }
+  }
+  @media (max-width: 1020px) {
+    .reg {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .year {
+      position: static;
+    }
+    .tools .wrap {
+      height: auto;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    .search {
+      flex-basis: 100%;
+    }
+    /* The bar is several lines tall here, so it scrolls away with the page. */
+    .tools {
+      position: static;
+    }
+    .seg {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .years {
+      margin-left: 0;
+      flex-wrap: wrap;
+    }
+  }
+}

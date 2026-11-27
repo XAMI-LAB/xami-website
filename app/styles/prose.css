@@ -1,0 +1,92 @@
+/* A plain reading page: small headings and ordinary paragraphs in one column. */
+.prose {
+  padding: 72px 0 104px;
+
+  h2 {
+    margin-top: 56px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: 17.5px;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  p,
+  ul {
+    margin-top: 18px;
+    max-width: 68ch;
+    font-size: 17.5px;
+    line-height: 1.7;
+    color: var(--soft);
+  }
+  > .wrap > :first-child {
+    margin-top: 0;
+  }
+  ul {
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+  li + li {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  /* one package: its name and version, where it comes from, and its licence text on request */
+  .packages {
+    max-width: 68ch;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(17, 33, 43, 0.12);
+  }
+  .packages li {
+    margin: 0;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(17, 33, 43, 0.12);
+  }
+  .packages .version {
+    margin-left: 8px;
+    font: 500 14.5px var(--body);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .packages .source {
+    display: block;
+    margin-top: 2px;
+    font-size: 14.5px;
+    overflow-wrap: anywhere;
+  }
+  details {
+    margin-top: 8px;
+  }
+  summary {
+    width: fit-content;
+    cursor: pointer;
+    font: 600 14.5px var(--body);
+    color: var(--soft);
+  }
+  summary:hover {
+    color: var(--ink);
+  }
+  pre {
+    margin: 12px 0 0;
+    padding: 16px 18px;
+    max-height: 280px;
+    overflow: auto;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(17, 33, 43, 0.1);
+    font:
+      400 13px/1.6 ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      monospace;
+    color: var(--soft);
+    white-space: pre-wrap;
+  }
+}
