@@ -4,10 +4,9 @@
   "assets": {
     // the pages, as built by "pnpm build"
     "directory": "./build/client",
-    // an unknown address gets build/client/404.html
+    // An unknown address gets build/client/404.html. Branch previews answer with a bare "Not found" instead;
+    // that is how Cloudflare's previews behave, not a fault in the site.
     "not_found_handling": "404-page",
-    // pages are served at /people, and /people/ is sent there
-    "html_handling": "drop-trailing-slash",
   },
   // Branch Previews (built by "wrangler preview" on non-production branches)
   "previews": {},

@@ -272,7 +272,7 @@ Build settings in the Cloudflare dashboard:
 
 `wrangler preview` requires the `previews` block in `wrangler.jsonc` (it can stay empty).
 
-Pages are served without a trailing slash (`/people`; `/people/` is sent there), unknown addresses get the site's own not-found page, and old addresses (for example `/members` or `/bibliography`) redirect to current pages through `public/_redirects`.
+Each page is built as a flat file (`people.html`), which Cloudflare serves without a trailing slash (`/people`; `/people/` is sent there). Unknown addresses get the site's own not-found page on the live site; a branch preview answers them with a bare "Not found", which is how Cloudflare's previews behave. Old addresses (for example `/members` or `/bibliography`) redirect to current pages through `public/_redirects`.
 
 To deploy by hand, run `pnpm dlx wrangler login` once, then `pnpm run deploy`.
 
