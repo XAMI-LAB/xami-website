@@ -64,12 +64,15 @@ const CITED_FIELDS = new Set([
   "title",
   "journal",
   "booktitle",
+  "series",
   "volume",
   "number",
   "pages",
-  "year",
   "publisher",
   "organization",
+  "year",
+  "eprinttype",
+  "eprint",
   "doi",
   "url",
 ]);
@@ -115,8 +118,9 @@ function readPublications(people: Person[]): Publication[] {
   const wasm = fileURLToPath(new URL("./bibtex_parser_bg.wasm", import.meta.resolve("@retorquere/bibtex-parser")));
   initSync({ module: fs.readFileSync(wasm) });
   // Outside web addresses, a bare % starts a comment in BibTeX and silently cuts the rest of the field off.
+  // A line that begins with % is a comment written on purpose.
   const barePercent = source.split("\n").flatMap((text, i) => {
-    const prose = /^\s*doi\s*=/i.test(text) ? "" : text.replace(/https?:\/\/[^\s{}"]+/g, "");
+    const prose = /^\s*(%|doi\s*=)/i.test(text) ? "" : text.replace(/https?:\/\/[^\s{}"]+/g, "");
     return /(?<!\\)%/.test(prose) ? [`line ${i + 1}: write % as \\% (a bare % cuts the rest of the text off)`] : [];
   });
   if (barePercent.length) throw new ContentError(file, barePercent);
@@ -132,10 +136,11 @@ function readPublications(people: Person[]): Publication[] {
       library.errors.map((e) => JSON.stringify(e)),
     );
 
-  // Lab people in an author list: leaders, members and alumni, matched by first and last name or by an alias.
+  // Lab people in an author list: leaders, members, alumni and anyone else who graduated from the lab,
+  // matched by first and last name or by an alias.
   const labNames = new Set<string>();
   for (const p of people) {
-    if (!p.groups.some((g) => g !== "collaborator")) continue;
+    if (!p.graduated && !p.groups.some((g) => g !== "collaborator")) continue;
     const words = plain(p.name.replace(/\([^)]*\)/g, " "))
       .split(/\s+/)
       .filter(Boolean);
@@ -167,11 +172,14 @@ function readPublications(people: Person[]): Publication[] {
       return { name, lab: labNames.has(plain(name)) || labNames.has(`${words[0]} ${words[words.length - 1]}`) };
     });
 
-    // Preprints and datasets name where they are held in "publisher".
-    const venue = str("journal") || str("booktitle") || str("publisher");
+    // Where the work appeared. Datasets name where they are held in "publisher"; a preprint is one on arXiv,
+    // which bibliographies list as the journal "CoRR".
+    const source = str("journal") || str("booktitle") || str("publisher");
     let kind: PublicationKind = entry.type === "inproceedings" ? "conference" : "journal";
-    if (/^arxiv/i.test(venue)) kind = "preprint";
-    else if (/^physionet/i.test(venue)) kind = "dataset";
+    if (/^(arxiv|corr)\b/i.test(source) || /^arxiv$/i.test(str("eprinttype"))) kind = "preprint";
+    else if (/^physionet/i.test(source)) kind = "dataset";
+    // A conference paper's "booktitle" is the full proceedings title, so "venue" gives the name shown on the page.
+    const venue = kind === "preprint" ? "arXiv preprint" : str("venue") || source;
 
     // Some entries hold a full address in "doi".
     const doi = str("doi");

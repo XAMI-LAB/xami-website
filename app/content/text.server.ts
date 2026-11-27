@@ -103,7 +103,7 @@ export function llmsFullTxt(): string {
               .map(displayName)
               .join(", ")}`
           : "",
-        theme.publications.length ? `Selected publications:\n\n${theme.publications.map(cite).join("\n")}` : "",
+        theme.publications.length ? `Publications:\n\n${theme.publications.map(cite).join("\n")}` : "",
       ]
         .filter(Boolean)
         .join("\n\n"),

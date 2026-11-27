@@ -26,13 +26,6 @@
   text: "Bemali's research built interpretable models for predictive process analytics."
   people: [bemali-wickramanayake]
 
-- date: "2025-01"
-  kind: publication
-  title: "New paper in Neurocomputing"
-  text: "RPN: a region-to-pixel-mask-based convolutional network for lesion segmentation of fundus images."
-  people: [chun-ouyang]
-  publication: zhang2025rpn
-
 - date: "2024-12"
   kind: publication
   title: "Guidelines for evaluating explainable AI on tabular data"

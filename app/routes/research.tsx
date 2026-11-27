@@ -11,6 +11,9 @@ import { Scene, type SceneHandle, type SceneId, sceneSteps } from "~/scenes/Scen
 import { WALKTHROUGHS } from "~/scenes/steps";
 import { pageHead } from "~/content/head";
 
+/** How many of a theme's papers the page shows. */
+const RECENT_PER_THEME = 5;
+
 export async function loader() {
   const { themes, people, publications } = loadContent();
   return {
@@ -24,13 +27,11 @@ export async function loader() {
           const person = people.find((p) => p.id === id);
           return person ? [{ id, name: person.name, title: person.title, photo: person.photo }] : [];
         }),
-        // In the order the theme lists them, not the order of the full list.
-        publications: theme.publications.flatMap((key) => {
-          const publication = publications.find((p) => p.key === key);
-          if (!publication) return [];
-          const { title, authors, venue, year, href } = publication;
-          return [{ key, title, authors, venue, year, href }];
-        }),
+        // The theme's newest papers; the full list is already ordered newest first.
+        publications: publications
+          .filter((p) => theme.publications.includes(p.key))
+          .slice(0, RECENT_PER_THEME)
+          .map(({ key, title, authors, venue, year, href }) => ({ key, title, authors, venue, year, href })),
       };
     }),
   };
@@ -110,7 +111,7 @@ export default function Research({ loaderData }: Route.ComponentProps) {
             </div>
             <div className="pubs">
               <div className="pubs-h">
-                <p className="lbl">Selected publications</p>
+                <p className="lbl">Recent publications</p>
                 <Link className="more" to="/publications">
                   All publications
                 </Link>

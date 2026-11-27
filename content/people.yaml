@@ -5,6 +5,7 @@
 # Everyone except alumni has a position (for example Associate Professor, Lecturer, PhD Student).
 # Collaborators the lab no longer works with stay in the list, after the current ones.
 # name is written as on the site; papers are matched by the name without the part in brackets, plus any aliases.
+# On the lab's papers, leaders, members, alumni and anyone with "graduated" are shown darker in the author list.
 
 - id: chun-ouyang
   name: "Chun Ouyang"
@@ -40,6 +41,7 @@
   name: "Jing Yang (Roy)"
   title: Dr.
   groups: [member]
+  aliases: ["Roy Yang"] # how one paper writes his name
   position: "Post-doc Research Fellow"
   affiliations:
     - "School of Information Systems, QUT"
@@ -254,6 +256,9 @@
   name: "Bemali Wickramanayake"
   title: Dr.
   groups: [collaborator]
+  graduated: # a graduate of the lab, so her name is highlighted on the lab's papers
+    degree: PhD
+    year: 2025
   position: "Senior Data Scientist (Tech Lead)"
   affiliations:
     - "Suncorp Group"

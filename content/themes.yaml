@@ -1,5 +1,9 @@
 # The five research themes, in order. people and publications refer to ids in people.yaml and keys in publications.bib.
 # summary is one short paragraph for the home page; description is the full text for the Research themes page.
+# publications lists every paper of the theme, in any order; the Research themes page shows the newest five.
+# people are those working on the theme now, in this order: leaders, members, then the collaborators the lab
+# works with today, with whoever has more of the theme's papers first. Alumni and collaborators the lab no longer
+# works with are left out; a recent graduate stays while their work in the theme is still recent.
 # scene is the animated example: loan-decision, chest-xray, chilled-shipment, invoice-handoff or battery-plan.
 
 - id: explainable-and-trustworthy-intelligent-systems
@@ -10,40 +14,106 @@
     - "We advance the development of explainable, interpretable and trustworthy intelligent systems through innovative approaches to understanding, evaluating and improving machine intelligence."
     - "Our research spans explainable AI, counterfactual explanations, model transparency, adversarial robustness and systematic evaluation, with a focus on making intelligent systems more transparent, reliable, robust and accountable in real-world applications."
   people:
-    [
-      chun-ouyang,
-      catarina-moreira,
-      zhipeng-he,
-      bemali-wickramanayake,
-      mythreyi-velmurugan,
-      alexander-stevens,
-      laith-alzubaidi,
-      yue-xu,
-      cong-liu,
-      johannes-de-smedt,
-    ]
-  publications: [velmurugan2025developing, he2025investigating, moreira2024benchmarking, stevens2024generating]
+    - chun-ouyang
+    - catarina-moreira
+    - mythreyi-velmurugan
+    - zhipeng-he
+    - bemali-wickramanayake
+    - yue-xu
+    - alistair-barros
+    - cong-liu
+    - alexander-stevens
+    - johannes-de-smedt
+    - laith-alzubaidi
+  publications:
+    - he2026tabattackbench
+    - he2026crafting
+    - stevens2025generating
+    - moreira2025benchmarking
+    - velmurugan2025developing
+    - he2025investigating
+    - velmurugan2025through
+    - guo2024explainable
+    - alzubaidi2023towards
+    - wickramanayake2023generating
+    - wickramanayake2022building
+    - wickramanayake2022generating
+    - chou2022counterfactuals
+    - velmurugan2021evaluatingb
+    - ouyang2021explainable
+    - velmurugan2021developing
+    - velmurugan2021evaluating
+    - moreira2021linda
+    - hsieh2021dice4el
+    - sindhgatta2020exploring
+    - velmurugan2020evaluating
+    - sindhgatta2020exploringb
+    - moreira2020investigation
 
 - id: human-centric-explainable-medical-diagnostic-systems
   title: "Human-centric Explainable Medical Diagnostic Systems"
   scene: chest-xray
-  people: [chihcheng-hsieh]
-  publications: [zhang2025rpn, hsieh2024eyexnet, hsieh2024dallm, neves2024shedding]
+  people:
+    - catarina-moreira
+    - chun-ouyang
+    - chihcheng-hsieh
+    - joaquim-jorge
+    - laith-alzubaidi
+  publications:
+    - hsieh2025dallm
+    - alzubaidi2024comprehensive
+    - hsieh2024eyexnet
+    - alzubaidi2024trustworthy
+    - neves2024shedding
+    - hsieh2023mdf
+    - moreira2023comparing
+    - hsieh2023mimic
+    - albahri2023systematic
+    - moreira2022improving
+    - tan2020multimodal
+    - chouhan2020novel
 
 - id: iot-enabled-process-monitoring-and-intelligence
   title: "IoT-enabled Process Monitoring and Intelligence"
   scene: chilled-shipment
-  people: [jia-wei]
-  publications: [wei2024dirigo, wei2024from, wei2022amoretto]
+  people:
+    - chun-ouyang
+    - jia-wei
+  publications:
+    - wei2026iotel
+    - wei2025incorporating
+    - wei2025dirigo
+    - wei2024from
+    - wei2022amoretto
 
 - id: agentic-automation-and-workforce-intelligence
   title: "Agentic Automation and Workforce Intelligence"
   scene: invoice-handoff
-  people: [jing-yang, zeping-wang]
-  publications: [yang2022no, yang2022ordinor]
+  people:
+    - chun-ouyang
+    - jing-yang
+    - zeping-wang
+  publications:
+    - yang2026mining
+    - wang2026developing
+    - yang2026discovering
+    - zhang2025rpabpms
+    - yang2025predicting
+    - zhang2024conceptualizing
+    - yang2023learning
+    - yang2022no
+    - yang2022ordinor
+    - yang2021seeing
+    - syed2020robotic
 
 - id: ai-driven-energy-forecasting-and-optimisation
   title: "AI-Driven Energy Forecasting and Optimisation"
   scene: battery-plan
-  people: [mohammed-osman-gani, cao-tram-anh-hoang, zhipeng-he, sara-khalifa]
-  publications: []
+  people:
+    - chun-ouyang
+    - mohammed-osman-gani
+    - zhipeng-he
+    - cao-tram-anh-hoang
+    - sara-khalifa
+  publications:
+    - gani2026deep
