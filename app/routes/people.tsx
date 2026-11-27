@@ -79,7 +79,7 @@ export default function People({ loaderData }: Route.ComponentProps) {
   // A person in two groups has two rows; the address leads to the first.
   const anchored = new Set<string>();
   return (
-    <main className="p-people">
+    <main id="content" tabIndex={-1} className="p-people">
       <PageTitle clear={0.4}>People</PageTitle>
       {HEADINGS.map(([group, heading]) => (
         <section key={group}>
@@ -98,7 +98,7 @@ export default function People({ loaderData }: Route.ComponentProps) {
                     <PersonPhoto person={person} />
                     <span className="nm">
                       <b>{displayName(person)}</b>
-                      <PersonLinks links={person.links} />
+                      <PersonLinks links={person.links} name={person.name} />
                     </span>
                     <PersonDetails person={person} group={group} />
                   </div>

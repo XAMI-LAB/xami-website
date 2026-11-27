@@ -44,6 +44,11 @@
     color: var(--ink);
     outline: none;
     transition: box-shadow 0.2s;
+
+    /* iOS zooms the page in when a field's text is smaller than 16px */
+    @media (pointer: coarse) {
+      font-size: 16px;
+    }
   }
   .search input::placeholder {
     color: #8a98a2;
@@ -93,11 +98,11 @@
     gap: 2px;
   }
   .years a {
-    padding: 7px 9px;
+    padding: 7px 7px;
     border-radius: 8px;
     text-decoration: none;
     font: 600 14px var(--body);
-    color: #6a7882;
+    color: #5d6b75;
     font-variant-numeric: tabular-nums;
     transition:
       color 0.2s,
@@ -166,7 +171,7 @@
     margin-top: 8px;
     font-size: 15px;
     line-height: 1.55;
-    color: #6a7882;
+    color: #5d6b75;
   }
   .au b {
     font-weight: 600;
@@ -335,9 +340,24 @@
     display: none !important;
   }
 
+  /* Too narrow for the years beside the search: they take a second line of the bar. */
   @media (max-width: 1180px) {
+    .tools .wrap {
+      height: auto;
+      flex-wrap: wrap;
+      row-gap: 4px;
+      padding-top: 12px;
+      padding-bottom: 6px;
+    }
+    .search {
+      flex: 1 1 240px;
+    }
     .years {
-      display: none;
+      flex-basis: 100%;
+      margin-left: -7px;
+    }
+    .yr {
+      scroll-margin-top: calc(var(--head) + 112px);
     }
   }
   @media (max-width: 1020px) {
@@ -348,26 +368,46 @@
     .year {
       position: static;
     }
+    /*
+     * The search and the kinds scroll away with the page, and the years stay under the menu: however far
+     * down the list the reader is, any year is one tap away.
+     */
+    .tools,
     .tools .wrap {
-      height: auto;
-      flex-wrap: wrap;
-      padding-top: 12px;
-      padding-bottom: 12px;
+      display: contents;
     }
     .search {
-      flex-basis: 100%;
-    }
-    /* The bar is several lines tall here, so it scrolls away with the page. */
-    .tools {
-      position: static;
+      display: block;
+      margin: 14px 28px 0;
     }
     .seg {
-      max-width: 100%;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      width: fit-content;
+      max-width: calc(100% - 56px);
+      margin: 10px 28px 0;
     }
     .years {
-      margin-left: 0;
-      flex-wrap: wrap;
+      position: sticky;
+      top: var(--head);
+      z-index: 40;
+      margin: 12px 0 0;
+      padding: 6px 19px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: rgba(246, 248, 249, 0.92);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      border-block: 1px solid rgba(17, 33, 43, 0.1);
+    }
+    .years a {
+      flex: none;
+      padding: 9px 6px;
+    }
+    .seg button {
+      padding: 7px 10px;
+    }
+    .yr {
+      scroll-margin-top: calc(var(--head) + 52px);
     }
   }
 }

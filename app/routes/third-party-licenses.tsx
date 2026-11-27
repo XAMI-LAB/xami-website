@@ -20,7 +20,7 @@ export const meta: Route.MetaFunction = ({ matches }) => pageHead("/third-party-
 export default function ThirdPartyLicences({ loaderData }: Route.ComponentProps) {
   const { intro, licences } = loaderData;
   return (
-    <main>
+    <main id="content" tabIndex={-1}>
       <PageTitle>Third-party licences</PageTitle>
       <div className="prose">
         <div className="wrap">

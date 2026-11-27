@@ -62,7 +62,7 @@ export default function Research({ loaderData }: Route.ComponentProps) {
   }, []);
 
   return (
-    <main className="p-research" ref={page}>
+    <main id="content" tabIndex={-1} className="p-research" ref={page}>
       <PageTitle>Research themes</PageTitle>
       <nav className="subnav" aria-label="Research themes">
         <div className="wrap">

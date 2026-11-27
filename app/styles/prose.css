@@ -69,6 +69,11 @@
     cursor: pointer;
     font: 600 14.5px var(--body);
     color: var(--soft);
+    padding-block: 6px;
+
+    @media (pointer: coarse) {
+      padding-block: 12px;
+    }
   }
   summary:hover {
     color: var(--ink);

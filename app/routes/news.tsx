@@ -81,7 +81,7 @@ export default function News({ loaderData }: Route.ComponentProps) {
   const empty = (items: { kind: NewsKind }[]) => !items.some(shows);
 
   return (
-    <main className="p-news" ref={page}>
+    <main id="content" tabIndex={-1} className="p-news" ref={page}>
       <PageTitle>News</PageTitle>
       <div className="tools">
         <div className="wrap">

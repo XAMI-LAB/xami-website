@@ -58,6 +58,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <>
+      <a className="skip" href="#content">
+        Skip to content
+      </a>
       <Header name={loaderData.name} university={loaderData.university} sites={loaderData.sites} />
       <Outlet />
       <Footer

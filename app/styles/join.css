@@ -772,6 +772,10 @@
     translate: 0 -2px;
     box-shadow: 0 18px 30px -12px rgba(10, 107, 124, 0.9);
   }
+  /* the button on its own, for screens with no room for the message */
+  .write {
+    display: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .way,
@@ -823,7 +827,7 @@
       color: var(--muted);
     }
     .touch .prose .send ul {
-      margin: 10px 0 20px;
+      margin: 10px 0 0;
       padding-left: 1.2em;
       list-style: disc;
       font-size: 16.5px;
@@ -831,6 +835,32 @@
       color: var(--ink);
     }
     .touch .stage {
+      display: none;
+    }
+    .write {
+      position: sticky;
+      bottom: 0;
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      padding: 12px 28px;
+      background: rgba(246, 248, 249, 0.9);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      border-top: 1px solid rgba(17, 33, 43, 0.1);
+    }
+    .write .btn {
+      width: 100%;
+      max-width: 420px;
+      justify-content: center;
+    }
+  }
+  /*
+   * On a phone the three ways follow one under another right below, each under its own name, so the cards
+   * that introduce them on a wider screen would only say the same names twice.
+   */
+  @media (max-width: 760px) {
+    .ways {
       display: none;
     }
   }

@@ -62,6 +62,34 @@ ol {
   outline-offset: 3px;
   border-radius: 6px;
 }
+/* The first stop for the keyboard: a link past the menu, seen only while it has the focus. */
+.skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font: 700 15px var(--body);
+  text-decoration: none;
+}
+/* until it has the focus it takes no room and shows nothing, on screen or in a capture of the whole page */
+.skip:where(:not(:focus, :active)) {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+}
+/* the page's content takes the focus from that link without being drawn as a focused control */
+main:focus {
+  outline: none;
+}
 .wrap {
   max-width: var(--wrap);
   margin: 0 auto;
@@ -428,6 +456,10 @@ a.out::after {
   border-radius: 50%;
   background: var(--accent);
   animation: page-signal 6s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 }
 @keyframes page-signal {
   from {
@@ -492,11 +524,20 @@ a.out::after {
   letter-spacing: 0;
 }
 .site-foot li {
-  margin-bottom: 9px;
+  margin-bottom: 5px;
 }
 .site-foot a {
   color: #ecf6fd;
   text-decoration: none;
+}
+/* each link is a full line tall to the pointer, and taller still to a finger */
+.site-foot li a {
+  display: inline-block;
+  padding-block: 2px;
+
+  @media (pointer: coarse) {
+    padding-block: 10px;
+  }
 }
 .site-foot a:hover {
   text-decoration: underline;

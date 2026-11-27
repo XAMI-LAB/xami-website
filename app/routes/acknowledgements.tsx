@@ -14,7 +14,7 @@ export const meta: Route.MetaFunction = ({ matches }) => pageHead("/acknowledgem
 export default function Acknowledgements({ loaderData }: Route.ComponentProps) {
   const { traditionalOwners, institutions, schemes } = loaderData;
   return (
-    <main>
+    <main id="content" tabIndex={-1}>
       <PageTitle>Acknowledgements</PageTitle>
       <div className="ack">
         <div className="wrap">

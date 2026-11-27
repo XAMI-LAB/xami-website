@@ -9,8 +9,11 @@ const LABELS: Record<LinkKind, string> = {
   github: "GitHub",
 };
 
-/** The ways to reach a person, as a row of small glyphs. Renders nothing for a person with no links. */
-export function PersonLinks({ links }: { links: Person["links"] }) {
+/**
+ * The ways to reach a person, as a row of small glyphs, each announced with the person's name so that a list of
+ * people does not read as "Email, Website, Email, Website". Renders nothing for a person with no links.
+ */
+export function PersonLinks({ links, name }: { links: Person["links"]; name: string }) {
   // Always in the same order, whatever order the content file lists them in.
   const kinds = LINK_KINDS.filter((kind) => links[kind]);
   if (!kinds.length) return null;
@@ -23,7 +26,7 @@ export function PersonLinks({ links }: { links: Person["links"] }) {
             key={kind}
             className="ic"
             href={kind === "email" ? `mailto:${links[kind]}` : links[kind]}
-            aria-label={LABELS[kind]}
+            aria-label={`${name}: ${LABELS[kind]}`}
             title={LABELS[kind]}
           >
             <svg viewBox={`0 0 ${icon.w} ${icon.h}`} aria-hidden="true">

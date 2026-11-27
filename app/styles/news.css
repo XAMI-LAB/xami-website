@@ -76,7 +76,7 @@
     border-radius: 8px;
     text-decoration: none;
     font: 600 14px var(--body);
-    color: #6a7882;
+    color: #5d6b75;
     font-variant-numeric: tabular-nums;
     transition:
       color 0.2s,
@@ -285,8 +285,42 @@
     .year {
       position: static;
     }
+    /*
+     * The search and the kinds scroll away with the page, and the years stay under the menu: however far
+     * down the list the reader is, any year is one tap away.
+     */
+    .tools,
+    .tools .wrap {
+      display: contents;
+    }
+    .seg {
+      flex-wrap: wrap;
+      width: fit-content;
+      max-width: calc(100% - 56px);
+      margin: 14px 28px 0;
+    }
     .years {
-      display: none;
+      position: sticky;
+      top: var(--head);
+      z-index: 40;
+      margin: 12px 0 0;
+      padding: 6px 19px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      background: rgba(246, 248, 249, 0.92);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      border-block: 1px solid rgba(17, 33, 43, 0.1);
+    }
+    .years a {
+      flex: none;
+      padding: 9px 6px;
+    }
+    .seg button {
+      padding: 7px 10px;
+    }
+    .yr {
+      scroll-margin-top: calc(var(--head) + 52px);
     }
   }
 }

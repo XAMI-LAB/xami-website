@@ -17,7 +17,7 @@ export default function Mission({ loaderData }: Route.ComponentProps) {
   // The highlighted phrase is part of the sentence, so the sentence is cut around it.
   const highlightAt = vision.indexOf(visionHighlight);
   return (
-    <main className="p-mission">
+    <main id="content" tabIndex={-1} className="p-mission">
       <PageTitle>Mission</PageTitle>
       <section className="mh">
         <div className="wrap">

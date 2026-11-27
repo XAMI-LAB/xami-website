@@ -180,7 +180,7 @@ export default function Publications({ loaderData }: Route.ComponentProps) {
   const empty = (list: ListedPublication[]) => !list.some(shows);
 
   return (
-    <main className="p-publications" ref={page}>
+    <main id="content" tabIndex={-1} className="p-publications" ref={page}>
       <PageTitle>Publications</PageTitle>
       <div className="tools">
         <div className="wrap">

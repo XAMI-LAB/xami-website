@@ -11,7 +11,7 @@ export const meta: Route.MetaFunction = ({ matches }) => unlistedHead("Page not 
 /** Shown for any address that is not a page of the site. */
 export default function NotFound() {
   return (
-    <main>
+    <main id="content" tabIndex={-1}>
       <PageTitle>Page not found</PageTitle>
       <div className="prose">
         <div className="wrap">

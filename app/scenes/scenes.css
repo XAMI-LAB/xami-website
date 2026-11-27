@@ -1574,4 +1574,14 @@
     color: var(--ink);
     font-weight: 600;
   }
+
+  /* Under reduced motion the player shows each scene's final still, and nothing in it moves. */
+  @media (prefers-reduced-motion: reduce) {
+    .scene,
+    .scene *,
+    .scene *::before,
+    .scene *::after {
+      animation: none;
+    }
+  }
 }

@@ -92,8 +92,9 @@ export function Scene({ id, playing = true, onStep, ref }: SceneProps) {
     [],
   );
 
+  // A scene is a picture of an example; the words beside it say what it shows, so it is kept from screen readers.
   return (
-    <div className="scene-stage" ref={root}>
+    <div className="scene-stage" ref={root} aria-hidden="true">
       <div className="scene-frame">
         {/* A new scene gets a new element, because the player has rearranged what is inside the old one. */}
         <div className={`scene ${id}`} key={id} ref={scene}>

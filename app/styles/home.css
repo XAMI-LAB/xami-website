@@ -146,6 +146,10 @@
       border-radius: 50%;
       background: #0a6b7c;
       animation: home-rail-signal 7s linear infinite;
+
+      @media (prefers-reduced-motion: reduce) {
+        display: none;
+      }
     }
     .rail button {
       all: unset;
@@ -186,6 +190,19 @@
       color: #11212b;
       font-weight: 700;
     }
+    /* A name is given the room its bold form needs, so choosing a theme never adds a line and moves the page. */
+    .rail button > span {
+      display: grid;
+    }
+    .rail button > span > span,
+    .rail button > span::after {
+      grid-area: 1 / 1;
+    }
+    .rail button > span::after {
+      content: attr(data-title);
+      font-weight: 700;
+      visibility: hidden;
+    }
     .rail button[aria-selected="true"] i {
       background: #0a6b7c;
       box-shadow: 0 0 0 5px rgba(10, 107, 124, 0.14);
@@ -201,18 +218,49 @@
     }
     /* while the themes advance by themselves, the current one fills a line under its name */
     .rail button.run::after {
-      animation: home-rail-progress var(--dur) linear forwards;
+      @media (prefers-reduced-motion: no-preference) {
+        animation: home-rail-progress var(--dur) linear forwards;
+      }
     }
+    /* the chosen theme: its name and words on the left, its example on the right */
     .body {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 650px;
-      gap: 56px;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "name stage"
+        "read stage";
+      column-gap: 56px;
       align-items: start;
     }
-    .read > div {
-      animation: home-theme-in 0.4s ease both;
+    .names {
+      grid-area: name;
     }
-    .read h3 {
+    .read {
+      grid-area: read;
+    }
+    .rt-stages {
+      grid-area: stage;
+    }
+    /* all themes share one cell, which is as tall as the longest of them */
+    .names,
+    .read {
+      display: grid;
+    }
+    .names > h3,
+    .read > div {
+      grid-area: 1 / 1;
+      visibility: hidden;
+    }
+    .names > h3.act,
+    .read > div.act {
+      visibility: visible;
+
+      @media (prefers-reduced-motion: no-preference) {
+        animation: home-theme-in 0.4s ease both;
+      }
+    }
+    .names h3 {
       font: 800 clamp(24px, 2.2vw, 30px) / 1.2 var(--display);
       letter-spacing: -0.01em;
       margin: 0;
@@ -302,6 +350,14 @@
     color: #0a6b7c;
     text-decoration: none;
     white-space: nowrap;
+    /* a taller target than the line of text, without moving anything around it */
+    padding-block: 8px;
+    margin-block: -8px;
+
+    @media (pointer: coarse) {
+      padding-block: 12px;
+      margin-block: -12px;
+    }
   }
   .more:hover {
     text-decoration: underline;
@@ -500,41 +556,102 @@
   @media (max-width: 1180px) {
     .rt .body {
       grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas:
+        "name"
+        "read"
+        "stage";
     }
     .rt-stages {
       margin-top: 24px;
     }
   }
-  /* On a phone the themes are listed one under another, on a line that runs down. */
+  /* a phone */
   @media (max-width: 760px) {
     .rt {
       min-height: 0;
       padding: 72px 0;
     }
+    /*
+     * Five names one under another would fill the screen and leave the chosen theme below it, out of sight.
+     * So the rail is its five rings, numbered, and it stays under the menu while the section is read:
+     * another theme is one tap away from wherever the reader is, and its name stands right below as the heading.
+     */
     .rt .rail {
-      grid-template-columns: 1fr;
+      position: sticky;
+      top: var(--head);
+      z-index: 30;
+      counter-reset: theme;
       gap: 0;
-      margin: 28px 0 36px;
+      margin: 22px -28px 26px;
+      padding: 6px 28px;
+      background: rgba(246, 248, 249, 0.92);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      border-block: 1px solid rgba(17, 33, 43, 0.08);
     }
     .rt .rail::before {
-      left: 7px;
-      right: auto;
-      top: 18px;
-      bottom: 18px;
-      width: 1.2px;
-      height: auto;
+      left: calc(28px + (100% - 56px) / 10);
+      right: calc(28px + (100% - 56px) / 10);
+      top: 27.4px;
     }
     .rt .rail .sig {
       display: none;
     }
+    .rt .rail li:not(.sig) {
+      counter-increment: theme;
+    }
     .rt .rail button {
-      grid-template-columns: 15px minmax(0, 1fr);
-      align-items: center;
-      gap: 14px;
-      padding: 10px 0;
+      justify-items: center;
+      align-content: center;
+      min-height: 44px;
+      padding: 0;
+    }
+    .rt .rail i {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      font: 700 12.5px var(--display);
+      font-style: normal;
+      color: #0a6b7c;
+    }
+    .rt .rail i::before {
+      content: counter(theme);
+    }
+    .rt .rail button[aria-selected="true"] i {
+      color: #fff;
+    }
+    /*
+     * The example comes right under the name, and the words after it. Only the chosen theme's words take room,
+     * so a short theme leaves no gap; what follows the section moves instead, below what is being read.
+     */
+    .rt .body {
+      grid-template-areas:
+        "name"
+        "stage"
+        "read";
+    }
+    .rt .read > div:not(.act) {
+      display: none;
+    }
+    .rt .rt-stages {
+      margin: 18px 0 8px;
+    }
+    /* the name is still what a screen reader hears for each ring */
+    .rt .rail button > span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
     .rt .rail button::after {
-      left: 29px;
+      left: 22%;
+      right: 22%;
+      bottom: 1px;
+      max-width: 56%;
     }
   }
   @media (max-width: 1020px) {
@@ -564,6 +681,16 @@
       border-radius: 12px;
       background: #fff;
       transform: none !important;
+    }
+  }
+  @media (max-width: 760px) {
+    /* On a phone the research themes section starts right below, so the opening does not list the themes too. */
+    .themes {
+      display: none;
+    }
+    .roster {
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
   }
 }

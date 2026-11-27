@@ -68,8 +68,8 @@ function Links({ links }: { links: { label: string; url: string }[] }) {
   );
 }
 
-/** What an enquiry should include, as a plain list with its button: shown where there is no room for the message beside the text. */
-function SendList({ path, contact }: { path: Data["paths"][number]; contact: Data["contactPerson"] }) {
+/** What an enquiry should include, as a plain list: shown where there is no room for the message beside the text. */
+function SendList({ path }: { path: Data["paths"][number] }) {
   return (
     <div className="send">
       <p className="lbl">What to send</p>
@@ -78,11 +78,6 @@ function SendList({ path, contact }: { path: Data["paths"][number]; contact: Dat
           <li key={item}>{item}</li>
         ))}
       </ul>
-      {contact.email && (
-        <a className="btn" href={`mailto:${contact.email}?subject=${encodeURIComponent(path.subject)}`}>
-          Write to {contact.name}
-        </a>
-      )}
     </div>
   );
 }
@@ -100,8 +95,8 @@ export default function Join({ loaderData }: Route.ComponentProps) {
       const card = stage.current?.getBoundingClientRect();
       const ways = blocks.current?.querySelectorAll<HTMLElement>(".way");
       if (!card || !ways) return;
-      // The way whose area the middle of the message has reached.
-      const middle = card.top + card.height / 2;
+      // The way whose area the middle of the message has reached; where the message is not shown, the middle of the screen.
+      const middle = card.height ? card.top + card.height / 2 : window.innerHeight / 2;
       let id = paths[0].id;
       for (const way of ways) if (way.getBoundingClientRect().top <= middle) id = way.id;
       setBeside(id);
@@ -117,7 +112,7 @@ export default function Join({ loaderData }: Route.ComponentProps) {
   const current = paths.find((path) => path.id === beside) ?? paths[0];
 
   return (
-    <main className="p-join">
+    <main id="content" tabIndex={-1} className="p-join">
       <PageTitle>Join us</PageTitle>
       <section className="mh">
         <div className="wrap">
@@ -127,7 +122,7 @@ export default function Join({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <section className="sec" aria-labelledby="ways-h">
+      <section className="sec ways" aria-labelledby="ways-h">
         <div className="wrap">
           <h2 id="ways-h">Ways to join</h2>
           <ol className="trio">
@@ -200,7 +195,7 @@ export default function Join({ loaderData }: Route.ComponentProps) {
                     </ul>
                   </div>
                 )}
-                <SendList path={path} contact={contactPerson} />
+                <SendList path={path} />
               </div>
             ))}
           </div>
@@ -253,13 +248,21 @@ export default function Join({ loaderData }: Route.ComponentProps) {
                     className="btn"
                     href={`mailto:${contactPerson.email}?subject=${encodeURIComponent(current.subject)}`}
                   >
-                    Write to {contactPerson.name}
+                    Contact us
                   </a>
                 </footer>
               )}
             </article>
           </div>
         </div>
+        {/* Where the message is not shown, its one button stays at the foot of the screen and writes about the way being read. */}
+        {contactPerson.email && (
+          <div className="write">
+            <a className="btn" href={`mailto:${contactPerson.email}?subject=${encodeURIComponent(current.subject)}`}>
+              Contact us
+            </a>
+          </div>
+        )}
       </section>
     </main>
   );

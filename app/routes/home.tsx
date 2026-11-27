@@ -108,12 +108,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const advance = useCallback(() => setTheme((index) => (index + 1) % themes.length), [themes.length]);
 
   return (
-    <main className="p-home">
+    <main id="content" tabIndex={-1} className="p-home">
       <HeroNetwork
         themes={themes}
         onSelect={(index) => {
           choose(index);
-          document.getElementById("research")?.scrollIntoView({ behavior: "smooth" });
+          const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          document.getElementById("research")?.scrollIntoView({ behavior: calm ? "auto" : "smooth" });
         }}
       >
         <img className="word" src="/brand/xami-long-navy.png" alt={lab.name} />
